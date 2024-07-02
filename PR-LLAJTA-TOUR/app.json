@@ -1,0 +1,36 @@
+{
+  "expo": {
+    "name": "PR-TURISMO",
+    "slug": "PR-TURISMO",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.kbj5001497.PRTURISMO"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "ad83f999-a8c7-46c7-b8cd-1e0da3464f43"
+      }
+    },
+    "plugins": [
+      "expo-font"
+    ]
+  }
+}
