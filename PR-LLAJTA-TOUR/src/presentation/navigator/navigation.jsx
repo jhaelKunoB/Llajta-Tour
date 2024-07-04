@@ -12,6 +12,9 @@ import Home from '../screens/home/Home.jsx'
 import CategoryScreen from '../screens/category/CategoryScreen.jsx'
 import Place from '../screens/place/placescreen.jsx'
 import SearchPlace from '../screens/findplaces/SearchPlace.jsx'
+import Info from '../screens/info/InfoScreen.jsx'
+
+
 
 const Stack = createNativeStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -22,6 +25,7 @@ function MyStack() {
             <Stack.Screen name="Presentation" component={Presentation} options={{ headerShown: false }} />
             <Stack.Screen name="Home" component={MyTaps} options={{ headerShown: false }} />
             <Stack.Screen name="SearchPLace" component={SearchPlace} options={{ headerTitle: "Descubre Lugares" }} />
+            <Stack.Screen name="Info" component={Info} options={{ headerShown:false }} />
         </Stack.Navigator>
     )
 }

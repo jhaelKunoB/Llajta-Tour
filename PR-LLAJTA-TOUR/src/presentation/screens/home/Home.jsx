@@ -19,6 +19,12 @@ const HomeScreen =() => {
                 <TouchableOpacity onPress={() => navigation.navigate('SearchPLace') }>
                    <Text>Search Lugares</Text>
                 </TouchableOpacity>   
+
+                <TouchableOpacity onPress={() => navigation.navigate('Info') }>
+                   <Text>Info</Text>
+                </TouchableOpacity>  
+
+                
            </View>
         </ScrollView>
     );
