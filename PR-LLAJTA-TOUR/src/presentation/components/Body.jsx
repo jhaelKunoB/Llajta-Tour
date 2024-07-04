@@ -2,8 +2,7 @@ import React from 'react';
 import { ScrollView, View, Image, StyleSheet, useWindowDimensions, Text } from 'react-native';
 import { Icon } from 'react-native-elements';
 import Animated, { useSharedValue, useAnimatedStyle, useAnimatedScrollHandler, interpolate } from 'react-native-reanimated';
-import CategoriesStyles from '../components/styles/CategoriesStyle';
-import CarouselStyles from '../components/styles/CarouselStyle'
+import BodyStyles from '../components/styles/BodyStyle';
 
 const images = [
     "https://unifranz.edu.bo/wp-content/uploads/2023/09/1-8.jpeg",
@@ -28,7 +27,7 @@ const Body = () => {
 
     return (
         <View>
-            <View style={CategoriesStyles.menu}>
+            <View style={BodyStyles.menu}>
                 <Icon name="search" type="font-awesome" size={30} color="#000" />
                 <Icon name="plane" type="font-awesome" size={30} color="#000" />
                 <Icon name="hotel" type="font-awesome" size={30} color="#000" />
@@ -61,13 +60,13 @@ const Body = () => {
                     }
                     return (
                         <View style={{ width: SIZE }} key={index}>
-                            <Animated.View style={[CarouselStyles.imageContainer, style]}>
+                            <Animated.View style={[BodyStyles.imageContainer, style]}>
                                 <Image
                                     source={{ uri: item }}
-                                    style={CarouselStyles.image}
+                                    style={BodyStyles.image}
                                 />
-                                <View style={CarouselStyles.textContainer}>
-                                    <Text style={CarouselStyles.text}>Hola</Text>
+                                <View style={BodyStyles.textContainer}>
+                                    <Text style={BodyStyles.text}>Hola</Text>
                                 </View>
                             </Animated.View>
                         </View>

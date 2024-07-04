@@ -1,6 +1,11 @@
 import { StyleSheet } from "react-native";
 
-const carouselStyles = StyleSheet.create({
+const bodyStyle = StyleSheet.create({
+    menu: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        paddingVertical: 20,
+    },
     imageContainer: {
         borderRadius: 24,
         overflow: 'hidden',
@@ -25,6 +30,6 @@ const carouselStyles = StyleSheet.create({
         fontSize: 16,
         textAlign: 'center', // opcional, para centrar el texto
     },
-});
+})
 
-export default carouselStyles;
+export default bodyStyle
