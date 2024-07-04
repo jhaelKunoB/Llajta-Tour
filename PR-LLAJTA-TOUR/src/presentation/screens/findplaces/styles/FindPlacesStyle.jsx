@@ -12,7 +12,8 @@ const FindPlacesStyle = StyleSheet.create({
         borderBottomColor: 'transparent', 
         borderTopColor: 'transparent', 
         paddingHorizontal: 20, 
-        paddingVertical: 15 
+        paddingVertical: 15,
+        paddingTop: '10%'
     }
 });
 

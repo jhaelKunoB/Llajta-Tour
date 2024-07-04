@@ -21,7 +21,6 @@ function MyStack() {
         <Stack.Navigator initialRouteName="Presentation">
             <Stack.Screen name="Presentation" component={Presentation} options={{ headerShown: false }} />
             <Stack.Screen name="Home" component={MyTaps} options={{ headerShown: false }} />
-            <Stack.Screen name="SearchPLace" component={SearchPlace} options={{ headerTitle: "Descubre Lugares" }} />
         </Stack.Navigator>
     )
 }
@@ -42,13 +41,21 @@ function MyTaps() {
                             <Ionicons name="home-outline" size={size} color={color} />
                         </View>)
                 }} />
-            <Tab.Screen name="Category" component={CategoryScreen}
+            <Tab.Screen name="Busqueda" component={SearchPlace}
+                options={{
+                    headerShown: false,
+                    tabBarShowLabel: false,
+                    tabBarIcon: ({ color, size, focused }) => (
+                        <View style={[NavigationStyle.Icon, focused && NavigationStyle.activeBackground]}>
+                            <Ionicons name="search" size={size} color={color} />
+                        </View>)
+                }} />
+            <Tab.Screen name="Categorias" component={CategoryScreen}
                 options={{
                     tabBarShowLabel: false,
                     tabBarIcon: ({ color, size, focused }) => (
                         <View style={[NavigationStyle.Icon, focused && NavigationStyle.activeBackground]}>
                             <Ionicons name="list-outline" size={size} color={color} />
-                            <Text style={[NavigationStyle.TextIcon, focused && NavigationStyle.FocusText]}>Categoria</Text>
                         </View>)
                 }} />
             <Tab.Screen name="Lugares" component={Place}
@@ -57,7 +64,6 @@ function MyTaps() {
                     tabBarIcon: ({ color, size, focused }) => (
                         <View style={[NavigationStyle.Icon, focused && NavigationStyle.activeBackground]}>
                             <Ionicons name="location-outline" size={size} color={color} />
-                            <Text style={[NavigationStyle.TextIcon, focused && NavigationStyle.FocusText]}>Lugares</Text>
                         </View>)
                 }} />
         </Tab.Navigator>

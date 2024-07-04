@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, ScrollView } from 'react-native'
+import { View, ScrollView, Text} from 'react-native'
 import { SearchBar } from 'react-native-elements';
 import PlaceCards from '../../components/PlaceCards'
 import FindPlacesStyle from "./styles/FindPlacesStyle";

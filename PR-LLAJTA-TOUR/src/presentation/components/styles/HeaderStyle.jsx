@@ -22,7 +22,6 @@ const HeaderStyle = StyleSheet.create({
         alignItems:'flex-end',
         paddingRight:20
     },
-
     Logo:{
         width:'37%',
         height:'80%',
@@ -31,6 +30,10 @@ const HeaderStyle = StyleSheet.create({
     Titulo:{
        width:'65%',
        resizeMode:'contain'
+    },
+    fondo:{
+        width: '100%',
+        height: 200
     },
 });
 
