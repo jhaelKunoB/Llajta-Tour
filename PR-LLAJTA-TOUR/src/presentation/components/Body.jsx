@@ -1,8 +1,8 @@
 import React from 'react';
-import { ScrollView, View, Image, StyleSheet, useWindowDimensions, Text } from 'react-native';
-import { Icon } from 'react-native-elements';
+import { ScrollView, View, Image, useWindowDimensions, Text, FlatList } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import Animated, { useSharedValue, useAnimatedStyle, useAnimatedScrollHandler, interpolate } from 'react-native-reanimated';
-import BodyStyles from '../components/styles/BodyStyle';
+import BodyStyle from '../components/styles/BodyStyle';
 
 const images = [
     "https://unifranz.edu.bo/wp-content/uploads/2023/09/1-8.jpeg",
@@ -26,58 +26,44 @@ const Body = () => {
     });
 
     return (
-        <View>
-            <View style={BodyStyles.menu}>
-                <Icon name="search" type="font-awesome" size={30} color="#000" />
-                <Icon name="plane" type="font-awesome" size={30} color="#000" />
-                <Icon name="hotel" type="font-awesome" size={30} color="#000" />
-                <Icon name="ticket" type="font-awesome" size={30} color="#000" />
+        <View style={BodyStyle.content}>
+            <View style={BodyStyle.menu}>
+                <View style={BodyStyle.menuItem}>
+                    <Icon name="church"  size={30} color="#6BBFB7" />
+                    <Text>Plazas</Text>
+                </View>
+                <View style={BodyStyle.menuItem}>
+                    <Icon name="home"  size={30} color="#6BBFB7" />
+                    <Text>Hoteles</Text>
+                </View>
+                <View style={BodyStyle.menuItem}>
+                    <Icon name="landmark" size={30} color="#6BBFB7" />
+                    <Text>Plazas</Text>
+                </View>
+                <View style={BodyStyle.menuItem}>
+                    <Icon name="utensils" size={30} color="#6BBFB7" />
+                    <Text>Comida</Text>
+                </View>
+
             </View>
-            <Animated.ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                bounces={false}
-                scrollEventThrottle={16}
-                snapToInterval={SIZE}
-                decelerationRate="fast"
-                onScroll={onScroll}
-                style={{ paddingTop: 10, backgroundColor: 'white' }}>
-                {newData.map((item, index) => {
-
-                    const style = useAnimatedStyle(() => {
-                        const scale = interpolate(
-                            x.value,
-                            [(index - 2) * SIZE, (index - 1) * SIZE, index * SIZE],
-                            [0.8, 1, 0.8],
+            <View>
+                <Text style={BodyStyle.heading}>Lugares Para Ti</Text>
+                <FlatList
+                    data={images}
+                    keyExtractor={(item) => item}
+                    renderItem={({ item, index }) => {
+                        return (
+                            <View style={{ marginRight: 20 }}>
+                                <Image source={{ uri: item }} style={BodyStyle.sliderImage} />
+                            </View>
                         );
-                        return {
-                            transform: [{ scale }],
-                        };
-                    });
-
-                    if (item.key) {
-                        return <View style={{ width: SPACER }} key={index} />;
-                    }
-                    return (
-                        <View style={{ width: SIZE }} key={index}>
-                            <Animated.View style={[BodyStyles.imageContainer, style]}>
-                                <Image
-                                    source={{ uri: item }}
-                                    style={BodyStyles.image}
-                                />
-                                <View style={BodyStyles.textContainer}>
-                                    <Text style={BodyStyles.text}>Hola</Text>
-                                </View>
-                            </Animated.View>
-                        </View>
-                    );
-                })}
-            </Animated.ScrollView>
+                    }}
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                />
+            </View>
         </View>
     );
 };
 
 export default Body;
-
-
-

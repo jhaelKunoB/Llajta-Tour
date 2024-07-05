@@ -1,6 +1,15 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
 const bodyStyle = StyleSheet.create({
+    content: {
+        borderTopLeftRadius: 25,
+        borderTopRightRadius: 25,
+        marginTop: -40, // Ajusta según sea necesario para la superposición
+        zIndex: 1,
+        backgroundColor: 'white',
+        paddingTop:0,
+        padding: 10,
+    },
     menu: {
         flexDirection: 'row',
         justifyContent: 'space-around',
@@ -16,6 +25,11 @@ const bodyStyle = StyleSheet.create({
         height: undefined,
         aspectRatio: 1,
     },
+    sliderImage:{
+        width:270,
+        height:150,
+        borderRadius:20
+    },
     textContainer: {
         position: 'absolute',
         bottom: 10, // ajusta según tus necesidades
@@ -30,6 +44,14 @@ const bodyStyle = StyleSheet.create({
         fontSize: 16,
         textAlign: 'center', // opcional, para centrar el texto
     },
-})
+    heading:{
+        fontSize:20,
+        marginBottom:10
+    },
+    menuItem: {
+        flexDirection: 'column',
+        alignItems: 'center',
+      },
+});
 
-export default bodyStyle
+export default bodyStyle;

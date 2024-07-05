@@ -1,18 +1,14 @@
 import { StyleSheet } from 'react-native';
 
 const HomeStyle = StyleSheet.create({
-    Background:{
-        backgroundColor:'white', 
-        flex:1, 
-        marginTop:30
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
     },
-    Message:{
-        marginHorizontal:20
+    background: {
+        flex: 1,
+        paddingTop: 0,
     },
-    TextMessage:{
-        fontSize:30,
-        fontWeight:'700'
-    }
 });
 
 export default HomeStyle;
