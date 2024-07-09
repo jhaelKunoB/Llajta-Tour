@@ -12,7 +12,7 @@ const Body = () => {
         const fetchPlaces = async () => {
             try {
                 const placesData = await fetchAllPlaces();
-                setPlaces(placesData);
+                setPlaces(placesData.filter(place => place.image)); // Filtrar lugares que tienen imagen
             } catch (error) {
                 console.error("Error fetching places:", error);
             }
@@ -50,15 +50,13 @@ const Body = () => {
                 <FlatList
                     data={places}
                     keyExtractor={(item, index) => index.toString()}
-                    renderItem={({ item }) => {
-                        return (
-                            <TouchableOpacity onPress={() => handleImagePress(item.ref)}>
-                                <View style={{ margin: 10, marginTop:0 }}>
-                                    <Image source={{ uri: item.image }} style={BodyStyle.sliderImage} />
-                                </View>
-                            </TouchableOpacity>
-                        );
-                    }}
+                    renderItem={({ item }) => (
+                        <TouchableOpacity onPress={() => handleImagePress(item.ref)}>
+                            <View style={{ margin: 10, marginTop: 0 }}>
+                                <Image source={{ uri: item.image }} style={BodyStyle.sliderImage} />
+                            </View>
+                        </TouchableOpacity>
+                    )}
                     horizontal
                     showsHorizontalScrollIndicator={false}
                 />
