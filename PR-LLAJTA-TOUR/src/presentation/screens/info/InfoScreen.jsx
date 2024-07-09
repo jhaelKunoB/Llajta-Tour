@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
 
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { Ionicons, FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { Video, ResizeMode } from 'expo-av'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
@@ -10,11 +10,10 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 
 import InfoCon from './CoponentInfo/InfoCon'
+import ImageNow from './CoponentInfo/ImagesNow'
+import AudioInfo from './CoponentInfo/AudioInfo'
 
-//import { getPlace } from './Controler/firebaseService'
-//const blurhash =
-//  '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
-
+import { getPlace } from './Controler/firebaseService'//para poder conectar con fire base
 
 
 
@@ -24,16 +23,36 @@ const InfoScreen = () => {
     const navigation = useNavigation()
     const video = useRef(null);
     const [isPlaying, setIsPlaying] = useState(false);
-    //const [placeData, setPlaceData] = useState(null);
+    const [placeData, setPlaceData] = useState(null); //definimos una variable para al macenar el Lugar
+    const [isLoading, setIsLoading] = useState(true); 
+    const route = useRoute();
+    const { Id } = route.params;
 
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         const data = await getPlace('9nq4cZKo2ftrp0iQ5lUc');
-    //         setPlaceData(data);
-    //         console.log(data.ImagesID[0])
-    //     };
-    //     fetchData();
-    // }, []);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getPlace(Id);
+                setPlaceData(data);
+                setIsLoading(false); // Marcar la carga como completa
+                console.log("datos", data);
+            } catch (error) {
+                console.error("Error al obtener los datos:", error);
+                setIsLoading(false);
+            }
+        };
+        fetchData();
+    }, []);
+
+
+
+      // Mostrar indicador de carga mientras se obtienen los datos
+    if (isLoading) {
+        return (
+            <View style={styles.loadingContainer}>
+                <ActivityIndicator size='large' color="blue" />
+            </View>
+        );
+    }
 
 
     //para pausar o play
@@ -50,14 +69,14 @@ const InfoScreen = () => {
 
 
     return (
-        <ScrollView style={styles.Container}>
+        <ScrollView style={styles.Container} nestedScrollEnabled={true}>
 
             <View style={styles.ContVideo}>
                 <Video ref={video}
-                    source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/llajtatour-57c11.appspot.com/o/Image%2Fistockphoto-864526000-640_adpp_is.mp4?alt=media&token=d4c6f6a7-698c-4c25-acd1-98332c578492' }}
+                    source={{ uri: placeData.Video}}
                     resizeMode={ResizeMode.STRETCH}
                     isLooping
-                    volume={0.4}
+                    volume={0.1}
                     //shouldPlay
                     onPlaybackStatusUpdate={status => {
                         if (status.isPlaying !== undefined) {
@@ -79,74 +98,48 @@ const InfoScreen = () => {
                     </View>
 
                     <View style={styles.conteCityPlay}>
-
-                      
-
                         <View style={styles.TextCity}>
-                                <Text style={{color:'white'}}>Cochabamba-Cercado</Text>
+                                <Text style={{color:'white'}}>{placeData.DepartmentID.Name} - {placeData.provinceID.Name}</Text>
                         </View>
-
 
                         <View style={styles.ContplayIcon}>
                             <TouchableOpacity onPress={() => togglePlayPause()}>
                                 <Ionicons name={isPlaying ? "pause-circle-sharp" : "play-circle-sharp"} style={styles.IconPlay} color={'#009194'} size={wp('10%')} />
                             </TouchableOpacity>
                         </View>
-
-
-                    </View>
-
+                    </View >
                 </LinearGradient>
             </View>
 
-
             <View style={styles.contTittle}>
-                <Text style={styles.textTittle}>Plaza Colon</Text>
+                <Text style={styles.textTittle}>{placeData.Name}</Text>
             </View>
-
 
             <View style={styles.contLocation}>
-
                 <View style={styles.txtDireccion}>
-                    <Ionicons name='location' color={'#aeaeae'} size={20} />
-                    <Text style={styles.direccionTxt}>Av. San martin entre la calle Mexico</Text>
+                    <Ionicons name='location' color={'#070743'} size={20} />
+                    <Text style={styles.direccionTxt}>{placeData.Address}</Text>
                 </View>
-
-              
-
                 <View style={styles.txtDireccion}>
-                    <Ionicons name='time' color={'#aeaeae'} size={20} />
-                    <Text style={styles.timeTxt}>8:30 - 7:30</Text>
+                    <Ionicons name='time' color={'#070743'} size={20} />
+                    <Text style={styles.timeTxt}> 
+                    {placeData.Hours ? (
+                        `${placeData.Hours.Lunes.HourOpen} - ${placeData.Hours.Lunes.HourClose}`
+                    ) : (
+                        <Ionicons name="infinite-sharp" size={24} color="black" />
+                    )}
+                     </Text>
                 </View>
-
-
-
-
             </View>
 
 
-
-
-
-           <InfoCon />
-
-
-            {/* <View style={{ width: '100%', height: '100%' }}>
-                {placeData && placeData.ImagesID && placeData.ImagesID.length > 0 && (
-                    <View style={{ width: '100%', height: '100%' }}>
-                         <Image
-                                style={styles.image}
-                                source={{uri:placeData.ImagesID[0]}}
-                                placeholder={{ uri: blurhash }}
-                                contentFit="cover"
-                                transition={1000}
-                            />
-                    </View>
-                )}
-            </View> */}
-
-
-
+            <View style={styles.separator} />
+            {/* para el Audio */}
+            <AudioInfo data={placeData}/>
+            {/* para mostar los datos */}
+             <InfoCon data={placeData} />   
+            {/* para las Imagens de Haora */}
+              <ImageNow data={placeData} />
         </ScrollView>
     );
 };
@@ -155,6 +148,22 @@ export default InfoScreen
 
 const styles = StyleSheet.create({
 
+    separator: {
+        borderBottomColor: '#547775',
+        borderBottomWidth: 2,
+        marginHorizontal: hp('3%'),
+        marginVertical: hp('1%'),
+    },
+
+
+    //para la carga
+    loadingContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+
+    //para el video
     Container: {
         backgroundColor: 'white'
     },
@@ -163,7 +172,7 @@ const styles = StyleSheet.create({
     },
     VideoStyle: {
         width: '100%',
-        height: hp('34%'),
+        height: hp('35%'),
         borderBottomLeftRadius: 30,
         borderBottomRightRadius: 30
     },
@@ -250,11 +259,13 @@ const styles = StyleSheet.create({
     direccionTxt: {
         fontSize: wp('3%'),
         marginLeft: wp('2%'),
+        color:'#08445a'
     },
 
     timeTxt: {
         fontSize: wp('3%'),
         marginLeft: wp('2%'),
+        color:'#08445a'
     },
 
 
