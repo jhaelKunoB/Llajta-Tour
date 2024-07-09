@@ -1,17 +1,50 @@
-import React, { useState } from "react";
-import { View, ScrollView } from 'react-native'
+import React, { useEffect, useState } from "react";
+import { ScrollView, TouchableOpacity } from 'react-native'
 import { SearchBar } from 'react-native-elements';
 import PlaceCards from '../../components/PlaceCards'
 import FindPlacesStyle from "./styles/FindPlacesStyle";
 
+import { useNavigation } from "@react-navigation/native";
+import { getAllPlaces } from './Controler/firebaseSerch';
+
 
 const SearchPlace = () => {
 
-    const [searchText, setSearchText] = useState('');
+    const navigation = useNavigation();
+
+    const [searchText, setSearchText] = useState('')
+    const [placeData, setPlaceData] = useState(null)
+    const [placefind, setPlaceFind] = useState([])
+
     const handleSearch = (searchText) => {
         setSearchText(searchText)
-        console.log('Texto de búsqueda:', searchText);
+        setPlaceFind([])
+
+        if(placeData){
+            const searchTextUpper = searchText.toUpperCase();
+            const filteredPlaces = placeData.filter(item => {
+                const placeNameUpper = item.Name.toUpperCase();
+                return placeNameUpper.includes(searchTextUpper); 
+            });
+            setPlaceFind(filteredPlaces);
+            console.log('Texto de búsqueda:', searchText);
+        }
     };
+    
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const places = await getAllPlaces(); // Esperar la respuesta de getAllPlaces
+                setPlaceData(places);
+            } catch (error) {
+                console.error("Error al obtener los datos:", error);
+            }
+        };
+        fetchData();
+    }, []);
+
+
 
     return (
         <ScrollView style={FindPlacesStyle.SearchBarConten}>
@@ -24,14 +57,22 @@ const SearchPlace = () => {
                 showLoading
                 inputContainerStyle={FindPlacesStyle.InputContainer}
                 containerStyle={FindPlacesStyle.ContainerStyle}
-            />       
-             <PlaceCards/>
-             <PlaceCards/>
-             <PlaceCards/>
-             <PlaceCards/>
+            />
+            
+            {placefind && placefind.length > 0 && (  
+                    placefind.map(Item => (
+                        <TouchableOpacity onPress={() => navigation.navigate('Info',{ Id: Item.id})}>
+                            <PlaceCards data={Item} />
+                        </TouchableOpacity>
+                    ))
+            )}
+
         </ScrollView>
     )
 }
 export default SearchPlace
+
+
+
 
 

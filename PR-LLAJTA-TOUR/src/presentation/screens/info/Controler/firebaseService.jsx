@@ -16,24 +16,19 @@ const fetchDocumentData = async (docRef) => {
 
 
 const getPlace = async (placeID) => {
+  
     try {
   
         const placeDoc = await getDoc( doc(db, 'Place', placeID ));
-       
 
         if (placeDoc.exists()) {
           const placeData = { id: placeDoc.id, ...placeDoc.data()};
-         
-
-
+        
           placeData.provinceID = await fetchDocumentData(placeData.provinceID);
           placeData.DepartmentID = await fetchDocumentData(placeData.DepartmentID );
           placeData.CategoryID = await fetchDocumentData(placeData.CategoryID);
-    
-        
 
           return placeData;
-
         } else {
           console.log("No such place!");
           return null;
@@ -44,4 +39,7 @@ const getPlace = async (placeID) => {
     }
  }
 
- export {getPlace}
+
+
+
+export { getPlace };
