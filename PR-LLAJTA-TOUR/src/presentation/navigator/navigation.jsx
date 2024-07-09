@@ -12,6 +12,9 @@ import Home from '../screens/home/Home.jsx'
 import CategoryScreen from '../screens/category/CategoryScreen.jsx'
 import Place from '../screens/place/placescreen.jsx'
 import SearchPlace from '../screens/findplaces/SearchPlace.jsx'
+import Info from '../screens/info/InfoScreen.jsx'
+
+
 
 const Stack = createNativeStackNavigator()
 const Tab = createBottomTabNavigator()
