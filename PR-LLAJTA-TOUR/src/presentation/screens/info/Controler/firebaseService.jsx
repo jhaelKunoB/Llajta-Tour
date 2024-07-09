@@ -8,7 +8,7 @@ const fetchDocumentData = async (docRef) => {
   if (!docRef) return null;
   const doc = await getDoc(docRef);
   if (doc.exists()) {
-    return { id: doc.id, ...doc.data()};
+    return { id: doc.id, ...doc.data() };
   }
   return null;
 };
@@ -16,32 +16,31 @@ const fetchDocumentData = async (docRef) => {
 
 
 const getPlace = async (placeID) => {
-    try {
-  
-        const placeDoc = await getDoc( doc(db, 'Place', placeID ));
-       
+  try {
 
-        if (placeDoc.exists()) {
-          const placeData = { id: placeDoc.id, ...placeDoc.data()};
-         
+    const placeDoc = await getDoc(doc(db, 'Place', placeID));
+
+    if (placeDoc.exists()) {
+      const placeData = { id: placeDoc.id, ...placeDoc.data() };
 
 
-          placeData.provinceID = await fetchDocumentData(placeData.provinceID);
-          placeData.DepartmentID = await fetchDocumentData(placeData.DepartmentID );
-          placeData.CategoryID = await fetchDocumentData(placeData.CategoryID);
-    
-        
 
-          return placeData;
+      placeData.provinceID = await fetchDocumentData(placeData.provinceID);
+      placeData.DepartmentID = await fetchDocumentData(placeData.DepartmentID);
+      placeData.CategoryID = await fetchDocumentData(placeData.CategoryID);
 
-        } else {
-          console.log("No such place!");
-          return null;
-        }
-  
-    } catch (error) {
-        console.error("Error fetching places: ", error);
+
+
+      return placeData;
+
+    } else {
+      console.log("No such place!");
+      return null;
     }
- }
 
- export {getPlace}
+  } catch (error) {
+    console.error("Error fetching places: ", error);
+  }
+}
+
+export { getPlace }

@@ -7,13 +7,13 @@ const bodyStyle = StyleSheet.create({
         marginTop: -40, // Ajusta según sea necesario para la superposición
         zIndex: 1,
         backgroundColor: 'white',
-        paddingTop:0,
+        //paddingTop:0,
         padding: 10,
     },
     menu: {
         flexDirection: 'row',
         justifyContent: 'space-around',
-        paddingVertical: 20,
+        paddingVertical: 10,
     },
     imageContainer: {
         borderRadius: 24,
@@ -46,7 +46,7 @@ const bodyStyle = StyleSheet.create({
     },
     heading:{
         fontSize:20,
-        marginBottom:10
+        marginBottom:15
     },
     menuItem: {
         flexDirection: 'column',
