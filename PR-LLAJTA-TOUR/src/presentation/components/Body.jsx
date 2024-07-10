@@ -3,10 +3,12 @@ import { View, Image, useWindowDimensions, Text, FlatList, TouchableOpacity } fr
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import BodyStyle from '../components/styles/BodyStyle';
 import { fetchAllPlaces } from '../screens/home/controller/HomeController'; // Asegúrate de que la ruta sea correcta
+import { useNavigation } from '@react-navigation/native';
 
 const Body = () => {
     const { width } = useWindowDimensions();
     const [places, setPlaces] = useState([]);
+    const nav = useNavigation();
 
     useEffect(() => {
         const fetchPlaces = async () => {
@@ -22,7 +24,7 @@ const Body = () => {
     }, []);
 
     const handleImagePress = (docRef) => {
-        console.log("Document Reference:", docRef.id);
+        nav.navigate("Info", { Id: docRef.id });
     };
 
     return (

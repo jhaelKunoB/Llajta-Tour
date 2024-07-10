@@ -24,6 +24,7 @@ function MyStack() {
         <Stack.Navigator initialRouteName="Presentation">
             <Stack.Screen name="Presentation" component={Presentation} options={{ headerShown: false }} />
             <Stack.Screen name="Home" component={MyTaps} options={{ headerShown: false }} />
+            <Stack.Screen name="Info" component={Info} options={{ headerShown: false }} />
         </Stack.Navigator>
     )
 }

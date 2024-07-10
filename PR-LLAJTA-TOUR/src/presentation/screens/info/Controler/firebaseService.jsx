@@ -1,9 +1,6 @@
 import db from '../../../../../database/firebase'
 import { getDoc, doc } from 'firebase/firestore'
 
-
-
-
 const fetchDocumentData = async (docRef) => {
   if (!docRef) return null;
   const doc = await getDoc(docRef);
@@ -13,8 +10,6 @@ const fetchDocumentData = async (docRef) => {
   return null;
 };
 
-
-
 const getPlace = async (placeID) => {
   try {
 
@@ -23,13 +18,9 @@ const getPlace = async (placeID) => {
     if (placeDoc.exists()) {
       const placeData = { id: placeDoc.id, ...placeDoc.data() };
 
-
-
-      placeData.provinceID = await fetchDocumentData(placeData.provinceID);
+      placeData.ProvinceID = await fetchDocumentData(placeData.ProvinceID);
       placeData.DepartmentID = await fetchDocumentData(placeData.DepartmentID);
       placeData.CategoryID = await fetchDocumentData(placeData.CategoryID);
-
-
 
       return placeData;
 

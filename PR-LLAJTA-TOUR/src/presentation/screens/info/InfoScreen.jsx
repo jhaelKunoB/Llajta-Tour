@@ -99,7 +99,7 @@ const InfoScreen = () => {
 
                     <View style={styles.conteCityPlay}>
                         <View style={styles.TextCity}>
-                                <Text style={{color:'white'}}>{placeData.DepartmentID.Name} - {placeData.provinceID.Name}</Text>
+                                <Text style={{color:'white'}}>{placeData.DepartmentID.Name} - {placeData.ProvinceID.Name}</Text>
                         </View>
 
                         <View style={styles.ContplayIcon}>

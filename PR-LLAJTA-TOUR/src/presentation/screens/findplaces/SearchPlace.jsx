@@ -61,7 +61,7 @@ const SearchPlace = () => {
             
             {placefind && placefind.length > 0 && (  
                     placefind.map(Item => (
-                        <TouchableOpacity onPress={() => navigation.navigate('Info',{ Id: Item.id})}>
+                        <TouchableOpacity onPress={() => [navigation.navigate('Info',{ Id: Item.id}),console.log(Item)]}>
                             <PlaceCards data={Item} />
                         </TouchableOpacity>
                     ))
