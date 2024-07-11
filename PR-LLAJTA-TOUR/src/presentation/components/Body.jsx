@@ -28,25 +28,7 @@ const Body = () => {
     };
 
     return (
-        <View style={BodyStyle.content}>
-            <View style={BodyStyle.menu}>
-                <View style={BodyStyle.menuItem}>
-                    <Icon name="church" size={30} color="#6BBFB7" />
-                    <Text>Plazas</Text>
-                </View>
-                <View style={BodyStyle.menuItem}>
-                    <Icon name="home" size={30} color="#6BBFB7" />
-                    <Text>Hoteles</Text>
-                </View>
-                <View style={BodyStyle.menuItem}>
-                    <Icon name="landmark" size={30} color="#6BBFB7" />
-                    <Text>Plazas</Text>
-                </View>
-                <View style={BodyStyle.menuItem}>
-                    <Icon name="utensils" size={30} color="#6BBFB7" />
-                    <Text>Comida</Text>
-                </View>
-            </View>
+        <View>
             <View>
                 <Text style={BodyStyle.heading}>Lugares Para Ti</Text>
                 <FlatList

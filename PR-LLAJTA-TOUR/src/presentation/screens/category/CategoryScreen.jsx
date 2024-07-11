@@ -1,16 +1,34 @@
-import React from 'react';
-import {View,Text, TouchableOpacity} from 'react-native';
-import CategoryStyle from './styles/CategoryStyle';
+import React, { useEffect, useState } from 'react';
+import { View, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-const CategoryScreen =() => {
-    const navigation = useNavigation()
-    return (
-        <View style={CategoryStyle.Background}>
-            <Text>Category Screen</Text>
+import ListCategories from '../../components/ListCategories';
+import { fetchAllCategories } from '../category/controller/CategoryController';
+import CategoryStyle from './styles/CategoryStyle';
 
-            <TouchableOpacity onPress={() => navigation.navigate('Info') }>
-                   <Text>Info</Text>
-                </TouchableOpacity>  
+const CategoryScreen = () => {
+    const navigation = useNavigation();
+    const [categories, setCategories] = useState([]);
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const categoriesData = await fetchAllCategories();
+                setCategories(categoriesData);
+            } catch (error) {
+                console.error("Error fetching categories:", error);
+            }
+        };
+
+        fetchCategories();
+    }, []);
+
+    const handleCategoryPress = (id) => {
+        navigation.navigate('CategoryDetailScreen', { categoryId: id });
+    };
+
+    return (
+        <View style={CategoryStyle.container}>
+            <ListCategories data={categories} onPress={handleCategoryPress} />
         </View>
     );
 };

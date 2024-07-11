@@ -21,17 +21,3 @@ export const fetchAllPlaces = async () => {
     }
 };
 
-export const getCarousel = async (placeID) => {
-    try {
-        const placeDoc = await getDoc(doc(db, 'Place', placeID));
-        if (placeDoc.exists()) {
-            const placeData = placeDoc.data();
-            const images = placeData.Images ? placeData.Images : [];
-            return images;
-        }
-        return [];
-    } catch (error) {
-        console.error("Error fetching document:", error);
-        return [];
-    }
-};
