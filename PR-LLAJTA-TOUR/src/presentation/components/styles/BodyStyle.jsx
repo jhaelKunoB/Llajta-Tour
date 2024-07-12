@@ -1,57 +1,116 @@
 import { StyleSheet } from 'react-native';
 
-const bodyStyle = StyleSheet.create({
-    content: {
-        borderTopLeftRadius: 25,
-        borderTopRightRadius: 25,
-        marginTop: -40, // Ajusta según sea necesario para la superposición
-        zIndex: 1,
-        backgroundColor: 'white',
-        //paddingTop:0,
-        padding: 10,
+const BodyStyle = StyleSheet.create({
+    sliderImage: {
+        width: 250,
+        height: 270,
+        borderRadius: 20,
     },
-    menu: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        paddingVertical: 10,
-    },
-    imageContainer: {
-        borderRadius: 24,
-        overflow: 'hidden',
-        position: 'relative', // necesario para la posición absoluta del texto
-    },
-    image: {
-        width: '100%',
-        height: undefined,
-        aspectRatio: 1,
-    },
-    sliderImage:{
-        width:270,
-        height:150,
-        borderRadius:20
+    title: {
+        fontSize: 17,
+        fontWeight: 'bold',
+        marginBottom: 5
     },
     textContainer: {
         position: 'absolute',
-        bottom: 10, // ajusta según tus necesidades
-        left: 10, // ajusta según tus necesidades
-        right: 10, // para centrar el texto horizontalmente
-        backgroundColor: 'rgba(0, 0, 0, 0.5)', // fondo semi-transparente
-        padding: 5,
-        borderRadius: 5,
+        bottom: 5,
+        left: 5,
+        right: 5,
+        backgroundColor: 'rgba(255, 255, 255, 0.8)',
+        padding: 10,
+        borderRadius: 15,
     },
     text: {
-        color: 'white',
-        fontSize: 16,
-        textAlign: 'center', // opcional, para centrar el texto
+        color: 'gray',
+        fontSize: 15,
     },
-    heading:{
-        fontSize:20,
-        marginBottom:15
+    heading: {
+        fontSize: 20,
+        marginBottom: 15,
+        textAlign: 'center'
     },
-    menuItem: {
-        flexDirection: 'column',
+    headingContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
         alignItems: 'center',
-      },
+        paddingHorizontal: 10,
+        marginBottom: 10
+    },
+    showAll: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: '#007BFF', 
+    },
+    card: {
+        margin: 10,
+        marginTop: 0,
+        borderRadius: 20,
+        overflow: 'hidden',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2,
+        elevation: 5,
+    },
+    locationContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: 5,
+        color: 'black'
+    },
+    locationIcon: {
+        marginRight: 5
+    },
+    categoryImage: {
+        width: 70,
+        height: 70,
+        borderRadius: 10,
+        marginRight: 10
+    },
+    categoryTitle: {
+        fontSize: 16,
+        fontWeight: 'bold'
+    },
+    headerContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingHorizontal: 10,
+        marginBottom: 10
+    },
+    headerText: {
+        fontSize: 20,
+        fontWeight: 'bold'
+    },
+    headerText1: {
+        fontSize: 30,
+        fontWeight: 'bold'
+    },
+    showAllText: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: '#007BFF'
+    },
+    container: {
+        marginTop: 50,
+        paddingHorizontal: 20,
+    },
+    searchBarContainer: {
+        backgroundColor: 'transparent',
+        borderTopWidth: 0,
+        borderBottomWidth: 0,
+    },
+    inputContainer: {
+        backgroundColor: '#f2f2f2',
+        borderRadius: 20,
+        height: 50,
+    },
+    leftIconContainer: {
+        marginLeft: 10,
+    },
+    rightIconContainer: {
+        marginRight: 10,
+    },
 });
 
-export default bodyStyle;
+export default BodyStyle;
