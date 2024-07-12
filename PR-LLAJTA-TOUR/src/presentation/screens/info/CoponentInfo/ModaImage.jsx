@@ -33,11 +33,13 @@ const ModalImage = ({ img }) => {
                 </View>
             </Modal>
 
+
             <TouchableOpacity
                 style={styles.styleContImage}
                 onPress={() => setModalVisible(true)}>
                 <Image source={{ uri: img }} style={styles.Styleimage} key={img} />
             </TouchableOpacity>
+
         </View>
     )
 }
@@ -47,6 +49,7 @@ export default ModalImage
 const styles = StyleSheet.create({
     Styleimage: {
         flex: 1,
+        width:90,
     },
 
     imgContainer: {
@@ -73,7 +76,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.9)',
     },
     modalView: {
-        backgroundColor: '#bad9f2',
+        backgroundColor: '#1A2130',
         borderRadius: 20,
         padding: 7,
     },

@@ -1,20 +1,32 @@
 import { StyleSheet } from 'react-native';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
-const FindPlacesStyle = StyleSheet.create({
-    SearchBarConten: {
-        flex: 1
+const styles = StyleSheet.create({
+    SearchBarContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop:hp('5%')
+    },
+    CotnCarts: {
+        flexDirection: 'row',
     },
     InputContainer: {
-        backgroundColor: '#e0e0e0'
+        backgroundColor: 'rgb(235, 244, 246)',
     },
     ContainerStyle:{
-        backgroundColor: '#ffffff', 
+        backgroundColor: 'rgba(255, 255, 255,0)', 
         borderBottomColor: 'transparent', 
-        borderTopColor: 'transparent', 
-        paddingHorizontal: 20, 
-        paddingVertical: 15,
-        paddingTop: '10%'
+        borderTopColor: 'transparent',
+        flex:5, 
+        width:wp('100%')
+    },
+    ContImgSerach: {
+        width: wp('100%'),
+        height: hp('50%')
+    },
+    SearchBarConten:{
+        marginBottom:hp('10%')
     }
-});
-
-export default FindPlacesStyle;
+})
+export default styles

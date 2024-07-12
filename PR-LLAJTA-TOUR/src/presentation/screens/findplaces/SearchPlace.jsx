@@ -1,11 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { ScrollView, TouchableOpacity } from 'react-native'
+import { ScrollView, View, TouchableOpacity, Image } from 'react-native'
 import { SearchBar } from 'react-native-elements';
-import PlaceCards from '../../components/PlaceCards'
-import FindPlacesStyle from "./styles/FindPlacesStyle";
-
+import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from "@react-navigation/native";
+
+import PlaceCards from './Component/CartsImages'
+import CartName from './Component/CartsName'
+
+import { widthPercentageToDP as wp} from 'react-native-responsive-screen';
+import styles from "./styles/FindPlacesStyle";
+import ImgSearch from './assets/Losearch.gif'
+
+
 import { getAllPlaces } from './Controler/firebaseSerch';
+
+
+
 
 
 const SearchPlace = () => {
@@ -14,28 +24,47 @@ const SearchPlace = () => {
 
     const [searchText, setSearchText] = useState('')
     const [placeData, setPlaceData] = useState(null)
+
+
     const [placefind, setPlaceFind] = useState([])
+    const [isName, setName] = useState([])
 
-    const handleSearch = (searchText) => {
-        setSearchText(searchText)
-        setPlaceFind([])
-
-        if(placeData){
+    const handleSearch = async (searchText) => {
+        setSearchText(searchText);
+        setPlaceFind([]);
+        if (placeData && searchText !== "") {
             const searchTextUpper = searchText.toUpperCase();
             const filteredPlaces = placeData.filter(item => {
                 const placeNameUpper = item.Name.toUpperCase();
-                return placeNameUpper.includes(searchTextUpper); 
+                return placeNameUpper.includes(searchTextUpper);
             });
-            setPlaceFind(filteredPlaces);
-            console.log('Texto de búsqueda:', searchText);
+
+            const placeNames = filteredPlaces.map(item => ({
+                id: item.id,
+                name: item.Name,
+            }));
+            setName(placeNames);
+        } else {
+            setName([]);
         }
     };
-    
+
+    const handleSearchSubmit = async () => {
+        if (placeData && searchText !== "") {
+            const searchTextUpper = searchText.toUpperCase();
+            const filteredPlaces = placeData.filter(item => {
+                const placeNameUpper = item.Name.toUpperCase();
+                return placeNameUpper.includes(searchTextUpper);
+            });
+            setPlaceFind(filteredPlaces);
+        }
+    };
+
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const places = await getAllPlaces(); // Esperar la respuesta de getAllPlaces
+                const places = await getAllPlaces();
                 setPlaceData(places);
             } catch (error) {
                 console.error("Error al obtener los datos:", error);
@@ -44,33 +73,49 @@ const SearchPlace = () => {
         fetchData();
     }, []);
 
-
-
     return (
-        <ScrollView style={FindPlacesStyle.SearchBarConten}>
-            <SearchBar
-                placeholder="Buscar..."
-                onChangeText={handleSearch}
-                value={searchText}
-                cancelButtonTitle="Cancelar"
-                round
-                showLoading
-                inputContainerStyle={FindPlacesStyle.InputContainer}
-                containerStyle={FindPlacesStyle.ContainerStyle}
-            />
-            
-            {placefind && placefind.length > 0 && (  
-                    placefind.map(Item => (
-                        <TouchableOpacity onPress={() => [navigation.navigate('Info',{ Id: Item.id}),console.log(Item)]}>
-                            <PlaceCards data={Item} />
-                        </TouchableOpacity>
-                    ))
-            )}
+        <View style={{ flex: 1, backgroundColor: 'white' }}>
 
-        </ScrollView>
+            <View style={styles.SearchBarContainer}>
+                <View style={{ flex: 1 }}>
+                    <TouchableOpacity onPress={() => navigation.goBack()}>
+                        <Ionicons name="chevron-back" size={wp('9%')} color="#213555" style={{ textAlign: 'center' }} />
+                    </TouchableOpacity>
+                </View>
+
+                <SearchBar
+                    placeholder="Buscar..."
+                    onChangeText={handleSearch}
+                    onSubmitEditing={handleSearchSubmit}
+
+                    value={searchText}
+                    cancelButtonTitle="Cancelar"
+                    round
+                    inputContainerStyle={styles.InputContainer}
+                    containerStyle={styles.ContainerStyle}
+                />
+            </View>
+
+            <ScrollView style={styles.SearchBarConten}>
+                <View style={styles.CotnCarts}>
+
+                    {placefind.length > 0 ? (
+                        <PlaceCards data={placefind} />
+                    ) : isName.length > 0 ? (
+                        <CartName Names={isName} />
+                    ) : (
+                        <View>
+                            <Image source={ImgSearch} style={styles.ContImgSerach}></Image>
+                        </View>
+                    )}
+                </View>
+            </ScrollView>
+        </View>
+
     )
 }
 export default SearchPlace
+
 
 
 
