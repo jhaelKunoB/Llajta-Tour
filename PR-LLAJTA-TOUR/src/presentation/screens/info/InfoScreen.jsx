@@ -8,6 +8,8 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import { LinearGradient } from 'expo-linear-gradient';
 import Loandin from './assets/loading.gif'
 
+
+
 import Calendar from './CoponentInfo/Calendar'
 import InfoCon from './CoponentInfo/InfoCon'
 import ImageNow from './CoponentInfo/ImagesNow'

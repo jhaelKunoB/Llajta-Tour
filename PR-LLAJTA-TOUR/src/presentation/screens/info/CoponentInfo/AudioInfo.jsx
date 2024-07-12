@@ -6,7 +6,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 //import Slider from '@react-native-community/slider';
 
 
-import ImagAud from '../assets/microfono.png';
+import ImagAud from '../assets/micro.jpg';
 
 const AudioInfo = ({ data }) => {
   const [placeData, setplaceData] = useState()
