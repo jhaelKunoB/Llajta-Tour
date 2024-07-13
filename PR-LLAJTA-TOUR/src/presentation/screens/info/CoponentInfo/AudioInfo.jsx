@@ -6,10 +6,10 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 //import Slider from '@react-native-community/slider';
 
 
-import ImagAud from '../assets/microfono.png';
+import ImagAud from '../assets/micro.jpg';
 
 const AudioInfo = ({ data }) => {
-  const [placeData, setplaceData] = useState(null)
+  const [placeData, setplaceData] = useState()
   const [sound, setSound] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -23,14 +23,15 @@ const AudioInfo = ({ data }) => {
     } else {
       console.log('Loading Sound');
       try {
-        const { sound } = await Audio.Sound.createAsync(
-          { uri: placeData.Audio }
-        );
-        setSound(sound);
-        sound.setOnPlaybackStatusUpdate(onPlaybackStatusUpdate);
+        console.log(data)
+        if (data) {
+          const { sound } = await Audio.Sound.createAsync({ uri: placeData });
+          setSound(sound);
+          sound.setOnPlaybackStatusUpdate(onPlaybackStatusUpdate);
 
-        await sound.playAsync();
-        setIsPlaying(true);
+          await sound.playAsync();
+          setIsPlaying(true);
+        }
       } catch (error) {
         console.error('Error loading sound:', error);
       }
@@ -76,21 +77,30 @@ const AudioInfo = ({ data }) => {
   return (
 
     <View style={styles.container}>
-      <View style={{ flex: 0.6, borderRadius: 21 }}>
-        <Image source={ImagAud} style={styles.ImgAudio} resizeMode="cover" />
-      </View>
 
-      <View style={styles.ContTextIcon}>
-        <View style={styles.contTittle}>
-          <Text style={styles.tituloAudio}>Cochabamba podcast</Text>
-        </View>
+      {data ? (
+        <View style={{width:'100%', flexDirection:'row'}}>
+          <View style={{ flex: 0.6, borderRadius: 21 }}>
+            <Image source={ImagAud} style={styles.ImgAudio} resizeMode="cover" />
+          </View>
 
-        <View style={styles.ContIcontPlay}>
-          <TouchableOpacity onPress={isPlaying ? pauseSound : playSound}>
-            <Ionicons name={isPlaying ? "pause-circle-sharp" : "play-circle-sharp"} style={styles.IconPlay} color={'#009194'} size={wp('14%')} />
-          </TouchableOpacity>
+          <View style={styles.ContTextIcon}>
+            <View style={styles.contTittle}>
+              <Text style={styles.tituloAudio}>Cochabamba podcast</Text>
+            </View>
+
+            <View style={styles.ContIcontPlay}>
+              <TouchableOpacity onPress={isPlaying ? pauseSound : playSound}>
+                <Ionicons name={isPlaying ? "pause-circle-sharp" : "play-circle-sharp"} style={styles.IconPlay} color={'#009194'} size={wp('14%')} />
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
-      </View>
+      ) : (
+        <View>
+          
+        </View>
+      )}
     </View>
   );
 }

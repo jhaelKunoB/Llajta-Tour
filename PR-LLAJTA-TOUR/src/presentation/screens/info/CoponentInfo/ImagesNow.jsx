@@ -1,19 +1,18 @@
-import React ,{useState, useEffect}from 'react';
-import { Text, View, StyleSheet, ScrollView } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Text, View, StyleSheet, ScrollView, Image } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
-
+import ImaNot from '../assets/Nodata.gif'
 import ImgModal from './ModaImage'
 
-const ImageNow = ({data}) => {
-    const [placeData, setplaceData] = useState(null)
+const ImageNow = ({ data }) => {
+    const [placeData, setPlaceData] = useState(null);
 
     useEffect(() => {
         if (data) {
-            setplaceData(data)
+            setPlaceData(data);
         }
     }, [data]);
-
 
     if (!placeData) {
         return (
@@ -23,94 +22,50 @@ const ImageNow = ({data}) => {
         );
     }
 
-
-
-    // Dividir las imágenes en dos columnas
-    const column1 = [];
-    const column2 = [];
-    placeData.ImagesID.forEach((image, index) => {
-        if (index % 2 === 0) {
-            column1.push(image);     
-        } else {
-            column2.push(image);    
-        }
-    });
-
-    const getImageHeight = (index) => (index % 2 === 0 ? 130 : 250);
-    const getImageHeight1 = (index) => (index % 2 === 0 ? 250 : 130);
-
     return (
-        <ScrollView style={styles.container}>
-            <View style={styles.titleContainer}>
-                <Text style={styles.title}>Encuentra tu alma en cada rincón de nuestra tierra.</Text>
-            </View>
+        <View style={styles.container}>
+            <ScrollView horizontal={true} nestedScrollEnabled={true} contentContainerStyle={styles.scrollViewContent}>
+                <View style={styles.imageList}>
 
-            <View style={styles.imageList}>
-                <View style={styles.column}>
-                    {column1.map((image, index) => (
-                        <View key={`column2-${index}`} style={[styles.imageItem, { height: getImageHeight(index) }]}>
-                             <ImgModal img={image} />
+
+                    {placeData && placeData.ImagesID ? (
+                        placeData.ImagesID.map((image, index) => (
+                            <View key={index} style={styles.imageItem}>
+                                <ImgModal img={image} />
+                            </View>
+                        ))
+                    ) : (
+                        <View style={{}}>
+                            <Image style={{ width: '70%', height: '100%' }} source={ImaNot} ></Image>
                         </View>
-                    ))
-                    }
+                    )}
                 </View>
-                <View style={styles.column}>
-                    {column2.map((image, index) => (
-                        <View key={`column2-${index}`} style={[styles.imageItem, { height: getImageHeight1(index) }]}>
-                            <ImgModal img={image} />
-                        </View>
-                    ))}
-                </View>
-            </View>
-        </ScrollView>
+            </ScrollView>
+
+
+
+        </View>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingHorizontal: wp('5%'),
-        paddingTop: hp('2%'),
+        backgroundColor: '#fff',
+        marginHorizontal: wp('5%')
     },
-    titleContainer: {
-        marginHorizontal: wp('5%'),
-        marginBottom: hp('2%'),
-        backgroundColor:'#d3f2ff',
-        borderRadius:20
-    },
-    title: {
-        fontSize: wp('6%'),
-        fontWeight: 'bold',
-        textAlign:'center',
-        fontWeight:'300',
-        color:'#08445a'
+    scrollViewContent: {
+        minWidth: wp('100%'),
+        marginVertical: hp('1%')
     },
     imageList: {
         flexDirection: 'row',
-        justifyContent: 'space-between', 
-    },
-    column: {
-        flex: 1,
+        height: hp('10%'),
     },
     imageItem: {
-        marginBottom: hp('2%'),
-        marginHorizontal: wp('1%'),
+        marginHorizontal: wp('2%'),
         borderRadius: 10,
         overflow: 'hidden',
-
-
-        shadowColor: '#092b5a',
-        shadowOffset: { width: 0, height: 6 },
-        shadowOpacity: 0.37,
-        shadowRadius: 7.49,
-        elevation: 12, // Android shadow
-    },
-    image: {
-        flex: 1,
-        resizeMode: 'cover',
-        width: 260,
-        height: 250,
-        
     },
 });
 

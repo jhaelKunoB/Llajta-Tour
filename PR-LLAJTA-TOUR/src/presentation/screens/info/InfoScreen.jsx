@@ -1,19 +1,20 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, ActivityIndicator, Image } from 'react-native';
 
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { Ionicons, FontAwesome, MaterialIcons } from '@expo/vector-icons';
+import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import { Video, ResizeMode } from 'expo-av'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { LinearGradient } from 'expo-linear-gradient';
+import Loandin from './assets/loading.gif'
 
 
 
+import Calendar from './CoponentInfo/Calendar'
 import InfoCon from './CoponentInfo/InfoCon'
 import ImageNow from './CoponentInfo/ImagesNow'
 import AudioInfo from './CoponentInfo/AudioInfo'
-
-import { getPlace } from './Controler/firebaseService'//para poder conectar con fire base
+import { getPlace } from './Controler/firebaseService'
 
 
 
@@ -22,11 +23,15 @@ const InfoScreen = () => {
 
     const navigation = useNavigation()
     const video = useRef(null);
-    const [isPlaying, setIsPlaying] = useState(false);
+    const [isMuted, setIsMuted] = useState(true);
+    const [isFavorite, setFavorite] = useState(false)
+
+
     const [placeData, setPlaceData] = useState(null); //definimos una variable para al macenar el Lugar
-    const [isLoading, setIsLoading] = useState(true); 
+    const [isLoading, setIsLoading] = useState(true);
     const route = useRoute();
     const { Id } = route.params;
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -36,8 +41,8 @@ const InfoScreen = () => {
                 setIsLoading(false); // Marcar la carga como completa
                 console.log("datos", data);
             } catch (error) {
-                console.error("Error al obtener los datos:", error);
-                setIsLoading(false);
+                console.error("Error al obtener los datos");
+                setIsLoading(true);
             }
         };
         fetchData();
@@ -45,101 +50,145 @@ const InfoScreen = () => {
 
 
 
-      // Mostrar indicador de carga mientras se obtienen los datos
+    // Mostrar indicador de carga mientras se obtienen los datos
     if (isLoading) {
         return (
             <View style={styles.loadingContainer}>
-                <ActivityIndicator size='large' color="blue" />
+                <Image source={Loandin}></Image>
             </View>
         );
     }
 
 
-    //para pausar o play
-    const togglePlayPause = () => {
 
+    const toggleMute = () => {
         if (video.current) {
-            if (isPlaying) {
-                video.current.pauseAsync();
-            } else {
-                video.current.playAsync();
-            }
+            setIsMuted(prevIsMuted => {
+                video.current.setIsMutedAsync(!prevIsMuted);
+                return !prevIsMuted;
+            });
         }
     };
+
+    const SetCalendar = (data) => {
+        console.log('estos son las hora', data)
+    }
+
+
 
 
     return (
         <ScrollView style={styles.Container} nestedScrollEnabled={true}>
 
             <View style={styles.ContVideo}>
-                <Video ref={video}
-                    source={{ uri: placeData.Video}}
-                    resizeMode={ResizeMode.STRETCH}
-                    isLooping
-                    volume={0.1}
-                    //shouldPlay
-                    onPlaybackStatusUpdate={status => {
-                        if (status.isPlaying !== undefined) {
-                            setIsPlaying(status.isPlaying);
-                        }
-                    }}
-                    style={styles.VideoStyle}></Video>
+
+                {placeData && placeData.Video ? (
+
+                    <Video ref={video}
+                        source={{ uri: placeData.Video }}
+                        resizeMode={ResizeMode.STRETCH}
+                        isLooping
+                        volume={0.3}
+                        shouldPlay
+                        setIsMuted={true}
+                        isMuted={isMuted}
+                        style={styles.VideoStyle}></Video>
+                ) : (
+                    <View style={styles.VideoStyle}>
+                        <Image source={{ uri: placeData.ImagesID[0] }} resizeMode='cover' style={{ width: '100%', height: '100%' }}></Image>
+                    </View>
+                )}
 
 
                 <LinearGradient style={styles.overlay}
                     colors={['rgba(41, 42, 42, 0.8)', 'rgba(255, 255, 255, 0)', 'rgba(255, 255, 255, 0)', 'rgba(255, 255, 255, 0)',]}
                     start={{ x: 1, y: 1 }}
                     end={{ x: 1, y: 0 }}>
-
                     <View style={styles.ContBack}>
-                        <TouchableOpacity onPress={() => navigation.goBack()}>
-                            <Ionicons name="chevron-back" style={styles.IconBack} size={wp('9%')} color="#8dbba0" />
+                        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.Contback1}>
+                            <Ionicons name="chevron-back" style={styles.IconBack} size={wp('10%')} color={'white'} />
                         </TouchableOpacity>
-                    </View>
 
-                    <View style={styles.conteCityPlay}>
-                        <View style={styles.TextCity}>
-                                <Text style={{color:'white'}}>{placeData.DepartmentID.Name} - {placeData.ProvinceID.Name}</Text>
+                        {placeData && placeData.Video ? (
+                            <TouchableOpacity onPress={() => toggleMute()}>
+                                <Ionicons name={isMuted ? "mic-off" : "mic"} style={styles.IconSound} color={'white'} size={wp('8%')} />
+                            </TouchableOpacity>
+                        ) : (
+                            <View></View>
+                        )}
+
+                    </View>
+                </LinearGradient>
+
+
+
+                <View style={styles.contTittle}>
+                    <View style={styles.contMicrTitll}>
+                        <View style={{ flex: 4, justifyContent: 'center', marginLeft: wp('5%') }}>
+                            <Text style={styles.textTittle}>{placeData.Name}</Text>
                         </View>
 
-                        <View style={styles.ContplayIcon}>
-                            <TouchableOpacity onPress={() => togglePlayPause()}>
-                                <Ionicons name={isPlaying ? "pause-circle-sharp" : "play-circle-sharp"} style={styles.IconPlay} color={'#009194'} size={wp('10%')} />
+                        <View style={{ flex: 1, alignItems: 'center' }}>
+                            <TouchableOpacity onPress={() => setFavorite(true)}>
+                                <Ionicons name={'heart'} style={isFavorite ? styles.HeardIconRed : styles.HeardIcon} />
                             </TouchableOpacity>
                         </View>
-                    </View >
-                </LinearGradient>
-            </View>
-
-            <View style={styles.contTittle}>
-                <Text style={styles.textTittle}>{placeData.Name}</Text>
-            </View>
-
-            <View style={styles.contLocation}>
-                <View style={styles.txtDireccion}>
-                    <Ionicons name='location' color={'#070743'} size={20} />
-                    <Text style={styles.direccionTxt}>{placeData.Address}</Text>
-                </View>
-                <View style={styles.txtDireccion}>
-                    <Ionicons name='time' color={'#070743'} size={20} />
-                    <Text style={styles.timeTxt}> 
-                    {placeData.Hours ? (
-                        `${placeData.Hours.Lunes.HourOpen} - ${placeData.Hours.Lunes.HourClose}`
-                    ) : (
-                        <Ionicons name="infinite-sharp" size={24} color="black" />
-                    )}
-                     </Text>
+                    </View>
                 </View>
             </View>
+
+
+
+
+
+
+
+
+
+
+
+            <View style={styles.contOptions}>
+                <View style={{ flex: 1 }}>
+                    <TouchableOpacity>
+                        <FontAwesome name={'location-arrow'} style={styles.LocationIcon} color={'#0F1035'} size={wp('6%')} />
+                    </TouchableOpacity>
+                </View>
+                <View style={{ flex: 1 }}>
+                    <TouchableOpacity onPress={() => SetCalendar(placeData.Hours)}>
+                        <Calendar data={placeData.Hours}/>
+                    </TouchableOpacity>
+                </View>
+                <View style={{ flex: 3, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                </View>
+            </View>
+
+            <View style={{ marginHorizontal: wp('10%') }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 8 }}>
+                    <View style={{ flex: 1 }}>
+                        <Ionicons name='location' color={'#164863'} size={wp('6%')} />
+                    </View>
+                    <View style={{ flex: 8 }}>
+                        <Text style={styles.direccionTxt}>{placeData.Address}</Text>
+                    </View>
+                </View>
+            </View>
+
+
 
 
             <View style={styles.separator} />
-            {/* para el Audio */}
-            <AudioInfo data={placeData}/>
-            {/* para mostar los datos */}
-             <InfoCon data={placeData} />   
+
             {/* para las Imagens de Haora */}
-              <ImageNow data={placeData} />
+            <ImageNow data={placeData} />
+
+            {/* para mostar los datos */}
+            <InfoCon data={placeData} />
+
+            {/* para el Audio */}
+            <AudioInfo data={placeData.Audio} />
+
+
+
         </ScrollView>
     );
 };
@@ -147,6 +196,47 @@ const InfoScreen = () => {
 export default InfoScreen
 
 const styles = StyleSheet.create({
+
+    ContVideo: {
+        position: 'relative',
+    },
+
+    VideoStyle: {
+        width: '100%',
+        height: hp('50%'),
+    },
+
+    overlay: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+    },
+    ContBack: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginTop: hp('4%'),
+    },
+
+    Contback1: {
+        backgroundColor: 'rgba(33, 53, 85,0.7)',
+        borderRadius: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingRight: 2,
+        marginLeft: wp('4%')
+    },
+
+    IconSound: {
+        backgroundColor: 'rgba(33, 53, 85,0.6)',
+        borderRadius: wp('3%'),
+        marginHorizontal: wp('6%'),
+        marginVertical: wp('4%')
+    },
+
+
 
     separator: {
         borderBottomColor: '#547775',
@@ -161,40 +251,46 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor:'white'
     },
 
     //para el video
     Container: {
         backgroundColor: 'white'
     },
-    ContVideo: {
-        position: 'relative',
-    },
-    VideoStyle: {
-        width: '100%',
-        height: hp('35%'),
-        borderBottomLeftRadius: 30,
-        borderBottomRightRadius: 30
-    },
 
-    overlay: {
+
+
+
+    //estilos para el titulo
+    contTittle: {
         position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        borderBottomLeftRadius: wp('8%'),
-        borderBottomRightRadius: wp('8%')
+        marginTop: wp('95%'),
+        width: wp('100%'),
     },
 
-    ContBack: {
-        flex: 1,
-        alignItems: 'flex-start'
-    },
-
-    conteCityPlay: {
+    contMicrTitll: {
         flexDirection: 'row',
+        marginHorizontal: wp('5%'),
+        backgroundColor: 'white',
+        borderRadius: 30,
+        paddingVertical: 10,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 4,
+        elevation: 8,
     },
+
+
+
+    textTittle: {
+        textAlign: 'auto',
+        color: '#0F1035',
+        fontSize: wp('4.5%'),
+        fontWeight: '400',
+    },
+
 
     ContplayIcon: {
         flex: 1,
@@ -202,49 +298,53 @@ const styles = StyleSheet.create({
         alignItems: 'flex-end',
     },
 
-    IconPlay: {
-        backgroundColor: 'white',
-        borderRadius: wp('3%'),
-        marginHorizontal: wp('6%'),
-        marginVertical: wp('4%')
+
+    //para el Icono de Localisacion
+    LocationIcon: {
+        backgroundColor: 'rgba(154, 200, 205, 0.4)',
+        borderRadius: 10,
+        paddingHorizontal: 11,
+        paddingVertical: hp('2%'),
+        width: wp('15%'),
+        textAlign: 'center'
     },
 
-    IconBack: {
-        marginHorizontal: wp('4%'),
-        marginVertical: wp('10%')
+
+
+
+
+
+
+    HeardIcon: {
+        backgroundColor: 'rgba(154, 200, 205, 0.4)',
+        borderRadius: 50,
+        paddingHorizontal: wp('3%'),
+        paddingVertical: hp('1.3%'),
+        color: 'white',
+        fontSize: wp('7%')
     },
 
-    TextCity:{
-        flex:1,
-        justifyContent:"flex-end",
-        paddingLeft:wp('5%'),
-        paddingBottom:wp('4%')
+    HeardIconRed: {
+        backgroundColor: 'rgba(255, 32, 78, 0.6)',
+        borderRadius: 50,
+        paddingHorizontal: wp('3%'),
+        paddingVertical: hp('1.3%'),
+        color: 'red',
+        fontSize: wp('7%')
     },
 
-    //backgroundColor: 'rgba(54, 98, 115, 0.9)',
+    //----------------------------------------------------
 
 
-    //-----------------------------------------------------------------------------------------
-
-    //estilos para el titulo
-    contTittle: {
-        marginTop: wp('4%'),
-        marginHorizontal: wp('5%'),
-    },
-
-    textTittle: {
-        color: '#1c5560',
-        fontSize: wp('8%'),
-        fontWeight: '600',
-    },
 
 
 
     //para la localisacion y la Hora
-    contLocation: {
-        flexDirection:'row',
-        marginHorizontal: wp('4%'),
+    contOptions: {
+        flexDirection: 'row',
+        marginHorizontal: wp('6%'),
         paddingVertical: hp('1%'),
+        marginTop: hp('7%')
     },
 
     txtDireccion: {
@@ -259,17 +359,8 @@ const styles = StyleSheet.create({
     direccionTxt: {
         fontSize: wp('3%'),
         marginLeft: wp('2%'),
-        color:'#08445a'
+        color: '#08445a',
+        textAlign: 'justify'
     },
-
-    timeTxt: {
-        fontSize: wp('3%'),
-        marginLeft: wp('2%'),
-        color:'#08445a'
-    },
-
-
-
-
 })
 
