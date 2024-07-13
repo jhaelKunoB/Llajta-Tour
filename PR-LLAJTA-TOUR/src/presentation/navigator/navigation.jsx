@@ -12,19 +12,22 @@ import Home from '../screens/home/Home.jsx'
 import CategoryScreen from '../screens/category/CategoryScreen.jsx'
 import Place from '../screens/place/placescreen.jsx'
 import SearchPlace from '../screens/findplaces/SearchPlace.jsx'
+import Info from '../screens/info/InfoScreen.jsx'
 
-const Stack = createNativeStackNavigator()
-const Tab = createBottomTabNavigator()
+const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
 function MyStack() {
     return (
         <Stack.Navigator initialRouteName="Presentation">
             <Stack.Screen name="Presentation" component={Presentation} options={{ headerShown: false }} />
             <Stack.Screen name="Home" component={MyTaps} options={{ headerShown: false }} />
-            <Stack.Screen name="SearchPLace" component={SearchPlace} options={{ headerTitle: "Descubre Lugares" }} />
+            <Stack.Screen name="Info" component={Info} options={{ headerShown: false }} />
+            <Stack.Screen name="SearchPlace" component={SearchPlace} options={{ headerShown: false }} />
         </Stack.Navigator>
-    )
+    );
 }
+
 function MyTaps() {
     return (
         <Tab.Navigator initialRouteName="HomeScreen"
@@ -33,6 +36,14 @@ function MyTaps() {
                 tabBarActiveTintColor: '#366273',
                 tabBarInactiveTintColor: '#888'
             }}>
+            <Tab.Screen name="Categorias" component={CategoryScreen}
+                options={{
+                    tabBarShowLabel: false,
+                    tabBarIcon: ({ color, size, focused }) => (
+                        <View style={[NavigationStyle.Icon, focused && NavigationStyle.activeBackground]}>
+                            <Ionicons name="list-outline" size={size} color={color} />
+                        </View>)
+                }} />
             <Tab.Screen name="HomeScreen" component={Home}
                 options={{
                     headerShown: false,
@@ -42,26 +53,16 @@ function MyTaps() {
                             <Ionicons name="home-outline" size={size} color={color} />
                         </View>)
                 }} />
-            <Tab.Screen name="Category" component={CategoryScreen}
-                options={{
-                    tabBarShowLabel: false,
-                    tabBarIcon: ({ color, size, focused }) => (
-                        <View style={[NavigationStyle.Icon, focused && NavigationStyle.activeBackground]}>
-                            <Ionicons name="list-outline" size={size} color={color} />
-                            <Text style={[NavigationStyle.TextIcon, focused && NavigationStyle.FocusText]}>Categoria</Text>
-                        </View>)
-                }} />
             <Tab.Screen name="Lugares" component={Place}
                 options={{
                     tabBarShowLabel: false,
                     tabBarIcon: ({ color, size, focused }) => (
                         <View style={[NavigationStyle.Icon, focused && NavigationStyle.activeBackground]}>
                             <Ionicons name="location-outline" size={size} color={color} />
-                            <Text style={[NavigationStyle.TextIcon, focused && NavigationStyle.FocusText]}>Lugares</Text>
                         </View>)
                 }} />
         </Tab.Navigator>
-    )
+    );
 }
 
 const Navigation = () => {
@@ -69,8 +70,7 @@ const Navigation = () => {
         <NavigationContainer>
             <MyStack />
         </NavigationContainer>
-    )
+    );
 }
 
-export default Navigation
-
+export default Navigation;

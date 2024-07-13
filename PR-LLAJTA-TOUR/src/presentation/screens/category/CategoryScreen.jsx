@@ -1,12 +1,34 @@
-import React from 'react';
-import {View,Text} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import ListCategories from '../../components/ListCategories';
+import { fetchAllCategories } from '../category/controller/CategoryController';
 import CategoryStyle from './styles/CategoryStyle';
 
-const CategoryScreen =() => {
+const CategoryScreen = () => {
+    const navigation = useNavigation();
+    const [categories, setCategories] = useState([]);
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const categoriesData = await fetchAllCategories();
+                setCategories(categoriesData);
+            } catch (error) {
+                console.error("Error fetching categories:", error);
+            }
+        };
+
+        fetchCategories();
+    }, []);
+
+    const handleCategoryPress = (id) => {
+        navigation.navigate('CategoryDetailScreen', { categoryId: id });
+    };
 
     return (
-        <View style={CategoryStyle.Background}>
-            <Text>Category Screen</Text>
+        <View style={CategoryStyle.container}>
+            <ListCategories data={categories} onPress={handleCategoryPress} />
         </View>
     );
 };

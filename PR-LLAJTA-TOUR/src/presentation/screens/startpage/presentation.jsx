@@ -1,39 +1,32 @@
-import { Text, View, Image, TouchableOpacity } from 'react-native'
+import { Text, View, Image, TouchableOpacity, ImageBackground} from 'react-native'
 import { useNavigation } from '@react-navigation/native';
-import { LinearGradient } from 'expo-linear-gradient';
 import PresentationStyle from './styles/PresentationStyle';
+import { FontAwesome } from '@expo/vector-icons';
+
 //Imagenes
-import Sajama from './assets/WelcomeCollage.png'
-import Title from './assets/Title.png'
-import Background from './assets/Background.png'
+import Background from './assets/Android_Large_-_4-transformed.jpeg'
+import Logo from './assets/logo.png'
 
 const Presentation = () => {
     const navigation = useNavigation()
     return (
-        <View style={PresentationStyle.Container} >
-            <Image source={Background} style={PresentationStyle.ImgPaisaje}  ></Image>
+
+        <ImageBackground source={Background} style={PresentationStyle.ImgPaisaje} resizeMode='cover' >
             <View style={PresentationStyle.ContainerTitle}>
-                <Image source={Title} style={PresentationStyle.ImgTamanio} ></Image>
-            </View>
-            <View style={PresentationStyle.ContenBackground}>
-                <Image source={Sajama} style={PresentationStyle.ImgFondo}  ></Image>
-                <View style={PresentationStyle.WelcomeText}>
-                    <Text style={PresentationStyle.TextBien}>¡Descubre lo Increíble!</Text>
-                    <Text style={PresentationStyle.StyleText}>Emprende un viaje lleno de maravillas y aventuras inolvidables.</Text>
+                <View style={{flex:2, justifyContent:'center', alignItems:'center'}}>
+                    <Image source={Logo} style={PresentationStyle.ImgLogo}></Image>
+                    <Text style={PresentationStyle.titulotyle}>𝓛𝓵𝓪𝓳𝓽𝓪𝓣𝓸𝓾𝓻</Text>
+                </View>
+                <View style={PresentationStyle.contTounch}>
+                    <TouchableOpacity onPress={() => navigation.navigate("Home")}>
+                        <View style={PresentationStyle.FondoButtom}>
+                            <FontAwesome name="arrow-right" size={40} color="#4D869C" style={PresentationStyle.IconArrow} />
+                        </View>
+                    </TouchableOpacity>
                 </View>
             </View>
-            <View style={PresentationStyle.ContenBotomText}>
-                <LinearGradient
-                    style={PresentationStyle.ButtonContinuar}
-                    colors={['#1B3A4B', '#3B8C88', '#A8D8D1']}
-                    start={{ x: 0, y: 0 }}
-                    end={{ x: 1, y: 1 }}>
-                    <TouchableOpacity onPress={() => navigation.navigate("Home")}  >
-                        <Text style={PresentationStyle.TextContinuar}>Inicia tu Aventura</Text>
-                    </TouchableOpacity>
-                </LinearGradient>
-            </View>
-        </View>
+        </ImageBackground>
     )
 }
 export default Presentation
+

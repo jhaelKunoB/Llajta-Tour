@@ -1,28 +1,23 @@
-import {View, Text, Image, TouchableOpacity} from 'react-native'
+import { View, Text, Image } from 'react-native'
 import { Icon } from 'react-native-elements'
 import PlaceCardStyle from './styles/PlaceCardStyle'
 
-import ImgPaisaje from '../assets/melissani-grecia-1.jpg'
-
-
-const PlaceCards = () =>{
-    return(
-      
-            <TouchableOpacity style={PlaceCardStyle.Container}>
-                <View style={PlaceCardStyle.imageContainer}>
-                    <Image source={ImgPaisaje} style={PlaceCardStyle.ImagePai} ></Image>
-                </View>
-
-                <View style={PlaceCardStyle.StyleCard}>
-                    <Text style={PlaceCardStyle.tittle}>Palacio Portales</Text>    
-                    <View style={PlaceCardStyle.location}>
-                        <Icon name='room' color={'#407373'} size={26} />     
-                        <Text>C. Cochabamba, Av. Collpapampa</Text>
+const PlaceCards = ({ data }) => {
+    return (
+        <View style={PlaceCardStyle.Container}>
+                    <View style={PlaceCardStyle.imageContainer}>
+                        <Image source={{uri: data.ImagesID[0]}} style={PlaceCardStyle.ImagePai} ></Image>
                     </View>
-                </View>  
-            </TouchableOpacity> 
+                    <View style={PlaceCardStyle.StyleCard}>
+                        <Text style={PlaceCardStyle.tittle}>{data.Name}</Text>
+                        <View style={PlaceCardStyle.location}>
+                            <Icon name='room' color={'#407373'} size={26} />
+                            <Text>{data.Address}</Text>
+                        </View>
+                    </View>
+        </View>
     )
 }
-export default  PlaceCards
+export default PlaceCards
 
 

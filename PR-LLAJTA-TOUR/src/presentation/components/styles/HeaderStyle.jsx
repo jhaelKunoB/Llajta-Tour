@@ -4,10 +4,10 @@ const HeaderStyle = StyleSheet.create({
     Header:{
         flexDirection:'row',
         width:'100%',
-        height:75,
+        height:100,
+        paddingTop:25
     },
 
-    //contenedores
     contLogo:{
         width:'40%', 
         justifyContent:'flex-start', 
@@ -26,11 +26,9 @@ const HeaderStyle = StyleSheet.create({
     Logo:{
         width:'37%',
         height:'80%',
-        resizeMode:'contain'
     },
     Titulo:{
        width:'65%',
-       resizeMode:'contain'
     },
 });
 
