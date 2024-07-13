@@ -80,7 +80,7 @@ const Body = () => {
                             <View style={BodyStyle.textContainer}>
                                 <Text style={BodyStyle.title}>{item.title}</Text>
                                 <View style={BodyStyle.locationContainer}>
-                                    <Icon name="map-marker-alt" size={16} color="gray" style={BodyStyle.locationIcon} />
+                                    <Icon name="map-marker-alt" size={16} color="#164863" style={BodyStyle.locationIcon} />
                                     <Text style={BodyStyle.text}>{item.ubication}</Text>
                                 </View>
                             </View>

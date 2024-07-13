@@ -7,7 +7,7 @@ import Body from '../../components/Body';
 
 const HomeScreen = () => {
     return (
-        <ScrollView style={HomeStyle.container}>
+        <ScrollView style={HomeStyle.container} nestedScrollEnabled={true}>
             <View style={HomeStyle.background}>
                 <Header />
                 <Body />

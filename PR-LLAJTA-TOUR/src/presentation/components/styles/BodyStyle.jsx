@@ -9,19 +9,19 @@ const BodyStyle = StyleSheet.create({
     title: {
         fontSize: 17,
         fontWeight: 'bold',
-        marginBottom: 5
+        marginBottom: 5,
+        color: '#164863',
     },
     textContainer: {
         position: 'absolute',
         bottom: 5,
         left: 5,
         right: 5,
-        backgroundColor: 'rgba(220, 242, 240, 0.8)',
+        backgroundColor: 'rgba(255, 255, 255, 0.8)',
         padding: 10,
         borderRadius: 15,
     },
     text: {
-        color: 'gray',
         fontSize: 15,
     },
     heading: {
@@ -67,7 +67,7 @@ const BodyStyle = StyleSheet.create({
         margin: 10,
         marginTop: 0,
         padding: 10,
-        backgroundColor: '#f2f2f2',
+        backgroundColor: 'rgb(235, 244, 246)',
         borderRadius: 10,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
@@ -94,16 +94,18 @@ const BodyStyle = StyleSheet.create({
     },
     headerText: {
         fontSize: 20,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        color:'#11394f'
     },
     headerText1: {
         fontSize: 30,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        color:'#11394f'
     },
     showAllText: {
         fontSize: 16,
-        fontWeight: 'bold',
-        color: '#007BFF'
+        //fontWeight: 'bold',
+        color: '#164863'
     },
     container: {
         marginTop: 50,
@@ -115,7 +117,7 @@ const BodyStyle = StyleSheet.create({
         borderBottomWidth: 0,
     },
     inputContainer: {
-        backgroundColor: '#f2f2f2',
+        backgroundColor: 'rgb(235, 244, 246)',
         borderRadius: 20,
         height: 50,
     }, 
