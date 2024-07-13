@@ -14,10 +14,8 @@ import Place from '../screens/place/placescreen.jsx'
 import SearchPlace from '../screens/findplaces/SearchPlace.jsx'
 import Info from '../screens/info/InfoScreen.jsx'
 
-
-
-const Stack = createNativeStackNavigator()
-const Tab = createBottomTabNavigator()
+const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
 function MyStack() {
     return (
@@ -25,9 +23,11 @@ function MyStack() {
             <Stack.Screen name="Presentation" component={Presentation} options={{ headerShown: false }} />
             <Stack.Screen name="Home" component={MyTaps} options={{ headerShown: false }} />
             <Stack.Screen name="Info" component={Info} options={{ headerShown: false }} />
+            <Stack.Screen name="SearchPlace" component={SearchPlace} options={{ headerShown: false }} />
         </Stack.Navigator>
-    )
+    );
 }
+
 function MyTaps() {
     return (
         <Tab.Navigator initialRouteName="HomeScreen"
@@ -36,6 +36,14 @@ function MyTaps() {
                 tabBarActiveTintColor: '#366273',
                 tabBarInactiveTintColor: '#888'
             }}>
+            <Tab.Screen name="Categorias" component={CategoryScreen}
+                options={{
+                    tabBarShowLabel: false,
+                    tabBarIcon: ({ color, size, focused }) => (
+                        <View style={[NavigationStyle.Icon, focused && NavigationStyle.activeBackground]}>
+                            <Ionicons name="list-outline" size={size} color={color} />
+                        </View>)
+                }} />
             <Tab.Screen name="HomeScreen" component={Home}
                 options={{
                     headerShown: false,
@@ -43,23 +51,6 @@ function MyTaps() {
                     tabBarIcon: ({ color, size, focused }) => (
                         <View style={[NavigationStyle.Icon, focused && NavigationStyle.activeBackground]}>
                             <Ionicons name="home-outline" size={size} color={color} />
-                        </View>)
-                }} />
-            <Tab.Screen name="Busqueda" component={SearchPlace}
-                options={{
-                    headerShown: false,
-                    tabBarShowLabel: false,
-                    tabBarIcon: ({ color, size, focused }) => (
-                        <View style={[NavigationStyle.Icon, focused && NavigationStyle.activeBackground]}>
-                            <Ionicons name="search" size={size} color={color} />
-                        </View>)
-                }} />
-            <Tab.Screen name="Categorias" component={CategoryScreen}
-                options={{
-                    tabBarShowLabel: false,
-                    tabBarIcon: ({ color, size, focused }) => (
-                        <View style={[NavigationStyle.Icon, focused && NavigationStyle.activeBackground]}>
-                            <Ionicons name="list-outline" size={size} color={color} />
                         </View>)
                 }} />
             <Tab.Screen name="Lugares" component={Place}
@@ -71,7 +62,7 @@ function MyTaps() {
                         </View>)
                 }} />
         </Tab.Navigator>
-    )
+    );
 }
 
 const Navigation = () => {
@@ -79,8 +70,7 @@ const Navigation = () => {
         <NavigationContainer>
             <MyStack />
         </NavigationContainer>
-    )
+    );
 }
 
-export default Navigation
-
+export default Navigation;

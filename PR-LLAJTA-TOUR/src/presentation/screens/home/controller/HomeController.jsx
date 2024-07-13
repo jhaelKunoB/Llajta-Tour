@@ -26,7 +26,7 @@ export const fetchAllPlaces = async () => {
     }
 };
 
-export const fetchSomeCategories = async (limit = 5) => {
+export const fetchSomeCategories = async (limit = 4) => {
     try {
         const categoryCollection = collection(db, 'Category');
         const categorySnapshot = await getDocs(categoryCollection);

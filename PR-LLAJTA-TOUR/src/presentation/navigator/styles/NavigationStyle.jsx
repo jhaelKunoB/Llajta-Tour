@@ -6,7 +6,7 @@ const NavigationStyle = StyleSheet.create({
         position: 'absolute',
         borderRadius: 21,
         marginHorizontal: 15,
-        marginBottom: 5,
+        marginBottom: 10,
         backgroundColor: '#DCF2F0'
     },
     Icon: {

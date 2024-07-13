@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 const BodyStyle = StyleSheet.create({
     sliderImage: {
         width: 250,
-        height: 270,
+        height: 290,
         borderRadius: 20,
     },
     title: {
@@ -16,7 +16,7 @@ const BodyStyle = StyleSheet.create({
         bottom: 5,
         left: 5,
         right: 5,
-        backgroundColor: 'rgba(255, 255, 255, 0.8)',
+        backgroundColor: 'rgba(220, 242, 240, 0.8)',
         padding: 10,
         borderRadius: 15,
     },
@@ -61,15 +61,29 @@ const BodyStyle = StyleSheet.create({
     locationIcon: {
         marginRight: 5
     },
+    categoryCard: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        margin: 10,
+        marginTop: 0,
+        padding: 10,
+        backgroundColor: '#f2f2f2',
+        borderRadius: 10,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2,
+        elevation: 5,
+    },
     categoryImage: {
-        width: 70,
-        height: 70,
+        width: 80,
+        height: 80,
         borderRadius: 10,
         marginRight: 10
     },
     categoryTitle: {
         fontSize: 16,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
     },
     headerContainer: {
         flexDirection: 'row',
@@ -104,10 +118,10 @@ const BodyStyle = StyleSheet.create({
         backgroundColor: '#f2f2f2',
         borderRadius: 20,
         height: 50,
-    },
+    }, 
     leftIconContainer: {
         marginLeft: 10,
-    },
+    }, 
     rightIconContainer: {
         marginRight: 10,
     },

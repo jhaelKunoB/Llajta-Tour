@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Image, useWindowDimensions, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Image, useWindowDimensions, Text, FlatList, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import BodyStyle from '../components/styles/BodyStyle';
 import { fetchAllPlaces, fetchSomeCategories } from '../screens/home/controller/HomeController'; // Asegúrate de que la ruta sea correcta
@@ -8,7 +8,6 @@ import { SearchBar } from 'react-native-elements';
 
 const Body = () => {
     const { width } = useWindowDimensions();
-    const size = width * 0.7;
     const [places, setPlaces] = useState([]);
     const [categories, setCategories] = useState([]);
     const nav = useNavigation();
@@ -46,10 +45,14 @@ const Body = () => {
         nav.navigate("Categorias");
     };
 
+    const handleSearchFocus = () => {
+        nav.navigate("SearchPlace");
+    };
+
     return (
-        <View style={{ marginBottom: 60 }}>
-           <View style={{marginLeft:10}}>
-                <Text style={BodyStyle.headerText1}>Explora las maravillas de </Text>
+        <View style={{ marginBottom: 70 }}>
+            <View style={{ marginLeft: 10 }}>
+                <Text style={BodyStyle.headerText1}>Explora las maravillas de</Text>
                 <Text style={BodyStyle.headerText1}>Cochabamba</Text>
             </View>
             <SearchBar
@@ -62,6 +65,7 @@ const Body = () => {
                 rightIconContainerStyle={BodyStyle.rightIconContainer}
                 searchIcon={{ type: 'font-awesome', name: 'search' }}
                 clearIcon={{ type: 'font-awesome', name: 'usd' }}
+                onFocus={handleSearchFocus}
             />
             <View style={BodyStyle.headerContainer}>
                 <Text style={BodyStyle.headerText}>Lugares Favoritos</Text>
@@ -98,7 +102,7 @@ const Body = () => {
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({ item }) => (
                     <TouchableOpacity onPress={() => handleImagePress(item.ref)}>
-                        <View style={{ flexDirection: 'row', alignItems: 'center', margin: 10, marginTop: 0 }}>
+                        <View style={BodyStyle.categoryCard}>
                             <Image source={{ uri: item.image }} style={BodyStyle.categoryImage} />
                             <Text style={BodyStyle.categoryTitle}>{item.title}</Text>
                         </View>
