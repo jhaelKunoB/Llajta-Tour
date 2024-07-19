@@ -16,8 +16,8 @@ const Body = () => {
         const fetchPlaces = async () => {
             try {
                 const placesData = await fetchAllPlaces();
-                console.log("Fetched places:", placesData); // Agrega esto para ver los datos
-                setPlaces(placesData.filter(place => place.image)); // Filtrar lugares que tienen imagen
+                console.log("Fetched places:", placesData);
+                setPlaces(placesData.filter(place => place.image));
             } catch (error) {
                 console.error("Error fetching places:", error);
             }
@@ -26,7 +26,7 @@ const Body = () => {
         const fetchCategories = async () => {
             try {
                 const categoriesData = await fetchSomeCategories();
-                console.log("Fetched categories:", categoriesData); // Agrega esto para ver los datos
+                console.log("Fetched categories:", categoriesData);
                 setCategories(categoriesData);
             } catch (error) {
                 console.error("Error fetching categories:", error);
@@ -75,7 +75,7 @@ const Body = () => {
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({ item }) => (
                     <TouchableOpacity onPress={() => handleImagePress(item.ref)}>
-                        <View style={{ margin: 10, marginTop: 0 }}>
+                        <View style={BodyStyle.carouselItem}>
                             <Image source={{ uri: item.image }} style={BodyStyle.sliderImage} />
                             <View style={BodyStyle.textContainer}>
                                 <Text style={BodyStyle.title}>{item.title}</Text>
