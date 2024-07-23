@@ -69,17 +69,19 @@ const Calendar = ({ data }) => {
                                 )}
                             />
                         ) : (
-                            <View style={{ with:'100%', height:'45%', justifyContent:'center'}}>
+                            <View style={{ with:'100%', height:'45%', justifyContent:'center', alignItems:'center'}}>
                                 <Image source={NotHour} style={styles.notImage} resizeMode='cover'></Image>
-                                <Text style={styles.textNotHour}>Este lugar siempre está abierto.</Text>
+                                <Text style={styles.textNotHour}>Este sitio está disponible a cualquier hora</Text>
                             </View>
                         )}
                     </View>
                 </View>
             </Modal>
+
             <Pressable onPress={() => setModalVisible(true)}>
                 <FontAwesome name={'calendar'} style={styles.CalendarIcon} />
             </Pressable>
+
         </View>
     );
 };
@@ -135,7 +137,7 @@ const styles = StyleSheet.create({
         width: wp('15%'),
         textAlign: 'center',
         color: '#006769',
-        fontSize: wp('6%')
+        fontSize: wp('6%'),
     },
 
     centeredView: {

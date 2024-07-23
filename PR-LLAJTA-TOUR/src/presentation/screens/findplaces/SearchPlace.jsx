@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ScrollView, View, TouchableOpacity, Image } from 'react-native'
+import { ScrollView, View, TouchableOpacity, Image, Button } from 'react-native'
 import { SearchBar } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from "@react-navigation/native";
@@ -11,21 +11,16 @@ import { widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import styles from "./styles/FindPlacesStyle";
 import ImgSearch from './assets/Losearch.gif'
 
-
 import { getAllPlaces } from './Controler/firebaseSerch';
 
-
-
-
+import { auth } from "../../../../database/firebase";
+import { getAuth, signOut } from 'firebase/auth';
 
 const SearchPlace = () => {
 
     const navigation = useNavigation();
-
     const [searchText, setSearchText] = useState('')
     const [placeData, setPlaceData] = useState(null)
-
-
     const [placefind, setPlaceFind] = useState([])
     const [isName, setName] = useState([])
 
@@ -60,7 +55,6 @@ const SearchPlace = () => {
         }
     };
 
-
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -73,7 +67,21 @@ const SearchPlace = () => {
         fetchData();
     }, []);
 
+
+
+    const handleSignOut = async () => {
+        const authInstance = getAuth();
+        try {
+          await signOut(authInstance);
+          console.log('Signed out successfully');
+          navigation.navigate("SignInScreem")
+        } catch (error) {
+          console.error('Error signing out:', error);
+        }
+      };
+
     return (
+        
         <View style={{ flex: 1, backgroundColor: 'white' }}>
 
             <View style={styles.SearchBarContainer}>
@@ -82,6 +90,8 @@ const SearchPlace = () => {
                         <Ionicons name="chevron-back" size={wp('9%')} color="#213555" style={{ textAlign: 'center' }} />
                     </TouchableOpacity>
                 </View>
+
+                <Button title="Sign Out" onPress={handleSignOut} />
 
                 <SearchBar
                     placeholder="Buscar..."

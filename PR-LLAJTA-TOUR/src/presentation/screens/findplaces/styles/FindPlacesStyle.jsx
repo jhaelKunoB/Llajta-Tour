@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 const styles = StyleSheet.create({
@@ -6,7 +6,11 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
-        marginTop:hp('5%')
+        marginTop: Platform.select({
+            ios: '10%',
+            android: '10%',
+            web:'1%'
+        })
     },
     CotnCarts: {
         flexDirection: 'row',

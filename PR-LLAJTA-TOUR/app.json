@@ -20,7 +20,22 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.kbj5001497.PRTURISMO",
-      "permissions": ["INTERNET"]
+      "permissions": [
+        "INTERNET"
+      ],
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "data": {
+            "scheme": "pr-turismo",
+            "host": "oauth2redirect"
+          },
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
+        }
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -30,8 +45,10 @@
         "projectId": "ad83f999-a8c7-46c7-b8cd-1e0da3464f43"
       }
     },
+    "scheme": ["pr-turismo"],
     "plugins": [
       "expo-font"
-    ]
+    ],
+    "owner": "kbj5001497"
   }
 }
