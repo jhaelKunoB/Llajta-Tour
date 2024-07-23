@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         padding: 10,
-        backgroundColor: '#DCF2F0',
+        backgroundColor: '#fff',
         borderRadius: 20,
         position: 'relative',
         bottom: 15, // Aumenta la elevación
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
         width: 60,
         height: 30,
         borderRadius: 20,
-        backgroundColor: '#DCF2F0',
+        backgroundColor: '#fff',
     },
     label: {
         fontSize: 12,

@@ -16,7 +16,7 @@ const NavigationStyle = StyleSheet.create({
     },
     activeBackground: {
         alignItems: 'center',
-        backgroundColor: '#6BBFB7'
+        backgroundColor: '#fff'
     },
     //para el Texto    
     TextIcon: {

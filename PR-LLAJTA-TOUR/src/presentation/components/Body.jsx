@@ -55,7 +55,7 @@ const Body = () => {
     };
 
     return (
-        <View style={{ marginBottom: 70 }}>
+        <View style={{ marginBottom: 75 }}>
             <View style={{ marginLeft: 10 }}>
                 <Text style={BodyStyle.headerText1}>Explora las maravillas de</Text>
                 <Text style={BodyStyle.headerText1}>Cochabamba</Text>

@@ -5,6 +5,7 @@ const CategoryStyle = StyleSheet.create({
         flex: 1,
         padding: 16,
         backgroundColor: '#f7f7f7',
+        marginBottom: 70
     },
     heading: {
         fontSize: 24,
