@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Image, useWindowDimensions, Text, FlatList, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import BodyStyle from '../components/styles/BodyStyle';
-import { fetchAllPlaces, fetchSomeCategories } from '../screens/home/controller/HomeController'; // Asegúrate de que la ruta sea correcta
+import { fetchAllPlaces, fetchSomeCategories } from '../screens/home/controller/HomeController';
 import { useNavigation } from '@react-navigation/native';
 import { SearchBar } from 'react-native-elements';
 
@@ -10,7 +10,7 @@ const Body = () => {
     const { width } = useWindowDimensions();
     const [places, setPlaces] = useState([]);
     const [categories, setCategories] = useState([]);
-    const nav = useNavigation();
+    const nav = useNavigation(); // Use this variable for navigation
 
     useEffect(() => {
         const fetchPlaces = async () => {
@@ -43,6 +43,11 @@ const Body = () => {
 
     const handleShowAllPress = () => {
         nav.navigate("Categorias");
+    };
+
+    const handleCategoryPress = (id) => {
+        nav.navigate('FilteredPlaces', { categoryId: id });
+        console.log({ categoryId: id });
     };
 
     const handleSearchFocus = () => {
@@ -101,7 +106,7 @@ const Body = () => {
                 data={categories}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({ item }) => (
-                    <TouchableOpacity onPress={() => handleImagePress(item.ref)}>
+                    <TouchableOpacity onPress={() => handleCategoryPress(item.id)}>
                         <View style={BodyStyle.categoryCard}>
                             <Image source={{ uri: item.image }} style={BodyStyle.categoryImage} />
                             <Text style={BodyStyle.categoryTitle}>{item.title}</Text>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import ListCategories from '../../components/ListCategories';
 import { fetchAllCategories } from '../category/controller/CategoryController';
@@ -23,7 +23,8 @@ const CategoryScreen = () => {
     }, []);
 
     const handleCategoryPress = (id) => {
-        navigation.navigate('CategoryDetailScreen', { categoryId: id });
+        navigation.navigate('FilteredPlaces', { categoryId: id });
+        console.log({categoryId: id})
     };
 
     return (

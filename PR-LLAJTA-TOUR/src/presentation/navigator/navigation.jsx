@@ -12,6 +12,7 @@ import CategoryScreen from '../screens/category/CategoryScreen.jsx';
 import Place from '../screens/place/placescreen.jsx';
 import SearchPlace from '../screens/findplaces/SearchPlace.jsx';
 import Info from '../screens/info/InfoScreen.jsx';
+import FilteredPlaces from '../screens/filterPlaces/FilterPlaces.jsx';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -23,6 +24,8 @@ function MyStack() {
             <Stack.Screen name="Home" component={MyTaps} options={{ headerShown: false }} />
             <Stack.Screen name="Info" component={Info} options={{ headerShown: false }} />
             <Stack.Screen name="SearchPlace" component={SearchPlace} options={{ headerShown: false }} />
+            <Stack.Screen name="CategoryScreen" component={CategoryScreen} />
+            <Stack.Screen name="FilteredPlaces" component={FilteredPlaces} />
         </Stack.Navigator>
     );
 }
@@ -51,9 +54,9 @@ function MyTaps() {
             }}
             tabBar={(props) => <MyTabBar {...props} />}
         >
-            <Tab.Screen name="Categorias" component={CategoryScreen} options={{ tabBarLabel: 'Categorias', tabBarIcon: 'list-outline' }} />
+            <Tab.Screen name="Categorias" component={CategoryScreen} options={{ tabBarLabel: 'Categorias', tabBarIcon: 'list-outline', headerShown: 'true' }} />
             <Tab.Screen name="Inicio" component={Home} options={{ tabBarLabel: 'Inicio', tabBarIcon: 'home-outline' }} />
-            <Tab.Screen name="Lugares" component={Place} options={{ tabBarLabel: 'Lugares', tabBarIcon: 'location-outline' }} />
+            <Tab.Screen name="Lugares" component={Place} options={{ tabBarLabel: 'Lugares', tabBarIcon: 'location-outline', headerShown: 'true' }} />
         </Tab.Navigator>
     );
 }
