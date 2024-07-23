@@ -8,6 +8,7 @@ import {
   Modal,
   Image,
   Platform,
+  TouchableWithoutFeedback
 } from "react-native";
 
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -185,39 +186,36 @@ const InfoScreen = () => {
               visible={modalVisible}
               onRequestClose={() => setModalVisible(false)}
             >
-              <View
-                style={{
-                  flex: 1,
-                  justifyContent: "flex-end",
-                  alignItems: "center",
-                  backgroundColor: "rgba(0,0,0,0)",
-                }}
-              >
-                <View style={styles.containerMess}>
-                  <View style={styles.ContText}>
-                    <Text style={styles.textSignIn}>
-                      Por favor, inicia sesión para habilitar esta función.
-                    </Text>
-                  </View>
+                <TouchableWithoutFeedback  onPress={() => setModalVisible(false)}>
 
-                  <View style={styles.ContButom}>
-                    <TouchableOpacity
-                      onPress={() => navigation.navigate("Login")}
-                      style={styles.butonSignIn}
-                    >
-                      <Text style={styles.ButontextSignIn}>Iniciar sesión</Text>
-                    </TouchableOpacity>
+                <View style={{ flex: 1,  justifyContent: "flex-end",  alignItems: "center",  backgroundColor: "rgba(0,0,0,0)",  }} >
+                  <View style={styles.containerMess}>
+                    <View style={styles.ContText}>
+                      <Text style={styles.textSignIn}>
+                        Por favor, inicia sesión para habilitar esta función.
+                      </Text>
+                    </View>
 
-                    <TouchableOpacity
-                      onPress={() => setModalVisible(false)}
-                      style={styles.butonCancel}
-                    >
-                      <Text style={styles.ButontextCancel}>Cancelar</Text>
-                    </TouchableOpacity>
-                  </View>
+                    <View style={styles.ContButom}>
+                      <TouchableOpacity
+                        onPress={() => navigation.navigate("Login")}
+                        style={styles.butonSignIn}
+                      >
+                        <Text style={styles.ButontextSignIn}>Iniciar sesión</Text>
+                      </TouchableOpacity>
+
+                    </View>
                 </View>
+                
               </View>
+
+                </TouchableWithoutFeedback>
+          
+
+
+
             </Modal>
+
           </View>
         </View>
       </View>
@@ -434,9 +432,9 @@ const styles = StyleSheet.create({
 
   //---------------------------------------
   containerMess: {
-    height: "12%",
+    height: "10%",
     width: "100%",
-    backgroundColor: "#164B60",
+    backgroundColor: "#1A2130",
     padding: 9,
     borderTopEndRadius: 20,
     borderTopLeftRadius: 20,
@@ -470,23 +468,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 
-  butonCancel: {
-    backgroundColor: "#D71313",
-    borderRadius: 12,
-    padding: 8,
-    marginVertical: 3,
-    width: "60%",
-    alignItems: "center",
-  },
-
   ButontextSignIn: {
-    fontSize: 13,
+    fontSize: 14,
     color: "#0F1035",
-    fontWeight: "500",
-  },
-  ButontextCancel: {
-    fontSize: 13,
-    color: "white",
     fontWeight: "500",
   },
 });

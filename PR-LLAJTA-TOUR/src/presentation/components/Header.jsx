@@ -1,19 +1,21 @@
 import React from 'react';
-import { View, Image, ImageBackground,StyleSheet } from 'react-native';
-import HeaderStyle from '../components/styles/HeaderStyle';
+import { View, Image,StyleSheet } from 'react-native';
+//import HeaderStyle from '../components/styles/HeaderStyle';
 // Imágenes
 import Logo from '../assets/logo.png';
 import Titulo from '../assets/Titulo.png';
-import Fondo from '../assets/cocha.jpg';
+
+
+import PopUpManu from './popPu'
 
 const Header = () => {
     return (
-        <View style={HeaderStyle.Header}>
-            <View style={HeaderStyle.contLogo}>
-                <Image source={Logo} style={HeaderStyle.Logo} resizeMode='contain' ></Image>
-            </View>
+        <View style={HeaderStyle.Header}>   
             <View style={HeaderStyle.contTitulo}>
                 <Image source={Titulo} style={HeaderStyle.Titulo} resizeMode='contain' ></Image>
+            </View>
+            <View style={HeaderStyle.contLogo}>
+                <PopUpManu/>
             </View>
         </View>
     );
@@ -21,3 +23,27 @@ const Header = () => {
 
 export default Header;
 
+
+const HeaderStyle = StyleSheet.create({
+    Header:{
+        flexDirection:'row',
+        width:'100%',
+        height:60,
+        alignItems:'center',
+        justifyContent:'center',
+    },
+
+    contLogo:{
+        flex:1,
+        alignItems:'flex-end',
+        paddingRight:30
+    },
+    contTitulo:{
+        flex:1,  
+        paddingLeft:20
+    },
+    Titulo:{
+       width:'75%',
+       height:'80%'
+    },
+});

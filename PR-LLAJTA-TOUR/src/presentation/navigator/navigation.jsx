@@ -1,22 +1,21 @@
-import React from "react";
-import { StyleSheet, View, Text } from 'react-native'
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { NavigationContainer } from "@react-navigation/native";
-import NavigationStyle from "./styles/NavigationStyle.jsx";
-//para lo Iconos
-import { Ionicons } from '@expo/vector-icons';
+import React from 'react';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NavigationContainer } from '@react-navigation/native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import SignInScreem from '../screens/SignInScreen/signInScreen.jsx'
+// Importa tus pantallas
+import Home from '../screens/home/Home.jsx';
+import CategoryScreen from '../screens/category/CategoryScreen.jsx';
+import Place from '../screens/place/placescreen.jsx';
+import SearchPlace from '../screens/findplaces/SearchPlace.jsx';
+import Info from '../screens/info/InfoScreen.jsx';
+import FilteredPlaces from '../screens/filterPlaces/FilterPlaces.jsx';
+import SignInScreen from '../screens/SignInScreen/signInScreen.jsx';
 import Login from '../screens/login/login.jsx'
 import Register from '../screens/register/register.jsx'
-
-import Home from '../screens/home/Home.jsx'
-import CategoryScreen from '../screens/category/CategoryScreen.jsx'
-import Place from '../screens/place/placescreen.jsx'
-import SearchPlace from '../screens/findplaces/SearchPlace.jsx'
-import Info from '../screens/info/InfoScreen.jsx'
-import Favorite from "../screens/favorite/FavoritesScreen.jsx";
+import Favorite from '../screens/favorite/FavoritesScreen.jsx'
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -24,78 +23,165 @@ const Tab = createBottomTabNavigator();
 function MyStack({user}) {
     return (
         <Stack.Navigator initialRouteName={user ? "Home" : "SignInScreem"}>
-            <Stack.Screen name="SignInScreem" component={SignInScreem} options={{ headerShown: false }} />
+            <Stack.Screen name="SignInScreem" component={SignInScreen} options={{ headerShown: false }} />
             <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
             <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
             <Stack.Screen name="Home" component={MyTaps} options={{ headerShown: false }} />
             <Stack.Screen name="Info" component={Info} options={{ headerShown: false }} />
             <Stack.Screen name="SearchPlace" component={SearchPlace} options={{ headerShown: false }} />
-          
+            <Stack.Screen name="CategoryScreen" component={CategoryScreen} />
+            <Stack.Screen name="FilteredPlaces" component={FilteredPlaces} options={{ headerShown: false }} />
         </Stack.Navigator>
     );
 }
 
-
+const TabButton = ({ label, iconName, onPress, isSelected }) => {
+    return (
+        <TouchableOpacity onPress={onPress} style={styles.tabButton}>
+            <View style={isSelected ? styles.selectedButton : styles.button}>
+                <View style={isSelected ? styles.selectedIconContainer : styles.iconContainer}>
+                    <Ionicons name={iconName} size={24} color={isSelected ? '#5A72A0' : '#fff'} />
+                </View>
+                <Text style={isSelected ? styles.selectedLabel : styles.label}>{label}</Text>
+            </View>
+        </TouchableOpacity>
+    );
+};
+//<Ionicons name="heart-outline" size={24} color="black" />
 function MyTaps() {
     return (
-        <Tab.Navigator initialRouteName="HomeScreen"
+        <Tab.Navigator
+            initialRouteName="Inicio"
             screenOptions={{
-                tabBarStyle: NavigationStyle.Tabs,
-                tabBarActiveTintColor: '#366273',
-                tabBarInactiveTintColor: '#888'
-            }}>
-            <Tab.Screen name="Categorias" component={CategoryScreen}
-                options={{
-                    tabBarShowLabel: false,
-                    tabBarIcon: ({ color, size, focused }) => (
-                        <View style={[NavigationStyle.Icon, focused && NavigationStyle.activeBackground]}>
-                            <Ionicons name="list-outline" size={size} color={color} />
-                        </View>)
-                }} />
-            <Tab.Screen name="HomeScreen" component={Home}
-                options={{
-                    headerShown: false,
-                    tabBarShowLabel: false,
-                    tabBarIcon: ({ color, size, focused }) => (
-                        <View style={[NavigationStyle.Icon, focused && NavigationStyle.activeBackground]}>
-                            <Ionicons name="home-outline" size={size} color={color} />
-                        </View>)
-                }} />
-
-
-            <Tab.Screen name="Lugares" component={Place}
-                options={{
-                    tabBarShowLabel: false,
-                    tabBarIcon: ({ color, size, focused }) => (
-                        <View style={[NavigationStyle.Icon, focused && NavigationStyle.activeBackground]}>
-                            <Ionicons name="location-outline" size={size} color={color} />
-                        </View>)
-                }} />
-
-              
-                        <Tab.Screen
-                        name="Favoritos"
-                        component={Favorite} // Asegúrate de tener este componente
-                        options={{
-                            tabBarShowLabel: false,
-                            tabBarIcon: ({ color, size, focused }) => (
-                            <View style={[NavigationStyle.Icon, focused && NavigationStyle.activeBackground]}>
-                                <Ionicons name="heart-outline" size={size} color={color} />
-                            </View>
-                            ),
-                        }}
-                        />
+                headerShown: false,
+                tabBarStyle: styles.tabBarStyle,
+                tabBarShowLabel: false,
+            }}
+            tabBar={(props) => <MyTabBar {...props} />}
+        >
+             <Tab.Screen name="Inicio" component={Home} options={{ tabBarLabel: 'Inicio', tabBarIcon: 'home-outline' }} />
+            <Tab.Screen name="Categorias" component={CategoryScreen} options={{ tabBarLabel: 'Categorias', tabBarIcon: 'list-outline'}} />
+            <Tab.Screen name="Lugares" component={Place} options={{ tabBarLabel: 'Lugares', tabBarIcon: 'location-outline', headerShown: 'true' }} />
+            <Tab.Screen name="Favorite" component={Favorite} options={{ tabBarLabel: 'Favoritos', tabBarIcon: 'heart-outline'}} />
         </Tab.Navigator>
     );
 }
 
-const Navigation = ({user}) => {
+const MyTabBar = ({ state, descriptors, navigation }) => {
+    return (
+        <View style={styles.tabBar}>
+            {state.routes.map((route, index) => {
+                const { options } = descriptors[route.key];
+                const label = options.tabBarLabel !== undefined ? options.tabBarLabel : route.name;
+                const iconName = options.tabBarIcon !== undefined ? options.tabBarIcon : 'home-outline';
+                const isSelected = state.index === index;
 
+                const onPress = () => {
+                    const event = navigation.emit({
+                        type: 'tabPress',
+                        target: route.key,
+                        canPreventDefault: true,
+                    });
+
+                    if (!event.defaultPrevented) {
+                        navigation.navigate(route.name);
+                    }
+                };
+
+                return (
+                    <TabButton
+                        key={index}
+                        label={label}
+                        iconName={iconName}
+                        onPress={onPress}
+                        isSelected={isSelected}
+                    />
+                );
+            })}
+        </View>
+    );
+};
+
+const styles = StyleSheet.create({
+    tabBar: {
+        flexDirection: 'row',
+        height: 65,
+        backgroundColor: '#1A2130',
+        borderTopColor: '#ddd',
+        justifyContent: 'space-around',
+        paddingBottom: 10,
+        paddingHorizontal: 10,
+        position: 'absolute',
+        bottom: 10,
+        right: 10,
+        left: 10,
+        borderRadius: 29,
+    },
+    tabButton: {
+        flex: 1,
+        alignItems: 'center',
+    },
+    button: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 10,
+    },
+    selectedButton: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 10,
+        backgroundColor: 'white',
+        borderRadius: 80,
+        position: 'relative',
+        bottom: 16, // Aumenta la elevación
+        elevation: 20,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 5 },
+        shadowOpacity: 0.3,
+        shadowRadius: 5,
+        borderWidth:1,
+        borderColor:'#5A72A0'
+    },
+    iconContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    selectedIconContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: 40,
+        height: 46,
+        borderRadius: 20,
+        backgroundColor: 'white',
+    },
+    label: {
+        fontSize: 12,
+        color: '#fff',
+        
+    },
+    selectedLabel: {
+        fontSize: 12,
+        color: '#366273',
+        display:'none'
+    },
+    tabBarStyle: {
+        position: 'absolute',
+        height: 60,
+        bottom: 24,
+        right: 16,
+        left: 16,
+        borderRadius: 16,
+        backgroundColor: '#366273',
+        borderTopWidth: 1,
+    },
+});
+
+const Navigation = ({user}) => {
     return (
         <NavigationContainer>
             <MyStack user={user} />
         </NavigationContainer>
     );
-}
+};
 
 export default Navigation;

@@ -7,16 +7,24 @@ import {
   StyleSheet,
   ActivityIndicator,
   ImageBackground,
-  TouchableOpacity
+  TouchableOpacity,
+  Button,
 } from "react-native";
 import { getFavoritePlace } from "./controler/ContrFavorite";
 import UseAuth from "../../../../database/userAuth";
 import { useFocusEffect } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
+
+import PopUpManu from '../../../../src/presentation/components/popPu'
+import fotoImg from './assets/fotoImg.png'
 
 const Favorite = () => {
-  const navigation = useNavigation()
+  const navigation = useNavigation();
   const [place, setPlaces] = useState([]);
   const [loadingFavorites, setLoadingFavorites] = useState(true);
   const { user } = UseAuth();
@@ -26,7 +34,6 @@ const Favorite = () => {
     useCallback(() => {
       const fetchFavorites = async () => {
         if (user && !dataLoaded) {
-          // Solo si los datos no están cargados
           try {
             const favoritePlaces = await getFavoritePlace(user.uid);
             setPlaces(favoritePlaces || []);
@@ -44,10 +51,11 @@ const Favorite = () => {
   );
 
   const renderFavoriteItem = ({ item }) => (
-   
-      <View style={styles.card}>
-
-<TouchableOpacity  key={item.id} onPress={() => navigation.navigate('Info', { Id: item.id })} >
+    <View style={styles.card}>
+      <TouchableOpacity
+        key={item.id}
+        onPress={() => navigation.navigate("Info", { Id: item.id })}
+      >
         <ImageBackground
           source={{ uri: item.ImagesID[0] }}
           style={styles.image}
@@ -65,30 +73,72 @@ const Favorite = () => {
             </Text>
           </View>
         </View>
-        </TouchableOpacity>
-      </View>
-  
+      </TouchableOpacity>
+    </View>
   );
+
+
 
   return (
     <View style={styles.container}>
-      {loadingFavorites ? (
+      <View style={styles.ContHeader}>
+        <View style={styles.headerLeft}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Ionicons
+              name="chevron-back-circle-sharp"
+              size={wp("11%")}
+              color="#0F1035"
+            />
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.headerCenter}>
+          <Text style={styles.titleSearch}>Favoritos</Text>
+        </View>
+
+        <View style={styles.headerRight}>
+          <PopUpManu/>
+        </View>
+      </View>
+
+      {!user ? (
+
+        <View style={styles.authContainer}>
+          <Image source={fotoImg} style={styles.ImgLogin}/>
+          <Text style={styles.authText}>
+            Por favor, inicia sesión para ver tus favoritos.
+          </Text>
+          <TouchableOpacity onPress={() => navigation.navigate("Login")} style={styles.buttomSign}>
+            <Text style={styles.butonTextSign}>Inicio seccion</Text>
+          </TouchableOpacity>
+        
+        </View>
+
+
+
+      ) : loadingFavorites ? (
         <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color="#6200EE" />
-          <Text style={styles.loadingText}>Cargando favoritos...</Text>
+          <ActivityIndicator size="large" color="#0F1035" />
+          <Text style={styles.loadingText}>
+            Ya casi... Obteniendo tus favoritos...
+          </Text>
         </View>
       ) : (
-        <FlatList
-          data={place}
-          renderItem={renderFavoriteItem}
-          keyExtractor={(item) => item.id.toString()}
-          numColumns={2}
-          columnWrapperStyle={styles.row}
-          contentContainerStyle={styles.flatListContent}
-          ListEmptyComponent={
-            <Text style={styles.emptyText}>No hay favoritos disponibles.</Text>
-          }
-        />
+        <View style={{ flex: 1, marginBottom:wp('17%') }}>
+          <FlatList
+            data={place}
+            renderItem={renderFavoriteItem}
+            keyExtractor={(item) => item.id.toString()}
+            numColumns={2}
+            columnWrapperStyle={styles.row}
+            contentContainerStyle={styles.flatListContent}
+            ListEmptyComponent={
+              <Text style={styles.emptyText}>
+                No hay favoritos disponibles.
+              </Text>
+            }
+          />
+        </View>
       )}
     </View>
   );
@@ -97,7 +147,6 @@ const Favorite = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 10,
     backgroundColor: "#EEF5FF",
   },
   loadingContainer: {
@@ -106,30 +155,33 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   loadingText: {
-    marginTop: 10,
-    fontSize: 16,
-    color: "#666",
+    fontSize: 15,
+    fontWeight: "300",
+    textAlign: "center",
   },
   flatListContent: {
     paddingVertical: 10,
+    marginHorizontal: 13,
   },
   row: {
     justifyContent: "space-between",
     marginBottom: 15,
   },
+
+  
   card: {
     flex: 1,
     backgroundColor: "white",
     margin: 5,
     borderRadius: 12,
     overflow: "hidden",
-    elevation: 3, // Shadow for Android
-    shadowColor: "#000", // Shadow for iOS
+    elevation: 3,
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 5,
-    maxWidth: "48%", // Adjusted for responsiveness
-    minHeight: 220, // Ensure cards have a minimum height
+    maxWidth: "48%",
+    minHeight: 220,
   },
   image: {
     width: "100%",
@@ -166,6 +218,83 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: "#999",
   },
+
+  // Estilos para el encabezado
+  ContHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 12,
+    backgroundColor: "white",
+    borderBottomWidth: 1,
+    borderBottomColor: "#0F1035",
+  },
+
+  headerLeft: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  headerCenter: {
+    flex: 3,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  headerRight: {
+    flex: 1,
+    alignItems:'center',
+  },
+  titleSearch: {
+    fontSize: wp("5.5%"),
+    color: "#0F1035",
+    fontWeight: "400",
+  },
+
+  //------------------para Inico Seccion
+  authContainer: {
+    backgroundColor: '#DCF2F1',
+    marginHorizontal: 30,
+    marginTop: 60,
+    padding: 20,
+    borderRadius: 10,
+  
+    // Shadow for iOS
+    shadowColor: '#000', // Black color for the shadow
+    shadowOffset: { width: 0, height: 2 }, // Offsets the shadow from the container
+    shadowOpacity: 0.25, // 25% opacity for the shadow
+    shadowRadius: 3.84, // Blur radius for the shadow
+  
+    // Elevation for Android
+    elevation: 5, // Elevation for the shadow on Android
+    justifyContent:'center',
+    alignItems:'center',
+  },
+
+  authText:{
+    paddingVertical:10,
+    fontWeight:'300',
+    color:'#0F1035'
+  },
+
+  buttomSign:{
+    backgroundColor:'#0F1035',
+    marginVertical:30,
+    paddingVertical:10,
+    borderRadius:10,
+    justifyContent:'center',
+    alignItems:'center',
+    width:'90%'
+  },
+
+  butonTextSign:{
+    color:'white',
+    
+  },
+  ImgLogin:{
+    alignItems:'center',
+    width:'80%',
+    height:200
+  }
+
 });
 
 export default Favorite;

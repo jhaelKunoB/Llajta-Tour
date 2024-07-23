@@ -3,9 +3,10 @@ import { StyleSheet } from 'react-native';
 const HeaderStyle = StyleSheet.create({
     Header:{
         flexDirection:'row',
-        width:'100%',
+        width:'90%',
         height:100,
-        paddingTop:25
+        alignItems:'center',
+        justifyContent:'center'
     },
 
     contLogo:{

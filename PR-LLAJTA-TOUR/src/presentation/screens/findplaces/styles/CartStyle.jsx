@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     },
     column: {
         flex: 1,
-        paddingHorizontal: wp('1%'),
+        paddingHorizontal: wp('3%'),
     },
     container: {
         flexDirection: 'row',
@@ -37,7 +37,6 @@ const styles = StyleSheet.create({
         position: 'absolute',
         paddingLeft: 5,
         textAlign:'center'
-
     },
 
     linerStyle:{
