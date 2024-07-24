@@ -7,8 +7,11 @@ const ListCategoriesStyles = StyleSheet.create({
     },
     itemContainer: {
         flex: 1,
-        margin: 8,
+        marginHorizontal:20,
+        marginVertical:5,
         alignItems: 'center',
+        borderRadius:10,
+        overflow: "hidden",
     },
     image: {
         width: '100%',
@@ -21,12 +24,11 @@ const ListCategoriesStyles = StyleSheet.create({
         textAlign: 'center',
         color: 'white'
     },
-    textContainer:{
-        position: 'absolute',
-        bottom: 0, // ajusta según tus necesidades
+    textContainer:{     
+       flex:1,
         backgroundColor: 'rgba(0, 0, 0, 0.5)', 
-        padding: 5,
-        borderRadius: 7,
+        justifyContent:'center',
+        alignItems:'center',
     }
 });
 

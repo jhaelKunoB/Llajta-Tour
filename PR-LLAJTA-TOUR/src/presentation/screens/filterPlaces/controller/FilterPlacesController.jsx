@@ -1,4 +1,4 @@
-import db from '../../../../../database/firebase';
+import {db} from '../../../../../database/firebase';
 import { getDocs, collection, query, where, doc } from 'firebase/firestore';
 
 export const filterPlaces = async (categoryId) => {
@@ -8,7 +8,7 @@ export const filterPlaces = async (categoryId) => {
         const placesRef = collection(db, 'Place');
         const q = query(placesRef, where('CategoryID', '==', categoryRef));
         const querySnapshot = await getDocs(q);
-
+ 
         if (querySnapshot.empty) {
             console.log("No matching documents.");
             return [];

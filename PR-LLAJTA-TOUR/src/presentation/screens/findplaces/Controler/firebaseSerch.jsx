@@ -1,4 +1,4 @@
-import db from '../../../../../database/firebase'
+import {db} from '../../../../../database/firebase'
 import { getDoc, doc, getDocs, collection } from 'firebase/firestore'
 
 

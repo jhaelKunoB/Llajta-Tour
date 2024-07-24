@@ -50,6 +50,7 @@ const styles = StyleSheet.create({
     Styleimage: {
         flex: 1,
         width:90,
+        height:80
     },
 
     imgContainer: {

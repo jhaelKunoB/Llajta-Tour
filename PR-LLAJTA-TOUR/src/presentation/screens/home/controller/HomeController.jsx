@@ -1,5 +1,5 @@
 import { collection, getDocs, doc, getDoc } from 'firebase/firestore';
-import db from '../../../../../database/firebase'; // Importa la conexión a Firebase desde el archivo de configuración
+import {db} from '../../../../../database/firebase'; // Importa la conexión a Firebase desde el archivo de configuración
 
 export const fetchAllPlaces = async () => {
     try {

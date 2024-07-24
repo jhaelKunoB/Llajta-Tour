@@ -1,4 +1,4 @@
-    import db from '../../../../../database/firebase'
+    import {db} from '../../../../../database/firebase'
     import { getDocs, collection } from 'firebase/firestore'
 
     export const fetchAllCategories = async () => {

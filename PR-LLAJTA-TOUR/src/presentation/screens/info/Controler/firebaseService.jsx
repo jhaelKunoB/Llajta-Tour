@@ -1,4 +1,4 @@
-import db from '../../../../../database/firebase'
+import {db} from '../../../../../database/firebase'
 import { getDoc, doc } from 'firebase/firestore'
 
 const fetchDocumentData = async (docRef) => {
@@ -34,4 +34,4 @@ const getPlace = async (placeID) => {
   }
 }
 
-export { getPlace }
+export { getPlace}

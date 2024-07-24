@@ -66,7 +66,7 @@ const CartsImages = ({ data }) => {
                                     <LinearGradient colors={['rgba(41, 42, 42, 1)', 'rgba(255, 255, 255, 0)', 'rgba(255, 255, 255, 0)', 'rgba(255, 255, 255, 0)',]} start={{ x: 1, y: 1 }} end={{ x: 1, y: 0 }} style={styles.linerStyle}>
                                         <View style={styles.ContText}>
                                             <View style={styles.backContText}>
-                                                <Text style={styles.imageText}>{item.Name}</Text>
+                                                <Text style={styles.imageText} numberOfLines={2} >{item.Name}</Text>
                                             </View>
                                         </View>
                                     </LinearGradient>

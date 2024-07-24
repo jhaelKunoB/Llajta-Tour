@@ -27,7 +27,9 @@ const BodyStyle = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         paddingHorizontal: 10,
-        marginBottom: 10,
+        marginBottom: 15,
+        marginTop:20,
+        marginHorizontal:15
     },
     headerText: {
         fontSize: 20,
@@ -35,20 +37,22 @@ const BodyStyle = StyleSheet.create({
         color: '#11394f',
     },
     carouselItem: {
-        margin: 10,
-        marginTop: 0,
+       // margin: 10,
+        
         borderRadius: 20,
         overflow: 'hidden',
         shadowColor: '#11394f',
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.3,
         shadowRadius: 5,
-        elevation: 5,
+        elevation: 6,
         backgroundColor: 'rgb(235, 244, 246)',
+        marginHorizontal:15
     },
+
     sliderImage: {
-        width: 250,
-        height: 290,
+        width: 280,
+        height: 360,
         borderRadius: 20,
     },
     textContainer: {
@@ -84,8 +88,8 @@ const BodyStyle = StyleSheet.create({
     categoryCard: {
         flexDirection: 'row',
         alignItems: 'center',
-        margin: 10,
-        marginTop: 0,
+        marginHorizontal:20,
+        marginVertical:10,
         padding: 10,
         backgroundColor: 'rgb(235, 244, 246)',
         borderRadius: 10,
