@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "PR-TURISMO",
-    "slug": "PR-TURISMO",
+    "slug": "logingoogle",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -42,13 +42,15 @@
     },
     "extra": {
       "eas": {
-        "projectId": "ad83f999-a8c7-46c7-b8cd-1e0da3464f43"
+        "projectId": "b445805d-941a-441a-9c22-ca9abc9e4014"
       }
     },
-    "scheme": ["pr-turismo"],
+    "scheme": [
+      "pr-turismo"
+    ],
     "plugins": [
       "expo-font"
     ],
-    "owner": "kbj5001497"
+    "owner": "boris21"
   }
 }
