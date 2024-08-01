@@ -22,7 +22,7 @@ const Tab = createBottomTabNavigator();
 
 function MyStack({user}) {
     return (
-        <Stack.Navigator initialRouteName={user ? "Home" : "SignInScreem"}>
+        <Stack.Navigator initialRouteName={ "SignInScreem"}>
             <Stack.Screen name="SignInScreem" component={SignInScreen} options={{ headerShown: false }} />
             <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
             <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />

@@ -8,24 +8,14 @@ import UserAuth from './database/userAuth'
 
 export default function App() {
 
-  const { user, loading } = UserAuth();
+  //const { user, loading } = UserAuth();
 
-  if (loading) {
-    return (
-      <>
-        <Blurl />
-        <ActivityIndicator
-          style={{ backgroundColor: "transparent", flex: 1 }}
-          size="large"
-        />
-      </>
-    );
-  }
+
 
   return (
     <SafeAreaView style={styles.container}>
         <StatusBar barStyle="dark-content" backgroundColor="#fff" />
-      <Navigation user={user} />
+      <Navigation  />
     </SafeAreaView>
   );
 }

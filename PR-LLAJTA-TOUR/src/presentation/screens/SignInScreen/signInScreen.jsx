@@ -8,21 +8,111 @@ import {
   SafeAreaView,
   Dimensions,
   ScrollView,
+  Button
 } from "react-native";
+
+import * as WebBrowser from 'expo-web-browser'
+import * as Google from 'expo-auth-session/providers/google'
 
 import { useNavigation } from "@react-navigation/native";
 import BlurLogin from "../../components/BlurLogin";
 
 import ImgFont from "./assets/fondo.png";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const { height } = Dimensions.get("window");
 
+WebBrowser.maybeCompleteAuthSession();
+
 const SignInScreen = () => {
+
+  const [userInfo, setUserInfo] = React.useState(null);
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    webClientId:
+      "506090074048-c3h78p37s2r1o9lulgkjcr79gfn3njvu.apps.googleusercontent.com",
+    iosClientId:
+      "506090074048-f7gm80ede4to4gti589i71s2mj4ol15n.apps.googleusercontent.com",
+    androidClientId:
+      "506090074048-v0j8goiefcvkhu5tqous5o42kiap1u85.apps.googleusercontent.com"
+  });
+
+  React.useEffect(() => {
+    handleSingInWithGoogle();
+  }, [response])
+
+  async function handleSingInWithGoogle() {
+    const user = await getLocalUser();
+    if (!user) {
+      if (response?.type === "success") {
+        getUserInfo(response.authentication.accessToken);
+        
+      }
+      else {
+        setUserInfo(user);
+      }
+    }
+  }
+
+  const getLocalUser = async () => {
+    const data = await AsyncStorage.getItem("@user");
+    if (!data) return null;
+    return JSON.parse(data);
+  }
+
+  const getUserInfo = async (token) => {
+
+    if (!token) return;
+
+    try {
+      const response = await fetch(
+        "https://www.googleapis.com/userinfo/v2/me",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      const user = await response.json();
+      console.log(user)
+      await AsyncStorage.setItem("@user", JSON.stringify(user));
+      setUserInfo(user);
+    } catch (e) {
+      console.log(e)
+    }
+
+  }
+
   const navigation = useNavigation();
 
   return (
     <>
-      <BlurLogin posi={1.55} /> 
+      <BlurLogin posi={1.55} />
+      <View style={styles.container}>
+        {!userInfo ? (
+          <Button
+            title="Sign in with Google"
+            disabled={!request}
+            onPress={() => {
+              promptAsync();
+            }}
+          />
+        ) : (
+          <View style={styles.card}>
+            {userInfo?.picture && (
+              <Image source={{ uri: userInfo?.picture }} style={styles.image} />
+            )}
+
+            <Text style={styles.text}>Email: {userInfo.email}</Text>
+            <Text style={styles.text}>
+              Verified: {userInfo.verified_email ? "yes" : "no"}
+            </Text>
+            <Text style={styles.text}>Name: {userInfo.name}</Text>
+            {/* <Text style={styles.text}>{JSON.stringify(userInfo, null, 2)}</Text> */}
+          </View>
+          
+        )}
+        <Button title="remove local store"
+        onPress={async () => await AsyncStorage.removeItem("@user")}/>
+      </View>
+
       <SafeAreaView style={styles.contenedor}>
         <ScrollView contentContainerStyle={styles.contenedor}>
           <Image source={ImgFont} style={styles.ImgLogin} />
@@ -71,6 +161,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     backgroundColor: "transparent",
+  },
+  image:{
+    width: 100,
+    height: 100
   },
   ImgLogin: {
     width: "85%",
