@@ -13,6 +13,7 @@ import {
 import { getFavoritePlace } from "./controler/ContrFavorite";
 import UseAuth from "../../../../database/userAuth";
 import { useFocusEffect } from "@react-navigation/native";
+
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import {
@@ -28,16 +29,17 @@ const Favorite = () => {
   const [place, setPlaces] = useState([]);
   const [loadingFavorites, setLoadingFavorites] = useState(true);
   const { user } = UseAuth();
-  const [dataLoaded, setDataLoaded] = useState(false);
+  
 
   useFocusEffect(
     useCallback(() => {
+
       const fetchFavorites = async () => {
-        if (user && !dataLoaded) {
+        if (user) {
           try {
             const favoritePlaces = await getFavoritePlace(user.uid);
             setPlaces(favoritePlaces || []);
-            setDataLoaded(true); // Marca los datos como cargados
+            console.log("1233")
           } catch (error) {
             console.error("Error al obtener los favoritos:", error);
           } finally {
@@ -45,10 +47,12 @@ const Favorite = () => {
           }
         }
       };
-
       fetchFavorites();
-    }, [user, dataLoaded])
+    }, [user])
   );
+
+
+
 
   const renderFavoriteItem = ({ item }) => (
     <View style={styles.card}>
@@ -65,7 +69,7 @@ const Favorite = () => {
           </View>
         </ImageBackground>
         <View style={styles.infoContainer}>
-          <Text style={styles.name}>{item.Name}</Text>
+          <Text numberOfLines={1} style={styles.name}>{item.Name}</Text>
           <View style={styles.addressContainer}>
             <Ionicons name={"location"} color={"#0F1035"} size={20} />
             <Text style={styles.textAddress} numberOfLines={1}>

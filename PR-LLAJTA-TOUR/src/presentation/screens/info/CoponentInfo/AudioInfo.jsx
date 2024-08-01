@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
-import { View, StyleSheet, TouchableOpacity, Image, Text } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
 import { Audio } from 'expo-av';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-//import Slider from '@react-native-community/slider';
 
+const AudioGiif = require('../assets/Microphone.gif')
+const ImgAudio1 = require('../assets/Microphone-0.jpg')
 
-import ImagAud from '../assets/micro.jpg';
 
 const AudioInfo = ({ data }) => {
   const [placeData, setplaceData] = useState()
@@ -79,27 +79,23 @@ const AudioInfo = ({ data }) => {
     <View style={styles.container}>
 
       {data ? (
-        <View style={{width:'100%', flexDirection:'row'}}>
-          <View style={{ flex: 0.6, borderRadius: 21 }}>
-            <Image source={ImagAud} style={styles.ImgAudio} resizeMode="cover" />
-          </View>
-
-          <View style={styles.ContTextIcon}>
-            <View style={styles.contTittle}>
-              <Text style={styles.tituloAudio}>Cochabamba podcast</Text>
-            </View>
-
+        <View style={styles.ContImgAudio}>
+            <ImageBackground source={isPlaying ? AudioGiif : ImgAudio1} style={styles.ImgAudio} resizeMode="cover" />
             <View style={styles.ContIcontPlay}>
               <TouchableOpacity onPress={isPlaying ? pauseSound : playSound}>
                 <Ionicons name={isPlaying ? "pause-circle-sharp" : "play-circle-sharp"} style={styles.IconPlay} color={'#009194'} size={wp('14%')} />
               </TouchableOpacity>
             </View>
-          </View>
         </View>
       ) : (
-        <View>
-          
+        <> 
+         <View style={styles.ContImgAudio}>
+            <ImageBackground source={isPlaying ? AudioGiif : ImgAudio1} style={styles.ImgAudio} resizeMode="cover" />
+            <View style={styles.ContIcontPlay}>       
+                <MaterialIcons name="play-disabled" style={styles.IconPlay} color={'#009194'} size={wp('11%')}/>
+            </View>
         </View>
+        </>
       )}
     </View>
   );
@@ -110,33 +106,43 @@ export default AudioInfo
 const styles = StyleSheet.create({
 
   container: {
-    flex: 1,
-    backgroundColor: '#ecf0f1',
+   
+    backgroundColor: '#DCF2F160',
     flexDirection: 'row',
-    marginHorizontal: wp('5%'),
-    marginTop: wp('2%'),
-    marginBottom: wp('8%'),
-    borderRadius: 21
+    borderRadius: 21,
+    width:150,
+    alignItems:'flex-end',
+  },
+
+
+  ContImgAudio:{
+    width:'100%', 
+    flexDirection:'row', 
+    borderWidth:2, 
+    borderRadius:15,
+    overflow:'hidden',
+    borderColor:'#DCF2F1',
   },
   contTittle: {
     flex: 1,
     justifyContent: 'center'
   },
   ImgAudio: {
-    width: wp('25%'),
-    height: hp('10%'),
+    width: wp('17%'),
+    height: hp('7%'),
     borderRadius: 21
   },
   ContTextIcon: {
     flex: 1,
-    flexDirection: 'row'
+    alignItems:'center'
   },
+
   tituloAudio: {
     fontSize: 19,
     fontWeight: '300'
   },
   ContIcontPlay: {
-    flex: 0.6,
+    flex:1,
     justifyContent: 'center',
     alignItems: 'center'
   },

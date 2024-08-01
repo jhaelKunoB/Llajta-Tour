@@ -5,6 +5,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import ImaNot from '../assets/Nodata.gif'
 import ImgModal from './ModaImage'
 
+
 const ImageNow = ({ data }) => {
     const [placeData, setPlaceData] = useState(null);
 
@@ -26,12 +27,8 @@ const ImageNow = ({ data }) => {
         <View style={styles.container}>
             <ScrollView horizontal={true} nestedScrollEnabled={true} contentContainerStyle={styles.scrollViewContent}>
                 <View style={styles.imageList}>
-                    {placeData && placeData.ImagesID ? (
-                        placeData.ImagesID.map((image, index) => (
-                            <View key={index} style={styles.imageItem}>
-                                <ImgModal img={image} />
-                            </View>
-                        ))
+                    {placeData && placeData.ImagesID ? (                     
+                       <ImgModal img={placeData.ImagesID} />                             
                     ) : (
                         <View style={{}}>
                             <Image style={{ width: '70%', height: '100%' }} source={ImaNot} ></Image>
@@ -39,9 +36,6 @@ const ImageNow = ({ data }) => {
                     )}
                 </View>
             </ScrollView>
-
-
-
         </View>
     );
 };
@@ -63,13 +57,8 @@ const styles = StyleSheet.create({
             ios: hp('10%'),
             android: hp('10%'),
             web:hp('25%')
-        })
-    },
-    imageItem: {
-        marginHorizontal: wp('2%'),
-        borderRadius: 10,
-        overflow: 'hidden',
-        height:80
+        }),
+       
     },
 });
 

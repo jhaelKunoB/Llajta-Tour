@@ -6,13 +6,17 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "platforms": ["ios", "android"],
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "config": {
+        "googleMapsApiKey": "Tu Api key"
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -35,7 +39,12 @@
             "DEFAULT"
           ]
         }
-      ]
+      ],
+      "config": {
+        "googleMaps": {
+          "apiKey": "Tu Api key"
+        }
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
