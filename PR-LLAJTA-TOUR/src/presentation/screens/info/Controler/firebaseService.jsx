@@ -20,6 +20,7 @@ const getPlace = async (placeID) => {
 
       placeData.ProvinceID = await fetchDocumentData(placeData.ProvinceID);
       placeData.DepartmentID = await fetchDocumentData(placeData.DepartmentID);
+      
       placeData.CategoryID = await fetchDocumentData(placeData.CategoryID);
 
       return placeData;

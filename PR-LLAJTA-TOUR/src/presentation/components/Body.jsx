@@ -94,10 +94,10 @@ const Body = () => {
                         <View style={BodyStyle.carouselItem}>
                             <Image source={{ uri: item.image }} style={BodyStyle.sliderImage} />
                             <View style={BodyStyle.textContainer}>
-                                <Text style={BodyStyle.title}>{item.title}</Text>
+                                <Text numberOfLines={1} style={BodyStyle.title}>{item.title}</Text>
                                 <View style={BodyStyle.locationContainer}>
                                     <Icon name="map-marker-alt" size={16} color="#164863" style={BodyStyle.locationIcon} />
-                                    <Text style={BodyStyle.text}>{item.ubication}</Text>
+                                    <Text numberOfLines={1} style={BodyStyle.text}>{item.ubication}</Text>
                                 </View>
                             </View>
                         </View>

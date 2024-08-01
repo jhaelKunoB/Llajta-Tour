@@ -61,7 +61,7 @@ function MyTaps() {
         >
              <Tab.Screen name="Inicio" component={Home} options={{ tabBarLabel: 'Inicio', tabBarIcon: 'home-outline' }} />
             <Tab.Screen name="Categorias" component={CategoryScreen} options={{ tabBarLabel: 'Categorias', tabBarIcon: 'list-outline'}} />
-            <Tab.Screen name="Lugares" component={Place} options={{ tabBarLabel: 'Lugares', tabBarIcon: 'location-outline', headerShown: 'true' }} />
+            <Tab.Screen name="Lugares" component={Place} options={{ tabBarLabel: 'Explorar', tabBarIcon: 'location-outline'}} />
             <Tab.Screen name="Favorite" component={Favorite} options={{ tabBarLabel: 'Favoritos', tabBarIcon: 'heart-outline'}} />
         </Tab.Navigator>
     );

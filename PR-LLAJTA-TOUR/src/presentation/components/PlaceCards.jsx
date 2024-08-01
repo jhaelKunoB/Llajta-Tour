@@ -11,8 +11,8 @@ const PlaceCards = ({ data }) => {
                     <View style={PlaceCardStyle.StyleCard}>
                         <Text style={PlaceCardStyle.tittle}>{data.Name}</Text>
                         <View style={PlaceCardStyle.location}>
-                            <Icon name='room' color={'#407373'} size={26} />
-                            <Text>{data.Address}</Text>
+                            <Icon name='room' color={'#407373'} size={28} />
+                            <Text numberOfLines={2} >{data.Address}</Text>
                         </View>
                     </View>
         </View>

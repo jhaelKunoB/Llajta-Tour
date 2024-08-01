@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
     },
 
     CalendarIcon: {
-        backgroundColor: 'rgba(154, 200, 205, 0.4)',
+        backgroundColor: '#DCF2F130',
         borderRadius: 10,
         paddingHorizontal: wp('3%'),
         paddingVertical: hp('2%'),
@@ -138,6 +138,8 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         color: '#006769',
         fontSize: wp('6%'),
+        borderWidth:2,
+        borderColor:'#DCF2F1'
     },
 
     centeredView: {

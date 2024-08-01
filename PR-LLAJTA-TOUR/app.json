@@ -1,18 +1,22 @@
 {
   "expo": {
     "name": "PR-TURISMO",
-    "slug": "PR-TURISMO",
+    "slug": "llajtatour",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "platforms": ["ios", "android"],
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "config": {
+        "googleMapsApiKey": "Tu Api key"
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -35,20 +39,27 @@
             "DEFAULT"
           ]
         }
-      ]
+      ],
+      "config": {
+        "googleMaps": {
+          "apiKey": "Tu Api key"
+        }
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "ad83f999-a8c7-46c7-b8cd-1e0da3464f43"
+        "projectId": "026c1165-1b85-46f4-a904-2e02d536cb49"
       }
     },
-    "scheme": ["pr-turismo"],
+    "scheme": [
+      "pr-turismo"
+    ],
     "plugins": [
       "expo-font"
     ],
-    "owner": "kbj5001497"
+    "owner": "jhael123"
   }
 }
