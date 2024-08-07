@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Text, View, TouchableOpacity, StyleSheet, ScrollView, Image, ImageBackground } from 'react-native'
+import { Text, View, TouchableOpacity, StyleSheet, ScrollView, Image } from 'react-native'
 
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -7,7 +7,6 @@ import Carousel from 'pinar'
 import { FontAwesome } from '@expo/vector-icons';
 
 import ImaNot from '../assets/Nodata.gif'
-import ImgLong from '../assets/loading copy.gif'
 
 const InfoCon = ({ data }) => {
 
@@ -58,9 +57,7 @@ const InfoCon = ({ data }) => {
 
                             {placeData && placeData.OldImagesID && placeData.OldImagesID.length > 0 ? (
                                 placeData.OldImagesID.map(item =>
-                                    <ImageBackground source={ImgLong} resizeMode='center' key={item}>
-                                           <Image style={styles.ImageCarusel} source={{ uri: item }} />
-                                    </ImageBackground> 
+                                    <Image style={styles.ImageCarusel} source={{ uri: item }} key={item} />
                                 )
                             ) : (
                                 <View style={{ alignItems:'center'}}>
@@ -169,14 +166,10 @@ const styles = StyleSheet.create({
         borderBottomWidth: 3,
         borderBottomColor: '#427D9D',
         borderRadius: 5,
-        marginHorizontal: wp('2%'),
-        padding:5,
-        borderWidth:1,
-        borderColor:'#0F1035'
+        marginHorizontal: wp('2%')
     },
     cont: {
-        marginHorizontal: wp('2%'),
-        padding:5
+        marginHorizontal: wp('2%')
     },
     txtItem: {
         fontSize: wp('4%')

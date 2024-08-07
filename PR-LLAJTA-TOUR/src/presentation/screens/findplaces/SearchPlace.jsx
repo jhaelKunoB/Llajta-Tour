@@ -25,7 +25,6 @@ import { getAllPlaces } from "./Controler/firebaseSerch";
 
 import PopUpMenu from '../../../presentation/components/popPu'
 
-
 const SearchPlace = () => {
   const navigation = useNavigation();
   const [searchText, setSearchText] = useState("");
@@ -33,7 +32,6 @@ const SearchPlace = () => {
   const [placefind, setPlaceFind] = useState([]);
   const [isName, setName] = useState([]);
 
-  //para busqueda por nombre
   const handleSearch = async (searchText) => {
     setSearchText(searchText);
     setPlaceFind([]);
@@ -147,11 +145,6 @@ const SearchPlace = () => {
           )}
         </View>
       </ScrollView>
-
-
-
-
-
     </View>
   );
 };
