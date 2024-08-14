@@ -7,13 +7,14 @@ import {
   TouchableOpacity,
   Modal,
   Image,
-  Platform,
   TouchableWithoutFeedback,
   ImageBackground,
+  Platform,
+  Dimensions,
 } from "react-native";
 
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { Ionicons, FontAwesome, Entypo } from "@expo/vector-icons";
+import { Ionicons, FontAwesome, Entypo, AntDesign } from "@expo/vector-icons";
 import { Video, ResizeMode } from "expo-av";
 import {
   widthPercentageToDP as wp,
@@ -22,6 +23,12 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import Loandin from "./assets/loading.gif";
 import ImgLong from "./assets/loading copy.gif";
+
+
+import MapViewWeb from "./CoponentInfo/MapViewWeb";
+import * as Location from "expo-location";
+
+
 
 import Calendar from "./CoponentInfo/Calendar";
 import InfoCon from "./CoponentInfo/InfoCon";
@@ -35,19 +42,20 @@ import UserAuth from "../../../../database/userAuth";
 import UseFavorite from "./Controler/useFavorite";
 
 //para manejar los mapas
-import MapView, { Marker, Callout } from "react-native-maps";
-import BottomSheet from "@gorhom/bottom-sheet";
+
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import MapViewDirections from "react-native-maps-directions";
-import * as Location from "expo-location";
-const GOOGLE_MAPS_APIKEY = "Tu Api Key";
-//----------------------------------------------------------
 
 const InfoScreen = () => {
+
+  const {error, setErrorMsg} = useState("")
+
+
+
   const { favorites, toggleFavorite } = UseFavorite(); // Usa el hook
   const { user, loading } = UserAuth();
 
   const [modalVisible, setModalVisible] = useState(false);
+  const [useModalDirection, setModalDirection] = useState(false);
 
   const navigation = useNavigation();
   const video = useRef(null);
@@ -59,19 +67,13 @@ const InfoScreen = () => {
   const { Id } = route.params;
   const [cantFavorite, setCantLikes] = useState(0);
 
-  //para el mapa-----------------------------------------------------
-  const snapPoints = useMemo(() => [hp("70")], []);
-  const bottomSheetRef = useRef(null);
-  const handlerClose = () => bottomSheetRef.current?.close();
-  const handlerOpen = () => bottomSheetRef.current?.expand(); //para abrir los lugares
-
   //para reccuperar el Lugar
   useEffect(() => {
     const fetchData = async () => {
       try {
         const data = await getPlace(Id);
         setPlaceData(data);
-        setCantLikes(data.Likes)
+        setCantLikes(data.Likes);
         setIsLoading(false); // Marcar la carga como completa
         console.log("datos", data);
       } catch (error) {
@@ -82,30 +84,51 @@ const InfoScreen = () => {
     fetchData();
   }, []);
 
-  //para poder pedir permisos de localisacion----------------------
-  const [origin, setOrigin] = useState(null);
-  const [destination, setDestination] = useState(null);
-  useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        Alert.alert("Permiso denegado", "No se pudo obtener la ubicación");
-        return;
-      }
+  //------------------------------------------------------------------------
+   const [directions, setDirections] = useState(null);
+   const [currentLocation, setCurrentLocation] = useState(null);
 
-      let location = await Location.getCurrentPositionAsync({});
-      setOrigin({
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
-      });
+     useEffect(() => {
+       (async () => {
+         let { status } = await Location.requestForegroundPermissionsAsync();
+         if (status !== "granted") {
+           setErrorMsg("Permission to access location was denied");
+           return;
+         }
 
-      // Destino de ejemplo
-      setDestination({
-        latitude: -34.609722,
-        longitude: -58.377232,
-      });
-    })();
-  }, []);
+         let location = await Location.getCurrentPositionAsync({});
+         setCurrentLocation({
+           lat: location.coords.latitude,
+           lng: location.coords.longitude,
+         });
+       })();
+     }, []);
+
+    // const [currentLocation, setCurrentLocation] = useState(null);
+
+    // useEffect(() => {
+    //   if (navigator.geolocation) {
+    //     navigator.geolocation.getCurrentPosition(
+    //       (position) => {
+    //         setCurrentLocation({
+    //           lat: position.coords.latitude,
+    //           lng: position.coords.longitude,
+    //         });
+    //       },
+    //       (error) => {
+    //         setError(error)
+    //         console.error("Error retrieving location", error);
+    //       }
+    //     );
+    //   } else {
+    //     setError1("no entro al if")
+    //     console.error("Geolocation is not supported by this browser");
+    //   }
+    // }, []);
+
+
+  
+
   //------------------------------------------------------------------------------------------------
 
   // Mostrar indicador de carga mientras se obtienen los datos
@@ -116,7 +139,6 @@ const InfoScreen = () => {
       </View>
     );
   }
-
   const toggleMute = () => {
     if (video.current) {
       setIsMuted((prevIsMuted) => {
@@ -125,20 +147,9 @@ const InfoScreen = () => {
       });
     }
   };
-
   const SetCalendar = (data) => {
     console.log("estos son las hora", data);
   };
-
-  // Estilo del mapa para ocultar POI----------------------------------------
-  const customMapStyle = [
-    {
-      featureType: "poi",
-      elementType: "labels",
-      stylers: [{ visibility: "off" }],
-    },
-  ];
-
   const getChangeFavorite = async (Id) => {
     try {
       const isFavorite = favorites.includes(Id);
@@ -157,20 +168,20 @@ const InfoScreen = () => {
       <ScrollView style={styles.Container} nestedScrollEnabled={true}>
         <View style={styles.ContVideo}>
           {placeData && placeData.Video ? (
-            <ImageBackground source={ImgLong} resizeMode="center">
-              <Video
-                ref={video}
-                source={{ uri: placeData.Video }}
-                resizeMode={ResizeMode.COVER}
-                isLooping
-                volume={0.3}
-                shouldPlay
-                setIsMuted={true}
-                isMuted={isMuted}
-                style={styles.VideoStyle}
-              ></Video>
-            </ImageBackground>
+            // <ImageBackground source={ImgLong} resizeMode="center">
+            <Video
+              ref={video}
+              source={{ uri: placeData.Video }}
+              resizeMode={ResizeMode.CONTAIN}
+              isLooping
+              volume={0.9}
+              shouldPlay
+              setIsMuted={true}
+              isMuted={isMuted}
+              style={styles.VideoStyle}
+            ></Video>
           ) : (
+            // </ImageBackground>
             <View style={styles.VideoStyle}>
               <Image
                 source={{ uri: placeData.ImagesID[0] }}
@@ -292,9 +303,10 @@ const InfoScreen = () => {
           </View>
         </View>
 
+        {/* para las opciones de mapas audio horario */}
         <View style={styles.contOptions}>
           <View style={{ flex: 1 }}>
-            <TouchableOpacity onPress={() => handlerOpen()}>
+            <TouchableOpacity onPress={() => setModalDirection(true)}>
               <Ionicons
                 name="location-sharp"
                 style={styles.LocationIcon}
@@ -322,6 +334,7 @@ const InfoScreen = () => {
           </View>
         </View>
 
+        {/* para poder la direccion y el corazon    */}
         <View style={styles.ContHeardAddress}>
           <View style={styles.ContHeart}>
             <FontAwesome name="heart" size={wp("6%")} color="red" />
@@ -335,79 +348,53 @@ const InfoScreen = () => {
         </View>
 
         <View style={styles.separator} />
-
         {/* para las Imagens de Haora */}
         <ImageNow data={placeData} />
-
         {/* para mostar los datos */}
         <InfoCon data={placeData} />
       </ScrollView>
 
       {/* para la Localisacion */}
-      <BottomSheet
-        handleIndicatorStyle={{ backgroundColor: "white" }}
-        enablePanDownToClose={true}
-        backgroundStyle={{ backgroundColor: "#508C9B" }}
-        ref={bottomSheetRef}
-        snapPoints={snapPoints}
-        index={-1}
-        containerStyle={styles.ContMapButtomSheet}
-        enableContentPanningGesture={false} //para poder avilitar los getos dentro del contenedor
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={useModalDirection}
+        onRequestClose={() => setModalDirection(false)}
       >
-        <MapView
-          style={{ flex: 1 }}
-          region={{
-            latitude: placeData.Coordinates.latitude,
-            longitude: placeData.Coordinates.longitude,
-            longitudeDelta: 0.05,
-            latitudeDelta: 0.05,
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "flex-end",
+            alignItems: "center",
+            backgroundColor: "rgba(0,0,0,0)",
           }}
-          customMapStyle={customMapStyle}
-          showsUserLocation={true}
         >
-      
+          <View style={styles.ContDirection}>
+            <View style={styles.modalHeader}>
+              <View style={styles.contTextNameMap}>
+                <Text numberOfLines={1} style={styles.textHeaderMap}>
+                  {placeData.Name}
+                </Text>
+              </View>
 
-          {/* {origin && <Marker coordinate={origin} title="Origen" />} */}
-          {destination && (
-            <Marker
-              coordinate={{
-                latitude: placeData.Coordinates.latitude,
-                longitude: placeData.Coordinates.longitude,
-              }}
-              title="Destino"
-              image={
-                placeData?.CategoryID?.PinMap
-                  ? placeData.CategoryID.PinMap
-                  : "https://firebasestorage.googleapis.com/v0/b/llajtatour-57c11.appspot.com/o/IconLocation%2FIconCategori.png?alt=media&token=069218b0-7cc7-4b61-930b-c982c0f47883"
-              }
-            >
-              <Callout>
-                <View style={styles.calloutContainer}>
-                  <Text style={styles.calloutTitle}>{placeData.Name}</Text>
-                </View>
-              </Callout>
+              <View style={styles.contCloseIcon}>
+                <TouchableOpacity onPress={() => setModalDirection(false)}>
+                  <AntDesign name="closecircle" size={26} color="white" />
+                </TouchableOpacity>
+              </View>
+            </View>
 
-            </Marker>
-          )}
+           
 
-          {origin && destination && (
-            <MapViewDirections
-              origin={origin}
-              destination={{
-                latitude: placeData.Coordinates.latitude,
-                longitude: placeData.Coordinates.longitude,
-              }}
-              apikey={GOOGLE_MAPS_APIKEY}
-              strokeWidth={3}
-              strokeColor="#0F1035"
-              onError={(errorMessage) => {
-                console.log("Error al trazar la ruta:", errorMessage);
-              }}
-            />
-          )}
+          
+                  <MapViewWeb locat={currentLocation} placeDataMap={placeData}  />
+              
+             
 
-        </MapView>
-      </BottomSheet>
+          </View>
+        </View>
+      </Modal>
     </GestureHandlerRootView>
   );
 };
@@ -417,10 +404,13 @@ export default InfoScreen;
 const styles = StyleSheet.create({
   //----------------------------------------------
   ContHeardAddress: {
-    flex: 1,
     flexDirection: "row",
     marginHorizontal: hp("3%"),
-    marginVertical: hp("1%"),
+    marginVertical: Platform.select({
+      ios: hp("1%"),
+      android: hp("1%"),
+      web: "2%",
+    }),
   },
 
   ContHeart: {
@@ -448,46 +438,23 @@ const styles = StyleSheet.create({
   },
 
   //-------------------Contenerdor del mapa------------------
-  ContMapButtomSheet: {
-    marginHorizontal: wp("5%"),
-    marginBottom: 10,
-    padding: 20,
-    borderBottomEndRadius: 15,
-    borderBottomStartRadius: 15,
-  },
-
-  calloutContainer: {
-    width: 150,
-    padding: 5,
-    backgroundColor: "#DCF2F1",
-    borderRadius: 8,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
-  calloutTitle: {
-    fontWeight: "600",
-    marginVertical: 1,
-    textAlign: "center",
-    color: "#0F1035",
-  },
 
   //-------------------------------------------------
   ContVideo: {
+    width: "100%",
+    height: hp("50%"),
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
     position: "relative",
+    backgroundColor: "black",
   },
 
   VideoStyle: {
-    width: "100%",
-    height: hp("50%"),
+    display: "flex",
+    width: wp("100%"),
+    height: "100%",
+    backgroundColor: "#03346E",
   },
 
   overlay: {
@@ -497,6 +464,7 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
   },
+
   ContBack: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -545,8 +513,12 @@ const styles = StyleSheet.create({
   //estilos para el titulo
   contTittle: {
     position: "absolute",
-    marginTop: wp("95%"),
-    width: wp("100%"),
+    justifyContent: "center",
+    //alignItems:'center',
+    width: "100%",
+    bottom: -30, // Coloca el contenedor en la parte inferior
+    left: 0,
+    right: 0,
   },
 
   contMicrTitll: {
@@ -610,6 +582,7 @@ const styles = StyleSheet.create({
   //para la localisacion y la Hora
   contOptions: {
     flexDirection: "row",
+    //justifyContent:'space-between',
     marginHorizontal: wp("6%"),
     paddingVertical: hp("1%"),
     marginTop: hp("7%"),
@@ -666,5 +639,40 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#0F1035",
     fontWeight: "500",
+  },
+
+  //estilos para el modal de direction
+  ContDirection: {
+    height: "75%",
+    width: "95%",
+    backgroundColor: "#1A2130",
+    padding: 9,
+    borderTopEndRadius: 20,
+    borderTopLeftRadius: 20,
+  },
+
+  contTextNameMap: {
+    flex: 4,
+  },
+  contCloseIcon: {
+    flex: 1,
+    alignItems: "center",
+  },
+
+  modalHeader: {
+    width: "100%",
+    padding: 10,
+    backgroundColor: "#365486",
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    alignItems: "flex-end",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  textHeaderMap: {
+    fontSize: 18,
+    fontWeight: "300",
+    color: "white",
   },
 });

@@ -48,10 +48,11 @@ const CartsImages = ({ data }) => {
                 style={styles.item}
                 key={item.id}
               >
-                <ImageBackground source={ImgLond} resizeMode="center">
+               
                   <ImageBackground
                     source={{ uri: item.ImagesID[0] }}
                     style={[styles.image, { height: getImageHeight(index) }]}
+                    defaultSource={ImgLond}
                     resizeMode="cover"
                     borderRadius={15}
                   >
@@ -73,7 +74,7 @@ const CartsImages = ({ data }) => {
                       </View>
                     </LinearGradient>
                   </ImageBackground>
-                </ImageBackground>
+               
               </TouchableOpacity>
             ))}
           </View>
@@ -85,11 +86,12 @@ const CartsImages = ({ data }) => {
                 style={styles.item}
                 key={item.id}
               >
-                <ImageBackground source={ImgLond} resizeMode="center">
+               
                   <ImageBackground
                     source={{ uri: item.ImagesID[0] }}
                     style={[styles.image, { height: getImageHeight1(index) }]}
                     resizeMode="cover"
+                    defaultSource={ImgLond}
                     borderRadius={15}
                   >
                     <LinearGradient
@@ -112,7 +114,7 @@ const CartsImages = ({ data }) => {
                       </View>
                     </LinearGradient>
                   </ImageBackground>
-                </ImageBackground>
+               
               </TouchableOpacity>
             ))}
           </View>

@@ -6,7 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "platforms": ["ios", "android"],
+    "platforms": ["ios", "android","web"],
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -15,7 +15,7 @@
     "ios": {
       "supportsTablet": true,
       "config": {
-        "googleMapsApiKey": "Tu Api key"
+        "googleMapsApiKey": "AIzaSyDwDjy2lThsbIR9w2AOHFVFBHUyahu0PJY"
       }
     },
     "android": {
@@ -42,7 +42,7 @@
       ],
       "config": {
         "googleMaps": {
-          "apiKey": "Tu Api key"
+          "apiKey": "AIzaSyDwDjy2lThsbIR9w2AOHFVFBHUyahu0PJY"
         }
       }
     },
@@ -54,11 +54,17 @@
         "projectId": "026c1165-1b85-46f4-a904-2e02d536cb49"
       }
     },
-    "scheme": [
-      "pr-turismo"
-    ],
+    "scheme": "pr-turismo",
+
     "plugins": [
-      "expo-font"
+      "expo-font",
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
+        }
+      ]
+
     ],
     "owner": "jhael123"
   }

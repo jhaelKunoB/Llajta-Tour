@@ -42,7 +42,7 @@ const ImageNow = ({ data }) => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flex:1,
         backgroundColor: '#fff',
         marginHorizontal: wp('5%')
     },
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
         height: Platform.select({
             ios: hp('10%'),
             android: hp('10%'),
-            web:hp('25%')
+            web:hp('10%')
         }),
        
     },

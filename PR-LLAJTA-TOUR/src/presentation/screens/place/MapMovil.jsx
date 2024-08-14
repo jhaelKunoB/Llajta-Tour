@@ -10,10 +10,17 @@ import {
   FlatList,
   Switch,
 } from "react-native";
+
+
+
 import MapView, { Marker, Callout } from "react-native-maps";
+
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
+//para recuperar los lugares
 import { placeLocation, getCategory } from "./controler/placeLocation";
+
 import { useNavigation } from "@react-navigation/native";
 import loanding from "./assets/loading.gif";
 import {
@@ -21,6 +28,9 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { Ionicons } from "@expo/vector-icons";
+
+
+
 
 const Place = () => {
   const navigation = useNavigation();
@@ -127,7 +137,6 @@ const Place = () => {
       stylers: [{ visibility: "off" }],
     },
   ];
-
   //para poder renderisar las categorias---------------------------------
   const renderCategori = ({ item }) => {
     const isSelct = item.id == itemSelect
@@ -145,6 +154,8 @@ const Place = () => {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
+
+      
       <View style={styles.ContHeadder}>
         <View style={styles.ContButonnBack}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -171,7 +182,7 @@ const Place = () => {
 
 
 
-      <MapView
+       <MapView
         style={{ flex: 1 }}
         region={{
           latitude: -17.3935419,
@@ -280,6 +291,8 @@ const Place = () => {
         )}
       </BottomSheet>
 
+
+
       {/* para poder mostrar todas las cateoorias---------------------------------- */}
       <BottomSheet
         handleIndicatorStyle={{ backgroundColor: "black" }}
@@ -328,7 +341,7 @@ const Place = () => {
                   No hay favoritos disponibles.
                 </Text>
               }
-              scrollEnabled={false} // Desactiva el desplazamiento
+              scrollEnabled={true}
               bounces={false}
             />
           </BottomSheetScrollView>

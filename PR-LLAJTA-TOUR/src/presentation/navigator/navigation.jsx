@@ -8,7 +8,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 // Importa tus pantallas
 import Home from '../screens/home/Home.jsx';
 import CategoryScreen from '../screens/category/CategoryScreen.jsx';
-import Place from '../screens/place/placescreen.jsx';
+import Place from '../screens/place/explore.jsx';
 import SearchPlace from '../screens/findplaces/SearchPlace.jsx';
 import Info from '../screens/info/InfoScreen.jsx';
 import FilteredPlaces from '../screens/filterPlaces/FilterPlaces.jsx';
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 10,
         backgroundColor: 'white',
-        borderRadius: 80,
+        borderRadius: 90,
         position: 'relative',
         bottom: 16, // Aumenta la elevación
         elevation: 20,
@@ -150,14 +150,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         width: 40,
-        height: 46,
-        borderRadius: 20,
+        height: 40,
+        borderRadius: 25,
         backgroundColor: 'white',
     },
     label: {
         fontSize: 12,
-        color: '#fff',
-        
+        color: '#fff',     
     },
     selectedLabel: {
         fontSize: 12,

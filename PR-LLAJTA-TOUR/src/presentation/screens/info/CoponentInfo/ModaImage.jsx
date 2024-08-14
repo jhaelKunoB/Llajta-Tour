@@ -6,7 +6,6 @@ import {
   Image,
   TouchableOpacity,
   ImageBackground,
-  Text
 } from "react-native";
 import {
   widthPercentageToDP as wp,
@@ -52,7 +51,6 @@ const ModalImage = ({ img }) => {
                       <FontAwesome name="close" size={28} color="white" />
                     </TouchableOpacity>
                   )}
-                // renderIndicator={() => null}
               />
             </View>
           </View>
