@@ -65,10 +65,13 @@ const Body = () => {
 
     return (
         <View style={{ marginBottom: 70 }}>
-            <View style={{ marginHorizontal:23, marginTop:20}}>
+            <View style={{ marginHorizontal:23, marginTop:10}}>
                 <Text style={BodyStyle.headerText1}>Explora la diversidad de</Text>
                <Text style={BodyStyle.headerText2}>Cochabamba</Text>
             </View>
+
+
+
             <SearchBar
                 placeholder="Buscar..."
                 lightTheme
@@ -153,7 +156,7 @@ const BodyStyle = StyleSheet.create({
         height: 50,
     },
     leftIconContainer: {
-        marginLeft: 10,
+        marginLeft: 15,
     },
     rightIconContainer: {
         marginRight: 10,

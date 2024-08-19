@@ -113,7 +113,7 @@ const Favorite = () => {
             Por favor, inicia sesión para ver tus favoritos.
           </Text>
           <TouchableOpacity onPress={() => navigation.navigate("Login")} style={styles.buttomSign}>
-            <Text style={styles.butonTextSign}>Inicio seccion</Text>
+            <Text style={styles.butonTextSign}>Inicio sesión</Text>
           </TouchableOpacity>
         
         </View>

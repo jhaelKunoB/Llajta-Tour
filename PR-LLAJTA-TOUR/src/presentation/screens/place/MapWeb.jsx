@@ -21,7 +21,6 @@ import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 import { placeLocation, getCategory } from "./controler/placeLocation";
 import loanding from "./assets/loading.gif";
 
-
 const mapContainerStyle = {
   height: "100vh",
   width: "100%",
@@ -32,6 +31,7 @@ const center = {
 };
 const mapOptions = {
   disableDefaultUI: true,
+  mapTypeId: "terrain",
   styles: [
     {
       featureType: "poi",
@@ -47,16 +47,18 @@ const MapWeb = () => {
   const [place, setPlace] = useState();
   const [categorys, setCategori] = useState();
   //para el modal del lugar
-  const snapPoints = useMemo(() => [hp("0.1"),hp("28")], []);
+  const snapPoints = useMemo(() => [hp("0.1"), hp("28")], []);
   const bottomSheetRef = useRef(null);
   const handlerClose = () => bottomSheetRef.current?.close();
   const handlerOpen = () => bottomSheetRef.current?.expand();
   //para categorias
   const bottmSheeCategori = useRef(null);
   const HandlerCategoruOpen = () => bottmSheeCategori.current?.expand();
-  const HandlerCategoruClose = () => bottmSheeCategori.current?.close(); 
+  const HandlerCategoruClose = () => bottmSheeCategori.current?.close();
   const snapPointsCatego = useMemo(() => [hp("0.1"), hp("70")], []);
 
+
+  const mapRef = useRef(null); // Referencia al mapa
   // //para Inicialisar los valores
   useEffect(() => {
     const fetchPlaces = async () => {
@@ -83,9 +85,19 @@ const MapWeb = () => {
 
         if (selectedPlace) {
           setPlace(selectedPlace);
+
+          if (mapRef.current) {
+            mapRef.current.panTo({
+              lat: selectedPlace.latitude,
+              lng: selectedPlace.longitude,
+            });
+          }
+
         } else {
           console.warn("Lugar no encontrado con id:", id);
         }
+
+
       } else {
         console.warn("No se han encontrado lugares o id no proporcionado");
       }
@@ -95,44 +107,55 @@ const MapWeb = () => {
   };
 
   //----------------------------------
+  const [isSwitchDisabled, setIsSwitchDisabled] = useState(true);
   const [switchValue, setSwitchValue] = useState(true);
+
   const toggleSwitch = (value) => {
     try {
       if (value) {
-        setFindPlace(places)
-        HandlerCategoruClose()
-        handlerClose()
-        setItemSelect(null)
+        setFindPlace(places);
+        HandlerCategoruClose();
+        handlerClose();
+        setItemSelect(null);
+        setIsSwitchDisabled(true);
       }
       setSwitchValue(value);
     } catch (error) {
       console.error(error);
     }
   };
-   //para poder renderisar las categorias---------------------------------
-   const [itemSelect, setItemSelect] = useState(null)
-   const renderCategori = ({ item }) => {
-    const isSelct = item.id == itemSelect
-    return(
+
+  //para poder renderisar las categorias---------------------------------
+  const [itemSelect, setItemSelect] = useState(null);
+  const renderCategori = ({ item }) => {
+    const isSelct = item.id == itemSelect;
+    return (
       <TouchableOpacity
-      style={isSelct ? styles.selectItem : styles.itemContainer}
-      onPress={() => FindCategoris(item.id)}>
-      <Image source={{ uri: item.PinMap }} style={{ width: 40, height: 50 }} />
-      <Text style={styles.itemText}>{item.Type}</Text>
-    </TouchableOpacity>
-    )
-  }
-    //para Filtrar por  categorias----------------------------------------
-    const FindCategoris = (idCat) => {
-      if (places) {
-        const fibdCate = places.filter((index) => index.CategoryID?.id == idCat)
-        setItemSelect(idCat)
-        setFindPlace(fibdCate)
-        HandlerCategoruClose()
-        handlerClose()
-        setSwitchValue(false) 
-      }
-    };
+        style={isSelct ? styles.selectItem : styles.itemContainer}
+        onPress={() => FindCategoris(item.id)}
+      >
+        <Image
+          source={{ uri: item.PinMap }}
+          style={{ width: 40, height: 50 }}
+        />
+        <Text style={styles.itemText}>{item.Type}</Text>
+      </TouchableOpacity>
+    );
+  };
+  //para Filtrar por  categorias----------------------------------------
+  const FindCategoris = (idCat) => {
+    if (places) {
+      const fibdCate = places.filter((index) => index.CategoryID?.id == idCat);
+      setItemSelect(idCat);
+      setFindPlace(fibdCate);
+      HandlerCategoruClose();
+      handlerClose();
+
+      setSwitchValue(false);
+
+      setIsSwitchDisabled(false);
+    }
+  };
 
   return (
     <View style={{ flex: 1 }}>
@@ -166,8 +189,9 @@ const MapWeb = () => {
         <GoogleMap
           mapContainerStyle={mapContainerStyle}
           options={mapOptions}
-          zoom={13}
+          zoom={11}
           center={center}
+          onLoad={(map) => (mapRef.current = map)} 
         >
           {findPLace.length > 0 &&
             findPLace.map((item) => (
@@ -182,12 +206,15 @@ const MapWeb = () => {
                 icon={{
                   url: item?.CategoryID?.PinMap
                     ? item.CategoryID.PinMap
-                    : "https://firebasestorage.googleapis.com/v0/b/llajtatour-57c11.appspot.com/o/IconLocation%2FIconCategori.png?alt=media&token=069218b0-7cc7-4b61-930b-c982c0f47883",
+                    : "https://firebasestorage.googleapis.com/v0/b/llajtatour-57c11.appspot.com/o/IconLocation%2FNoCategori.png?alt=media&token=3003764b-0fc8-4452-8cd5-074b6567f4fb",
                   scaledSize: new window.google.maps.Size(45, 50), // Ajusta el tamaño del ícono aquí (30x30 píxeles en este caso)
-                  anchor: new window.google.maps.Point(5, 5), // Ajusta el punto de anclaje del ícono
+                  anchor: new window.google.maps.Point(4, 4), // Ajusta el punto de anclaje del ícono
                 }}
-              ></Marker>
+              >
+              </Marker>
             ))}
+
+         
         </GoogleMap>
       </LoadScript>
 
@@ -223,7 +250,7 @@ const MapWeb = () => {
                 <Text style={styles.textCategory}>
                   {place.CategoryID?.Type
                     ? place.CategoryID.Type
-                    : "Tipo no disponible"}
+                    : "Categoría no Disponible"}
                 </Text>
               </View>
 
@@ -275,9 +302,8 @@ const MapWeb = () => {
         )}
       </BottomSheet>
 
-
-        {/* para poder mostrar todas las cateoorias---------------------------------- */}
-        <BottomSheet
+      {/* para poder mostrar todas las cateoorias---------------------------------- */}
+      <BottomSheet
         handleIndicatorStyle={{ backgroundColor: "transparent" }}
         enablePanDownToClose={true}
         backgroundStyle={{ backgroundColor: "#EEF7FF" }}
@@ -289,7 +315,7 @@ const MapWeb = () => {
         enableOverDrag={false}
         enableHandlePanningGesture={false}
       >
-          <View style={styles.contClosePlaceInfo}>
+        <View style={styles.contClosePlaceInfo}>
           <TouchableOpacity
             onPress={() => HandlerCategoruClose()}
             style={styles.handleIndicator1}
@@ -310,14 +336,13 @@ const MapWeb = () => {
             <Switch
               value={switchValue}
               style={{ transform: [{ scale: 1.2 }] }}
-              thumbColor={switchValue ? "#153448" : "white"} // Cambia el color del thumb
+              thumbColor={switchValue ? "#176B87" : "white"} // Cambia el color del thumb
               trackColor={{ false: "#767577", true: "#9AC8CD" }}
               onValueChange={toggleSwitch}
+              disabled={isSwitchDisabled}
             />
           </View>
         </View>
-
-
 
         {categorys ? (
           <BottomSheetScrollView>
@@ -341,7 +366,6 @@ const MapWeb = () => {
           </View>
         )}
       </BottomSheet>
-
     </View>
   );
 };
@@ -464,7 +488,7 @@ const styles = StyleSheet.create({
   },
   contClosePlaceInfo: {
     alignItems: "center",
-    marginBottom:hp("1%")
+    marginBottom: hp("1%"),
   },
 
   //--------------------------------
@@ -485,24 +509,24 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "300",
     paddingVertical: 5,
-    color:'#222831'
+    color: "#222831",
   },
 
-  contAllCatego:{
-    flexDirection:'row',
-    paddingTop:8,
-    paddingBottom:8,
-    backgroundColor:'#DCF2F1',
-    borderRadius:10,
-    justifyContent:'center',
-    alignItems:'center',
-    marginHorizontal:10,
-    marginBottom:5
+  contAllCatego: {
+    flexDirection: "row",
+    paddingTop: 8,
+    paddingBottom: 8,
+    backgroundColor: "#B4D4FF",
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    marginHorizontal: 10,
+    marginBottom: 5,
   },
 
-  textCatego:{
-    fontSize:15,
-    fontWeight:'300'
+  textCatego: {
+    fontSize: 15,
+    fontWeight: "300",
   },
 
   itemContainer: {
@@ -515,7 +539,7 @@ const styles = StyleSheet.create({
     padding: 2,
   },
 
-  selectItem:{
+  selectItem: {
     flex: 1,
     justifyContent: "space-between",
     alignItems: "center",
@@ -523,8 +547,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#DCF2F1",
     borderRadius: 15,
     padding: 2,
-    borderWidth:3,
-    borderColor:'white'
+    borderWidth: 3,
+    borderColor: "white",
   },
 
   itemText: {
@@ -540,9 +564,4 @@ const styles = StyleSheet.create({
     width: wp("15%"),
     borderRadius: 10,
   },
-
-
-
-
-
 });

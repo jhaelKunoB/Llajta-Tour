@@ -7,8 +7,9 @@ import {
 } from "@react-google-maps/api";
 import { useState, useEffect } from "react";
 import * as Location from 'expo-location';
-import { View, Text } from "react-native";
+import { View, Text, Image } from "react-native";
 
+const imgLoanding = require('../assets/loading copy.gif')
 
 
 const mapContainerStyle = {
@@ -81,14 +82,14 @@ const MapViewWeb = ({locat, placeDataMap}) => {
   // }, [isLoaded, locat]);
 
 
-  if (!isLoaded) return <><Text>Loading...</Text></>;
+  if (!isLoaded) return <> <Image source={imgLoanding} style={{width:'100%', height:'100%'}} resizeMode='center' /> </>;
 
   return (
     <>
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
         options={mapOptions}
-        zoom={13}
+        zoom={18}
         center={destination || { lat: -17.3935419, lng: -66.1570139 }}
       >
         

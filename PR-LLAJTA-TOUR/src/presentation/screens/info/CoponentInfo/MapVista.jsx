@@ -24,8 +24,6 @@ const MapVista = () => {
         })();
       }, []);
 
-      
-
     return(
         <>
             <MapViewWeb locat={currentLocation} />

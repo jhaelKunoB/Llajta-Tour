@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Alert, Modal, StyleSheet, Text, Pressable, View, FlatList, Image } from 'react-native';
+import {Modal, StyleSheet, Text, Pressable, View, FlatList, Image } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { FontAwesome } from '@expo/vector-icons';
 
@@ -26,14 +26,12 @@ const Calendar = ({ data }) => {
     return (
         <View style={styles.centeredView}>
             <Modal
-                animationType="slide"
+                animationType="fade"
                 transparent={true}
                 visible={modalVisible}
-                onRequestClose={() => {
-                    Alert.alert('Modal has been closed.');
-                    setModalVisible(!modalVisible);
+                onRequestClose={() => {setModalVisible(!modalVisible);
                 }}>
-                <View style={styles.centeredView}>
+                <View style={styles.ContcenteredView}>
                     <View style={styles.modalView}>
 
                         <View style={styles.ContIconTittle}>
@@ -46,6 +44,8 @@ const Calendar = ({ data }) => {
                                 </Pressable>
                             </View>
                         </View>
+
+
                         <View style={styles.line}></View>
 
                         {isHours.length > 0 ? (
@@ -69,7 +69,7 @@ const Calendar = ({ data }) => {
                                 )}
                             />
                         ) : (
-                            <View style={{ with:'100%', height:'45%', justifyContent:'center', alignItems:'center'}}>
+                            <View style={styles.contMess}>
                                 <Image source={NotHour} style={styles.notImage} resizeMode='cover'></Image>
                                 <Text style={styles.textNotHour}>Este sitio está disponible a cualquier hora</Text>
                             </View>
@@ -87,6 +87,13 @@ const Calendar = ({ data }) => {
 };
 
 const styles = StyleSheet.create({
+
+    contMess:{
+     with:'100%', 
+     height:'45%', 
+     justifyContent:'center', 
+     alignItems:'center'
+    },
 
     notImage:{
         width:wp('50'),
@@ -148,6 +155,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
 
+    ContcenteredView:{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor:'rgba(0,0,0,0.5)'
+    },
+
     modalView: {
         width: wp('70%'),
         height: hp('40%'),
@@ -177,7 +191,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         marginTop: hp('2%'),
         marginBottom: hp('0.5%'),
-        marginHorizontal: wp('2.6%')
+        marginHorizontal: wp('2%'),
+        width:'100%'
     },
 
     title: {
@@ -186,19 +201,21 @@ const styles = StyleSheet.create({
     },
 
     ContTittle: {
-        flex: 3,
+        flex: 4,
+        justifyContent:'center'
     },
 
     ContClose: {
         flex: 1,
         width: '100%',
         justifyContent: 'center',
+        alignItems:'center',  
     },
     buttonClose: {
         textAlign: 'right',
     },
     IconClose: {
-        fontSize: wp('6%'),
+        fontSize: wp('7%'),
         color: '#4D869C',
         textAlign: 'right'
     },

@@ -1,4 +1,4 @@
-import { FontAwesome, Ionicons, AntDesign } from '@expo/vector-icons';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { useRef, useState } from "react";
 import { SafeAreaView, Modal, TouchableOpacity, Text, StyleSheet, Animated, Easing, TouchableWithoutFeedback } from "react-native";
 
@@ -41,7 +41,8 @@ const PopUpMenu = () => {
     return (
         <>
             <TouchableOpacity onPress={() => resizeBox(1)}>
-                <AntDesign name="pluscircleo" size={28} color="black" />
+                {/* <AntDesign name="pluscircleo" size={28} color="black" /> */}
+                <MaterialIcons name="menu-open" size={30} color="black" />
             </TouchableOpacity>
 
             <Modal transparent visible={visible} animationType="none">

@@ -6,7 +6,11 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "platforms": ["ios", "android","web"],
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -55,7 +59,6 @@
       }
     },
     "scheme": "pr-turismo",
-
     "plugins": [
       "expo-font",
       [
@@ -63,8 +66,8 @@
         {
           "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
         }
-      ]
-
+      ],
+      "expo-video"
     ],
     "owner": "jhael123"
   }
