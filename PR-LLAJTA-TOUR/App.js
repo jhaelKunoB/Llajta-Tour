@@ -12,9 +12,6 @@ export default function App() {
 
   const { user, loading } = UserAuth();
 
-
-
-
   if (loading) {
     return (
       <>

@@ -81,7 +81,7 @@ const CategoryScreen = () => {
           data={categories}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
-            <ListCategories data={item} onPress={handleCategoryPress} />
+            <ListCategories data={item} onPress={handleCategoryPress}/>
           )}
           contentContainerStyle={styles.listContainer}
         />

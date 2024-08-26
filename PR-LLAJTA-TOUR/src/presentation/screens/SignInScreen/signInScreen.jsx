@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   View,
@@ -9,6 +9,9 @@ import {
   Dimensions,
   ScrollView,
   Alert,
+  ActivityIndicator,
+  Modal
+  
 } from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
@@ -21,32 +24,41 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { auth, db } from "../../../../database/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 
-import ImgFont from "./assets/fondo.png";
 
+
+const ImgFont = require("./assets/fondo2.jpg")
+const IconGloogle = require('./assets/IconGoogle.png')
 const { height } = Dimensions.get("window");
 
 WebBrowser.maybeCompleteAuthSession();
 
 const SignInScreen = () => {
   const navigation = useNavigation();
-
+  const [loguenado, setLoguenado] = useState(false)
   const [userInfo, setUserInfo] = React.useState();
   const [request, response, promptAsync] = Google.useAuthRequest({
     webClientId: "172913904569-ifaeffngu9h75cloetkrbqjndii09ejk.apps.googleusercontent.com",
   });
 
+
+
   React.useEffect(() => {
+
     if (response?.type === "success") {
-      console.log("Response: ", response);
       const { accessToken } = response.authentication;
       handleSignInWithGoogle(accessToken);
     } else {
       console.log("Response Error: ", response);
     }
+
   }, [response]);
+
+
 
   const handleSignInWithGoogle = async (accessToken) => {
     try {
+
+      setLoguenado(true)//Inicia el Loanding
       // Inicia sesión con Firebase usando el access token de Google
       const credential = GoogleAuthProvider.credential(null, accessToken);
       const userCredential = await signInWithCredential(auth, credential);
@@ -63,7 +75,7 @@ const SignInScreen = () => {
           email: user.email,
           favorites: [], // Inicializar con un arreglo vacío de favoritos
         });
-        console.log("Usuario guardado en Firestore");
+
       } else {
         console.log("Usuario ya existe en Firestore");
       }
@@ -73,11 +85,17 @@ const SignInScreen = () => {
       setUserInfo(user);
 
       navigation.navigate("Home");
+
     } catch (error) {
       console.error("Firebase login error: ", error);
       Alert.alert('Error', 'No se pudo iniciar sesión con Google.');
+    }finally{
+      setLoguenado(false)
     }
   };
+
+
+
 
   return (
     <>
@@ -94,6 +112,7 @@ const SignInScreen = () => {
               Sumérgete en la rica historia de Cochabamba, desde sus mercados
               tradicionales hasta sus majestuosas iglesias coloniales.
             </Text>
+
             <View style={styles.butomContinuo}>
               <TouchableOpacity
                 style={styles.butom3}
@@ -102,15 +121,21 @@ const SignInScreen = () => {
                 <Text style={styles.butomText}>Continuar</Text>
               </TouchableOpacity>
             </View>
+
+
             <View style={styles.butomContainer}>
+
               <TouchableOpacity
                 style={styles.butom3}
-                onPress={() => promptAsync()}
-              >
-                <Text> Iniciar con Google </Text>
+                onPress={() => promptAsync()}>
+                  <Image source={IconGloogle} style={styles.IconGoogleIm}></Image>
+                  <Text>Continuar con Google</Text>
               </TouchableOpacity>
+
             </View>
-            <View style={styles.butomContainer}>
+
+
+            {/* <View style={styles.butomContainer}>
               <TouchableOpacity
                 style={styles.butom1}
                 onPress={() => navigation.navigate("Register")}
@@ -124,16 +149,44 @@ const SignInScreen = () => {
               >
                 <Text style={styles.butomText}>Iniciar</Text>
               </TouchableOpacity>
-            </View>
+            </View> */}
+
+            
           </View>
         </ScrollView>
       </SafeAreaView>
+
+
+      <Modal
+        transparent={true}
+        animationType="fade"
+        visible={loguenado}
+        onRequestClose={() => {}}
+      >
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color="#365486" />
+        </View>
+      </Modal>
+
     </>
   );
 };
 export default SignInScreen;
 
 const styles = StyleSheet.create({
+  //para tempo de carga
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#DCF2F180",
+  },
+
+  IconGoogleIm:{
+    width:'10%',
+    height:20
+  },
+
   contenedor: {
     flex: 1,
     alignItems: "center",
@@ -143,8 +196,8 @@ const styles = StyleSheet.create({
     width: "85%",
     height: (height / 3) * 1.4,
     borderRadius: 16,
-    marginBottom: 40,
-    marginTop: 40,
+    marginBottom: 25,
+    marginTop: 25,
   },
 
   ContContainer: {
@@ -183,7 +236,9 @@ const styles = StyleSheet.create({
   },
   butom3: {
     flex: 1,
-    alignItems: "center",
+    flexDirection:'row',
+    justifyContent: "center",
+    alignItems:'center',
     padding: 16,
   },
 
@@ -193,7 +248,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "#EEF7FF",
     borderRadius: 16,
-    marginTop: "15%",
+    marginTop: "10%",
   },
 
   butomContainer: {

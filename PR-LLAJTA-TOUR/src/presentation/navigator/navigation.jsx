@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+//import UseAuth from '../../../database/userAuth.jsx'
 // Importa tus pantallas
 import Home from '../screens/home/Home.jsx';
 import CategoryScreen from '../screens/category/CategoryScreen.jsx';
@@ -19,6 +20,7 @@ import Favorite from '../screens/favorite/FavoritesScreen.jsx'
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+//const { userNew } = UseAuth();
 
 function MyStack({user}) {
     return (
@@ -26,7 +28,7 @@ function MyStack({user}) {
             <Stack.Screen name="SignInScreem" component={SignInScreen} options={{ headerShown: false }} />
             <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
             <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
-            <Stack.Screen name="Home" component={MyTaps} options={{ headerShown: false }} />
+             <Stack.Screen name="Home" component={MyTaps} options={{ headerShown: false }} /> 
             <Stack.Screen name="Info" component={Info} options={{ headerShown: false }} />
             <Stack.Screen name="SearchPlace" component={SearchPlace} options={{ headerShown: false }} />
             <Stack.Screen name="CategoryScreen" component={CategoryScreen} />
@@ -35,19 +37,19 @@ function MyStack({user}) {
     );
 }
 
-const TabButton = ({ label, iconName, onPress, isSelected }) => {
+const TabButton = ({ label, iconName, onPress, isSelected, iconColor  }) => {
     return (
         <TouchableOpacity onPress={onPress} style={styles.tabButton}>
             <View style={isSelected ? styles.selectedButton : styles.button}>
                 <View style={isSelected ? styles.selectedIconContainer : styles.iconContainer}>
-                    <Ionicons name={iconName} size={24} color={isSelected ? '#5A72A0' : '#fff'} />
+                    <Ionicons name={iconName} size={isSelected ? 27 : 24 } color={iconColor} />
                 </View>
                 <Text style={isSelected ? styles.selectedLabel : styles.label}>{label}</Text>
             </View>
         </TouchableOpacity>
     );
 };
-//<Ionicons name="heart-outline" size={24} color="black" />
+
 function MyTaps() {
     return (
         <Tab.Navigator
@@ -59,13 +61,16 @@ function MyTaps() {
             }}
             tabBar={(props) => <MyTabBar {...props} />}
         >
-             <Tab.Screen name="Inicio" component={Home} options={{ tabBarLabel: 'Inicio', tabBarIcon: 'home-outline' }} />
+            <Tab.Screen name="Inicio" component={Home} options={{ tabBarLabel: 'Inicio', tabBarIcon: 'home-outline' }} />
             <Tab.Screen name="Categorias" component={CategoryScreen} options={{ tabBarLabel: 'Categorias', tabBarIcon: 'list-outline'}} />
             <Tab.Screen name="Lugares" component={Place} options={{ tabBarLabel: 'Explorar', tabBarIcon: 'location-outline'}} />
-            <Tab.Screen name="Favorite" component={Favorite} options={{ tabBarLabel: 'Favoritos', tabBarIcon: 'heart-outline'}} />
+            <Tab.Screen name="Favorite" component={Favorite} options={{ tabBarLabel: 'Favoritos', tabBarIcon: 'heart'}} />
+            
         </Tab.Navigator>
     );
 }
+
+
 
 const MyTabBar = ({ state, descriptors, navigation }) => {
     return (
@@ -76,6 +81,14 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
                 const iconName = options.tabBarIcon !== undefined ? options.tabBarIcon : 'home-outline';
                 const isSelected = state.index === index;
 
+                        // Calculate icon color based on the selection state
+                let iconColor = isSelected ? '#5A72A0' : '#fff'; // Default for all icons
+
+                if (route.name === 'Favorite') {
+                    iconColor = isSelected ? '#ff0000' : '#ccc'; // Red for selected heart, grey for not selected
+                }
+
+                 
                 const onPress = () => {
                     const event = navigation.emit({
                         type: 'tabPress',
@@ -95,6 +108,7 @@ const MyTabBar = ({ state, descriptors, navigation }) => {
                         iconName={iconName}
                         onPress={onPress}
                         isSelected={isSelected}
+                        iconColor={iconColor}
                     />
                 );
             })}
@@ -176,6 +190,8 @@ const styles = StyleSheet.create({
 });
 
 const Navigation = ({user}) => {
+
+   
     return (
         <NavigationContainer>
             <MyStack user={user} />

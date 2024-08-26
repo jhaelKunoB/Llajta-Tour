@@ -12,7 +12,7 @@ import {
 } from "react-native";
 
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { Ionicons, FontAwesome, Entypo, AntDesign } from "@expo/vector-icons";
+import { Ionicons, FontAwesome, Entypo } from "@expo/vector-icons";
 
 
 import {
@@ -83,9 +83,7 @@ const InfoScreen = () => {
   }, []);
 
   //------------------------------------------------------------------------
-  const [directions, setDirections] = useState(null);
   const [currentLocation, setCurrentLocation] = useState(null);
-
   useEffect(() => {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
@@ -99,31 +97,10 @@ const InfoScreen = () => {
         lat: location.coords.latitude,
         lng: location.coords.longitude,
       });
+
+      console.log(currentLocation)
     })();
   }, []);
-
-  // const [currentLocation, setCurrentLocation] = useState(null);
-
-  // useEffect(() => {
-  //   if (navigator.geolocation) {
-  //     navigator.geolocation.getCurrentPosition(
-  //       (position) => {
-  //         setCurrentLocation({
-  //           lat: position.coords.latitude,
-  //           lng: position.coords.longitude,
-  //         });
-  //       },
-  //       (error) => {
-  //         setError(error)
-  //         console.error("Error retrieving location", error);
-  //       }
-  //     );
-  //   } else {
-  //     setError1("no entro al if")
-  //     console.error("Geolocation is not supported by this browser");
-  //   }
-  // }, []);
-
   //------------------------------------------------------------------------------------------------
 
   // Mostrar indicador de carga mientras se obtienen los datos
@@ -231,7 +208,6 @@ const InfoScreen = () => {
               >
 
                 <Text style={styles.textTittle}>{placeData.Name}</Text>
-
               </View>
 
 
@@ -249,10 +225,11 @@ const InfoScreen = () => {
                     />
                   </TouchableOpacity>
                 ) : (
-                  <TouchableOpacity onPress={() => setModalVisible(true)} disabled={true}  >
+
+                  <TouchableOpacity onPress={() => setModalVisible(true)}>
                     <Ionicons name={"heart"} style={styles.HeardIcon} />
                   </TouchableOpacity>
-                )}
+               )}
               </View>
 
 
@@ -282,7 +259,7 @@ const InfoScreen = () => {
 
                       <View style={styles.ContButom}>
                         <TouchableOpacity
-                          onPress={() => navigation.navigate("Login")}
+                          onPress={() => navigation.navigate("SignInScreem")}
                           style={styles.butonSignIn}
                         >
                           <Text style={styles.ButontextSignIn}>
@@ -294,8 +271,7 @@ const InfoScreen = () => {
                   </View>
                 </TouchableWithoutFeedback>
               </Modal>
-
-
+              
             </View>
           </View>
 
@@ -358,7 +334,6 @@ const InfoScreen = () => {
       </ScrollView>
 
       {/* para la Localisacion */}
-
       <Modal
         animationType="fade"
         transparent={true}
@@ -394,10 +369,6 @@ const InfoScreen = () => {
           </View>
         </View>
       </Modal>
-
-
-
-
 
     </GestureHandlerRootView>
   );
