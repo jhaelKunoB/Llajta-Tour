@@ -6,28 +6,21 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-<<<<<<< HEAD
-=======
     "platforms": [
       "ios",
       "android",
       "web"
     ],
->>>>>>> main
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "ios": {
-<<<<<<< HEAD
-      "supportsTablet": true
-=======
       "supportsTablet": true,
       "config": {
         "googleMapsApiKey": "AIzaSyDwDjy2lThsbIR9w2AOHFVFBHUyahu0PJY"
       }
->>>>>>> main
     },
     "android": {
       "adaptiveIcon": {
@@ -50,16 +43,12 @@
             "DEFAULT"
           ]
         }
-<<<<<<< HEAD
-      ]
-=======
       ],
       "config": {
         "googleMaps": {
           "apiKey": "AIzaSyDwDjy2lThsbIR9w2AOHFVFBHUyahu0PJY"
         }
       }
->>>>>>> main
     },
     "web": {
       "favicon": "./assets/favicon.png"
