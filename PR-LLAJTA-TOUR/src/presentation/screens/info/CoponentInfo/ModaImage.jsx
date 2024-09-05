@@ -1,10 +1,29 @@
 import React, { useState } from "react";
+<<<<<<< HEAD
 import { StyleSheet, View, Modal, Image, TouchableOpacity } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import ImageViewer from 'react-native-image-zoom-viewer';
+=======
+import {
+  StyleSheet,
+  View,
+  Modal,
+  Image,
+  TouchableOpacity,
+  ImageBackground,
+} from "react-native";
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
+import { FontAwesome } from "@expo/vector-icons";
+import ImageViewer from "react-native-image-zoom-viewer";
+import ImgLong from '../assets/loading copy.gif'
+>>>>>>> main
 
 const ModalImage = ({ img }) => {
 
+<<<<<<< HEAD
     const [modalVisible, setModalVisible] = useState(false);
 
     const images = [{ url: img }];
@@ -40,6 +59,42 @@ const ModalImage = ({ img }) => {
                 <Image source={{ uri: img }} style={styles.Styleimage} key={img} />
             </TouchableOpacity>
 
+=======
+  const OpenIndex = (index) => {
+    setImgIndex(index)
+    setModalVisible(true)
+  }
+  return (
+    <>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <View style={styles.imgContainer}>
+              <ImageViewer
+                imageUrls={imageUrls}
+                style={styles.imgModal}
+                enableSwipeDown
+                index={indeImg}
+                onSwipeDown={() => setModalVisible(false)}
+                renderHeader={() => (
+                    <TouchableOpacity
+                      style={styles.closeButton}
+                      onPress={() => setModalVisible(false)}
+                    >
+                      <FontAwesome name="close" size={28} color="white" />
+                    </TouchableOpacity>
+                  )}
+              />
+            </View>
+          </View>
+>>>>>>> main
         </View>
     )
 }

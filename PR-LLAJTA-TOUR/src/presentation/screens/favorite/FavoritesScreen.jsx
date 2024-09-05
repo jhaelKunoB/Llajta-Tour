@@ -37,7 +37,11 @@ const Favorite = () => {
           try {
             const favoritePlaces = await getFavoritePlace(user.uid);
             setPlaces(favoritePlaces || []);
+<<<<<<< HEAD
             setDataLoaded(true); // Marca los datos como cargados
+=======
+            console.log(user)
+>>>>>>> main
           } catch (error) {
             console.error("Error al obtener los favoritos:", error);
           } finally {
@@ -104,14 +108,15 @@ const Favorite = () => {
       {!user ? (
 
         <View style={styles.authContainer}>
+
           <Image source={fotoImg} style={styles.ImgLogin}/>
           <Text style={styles.authText}>
             Por favor, inicia sesión para ver tus favoritos.
           </Text>
-          <TouchableOpacity onPress={() => navigation.navigate("Login")} style={styles.buttomSign}>
-            <Text style={styles.butonTextSign}>Inicio seccion</Text>
+          <TouchableOpacity onPress={() => navigation.navigate("SignInScreem")} style={styles.buttomSign}>
+            <Text style={styles.butonTextSign}>Inicio sesión</Text>
           </TouchableOpacity>
-        
+
         </View>
 
 

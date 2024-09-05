@@ -7,6 +7,11 @@ import Carousel from 'pinar'
 import { FontAwesome } from '@expo/vector-icons';
 
 import ImaNot from '../assets/Nodata.gif'
+<<<<<<< HEAD
+=======
+//import ImgLong from '../assets/loading copy.gif'
+const ImgLong = require('../assets/loading copy.gif')
+>>>>>>> main
 
 const InfoCon = ({ data }) => {
 
@@ -56,8 +61,13 @@ const InfoCon = ({ data }) => {
                         <Carousel showsControls={false} dotStyle={styles.iconCarusel} activeDotStyle={[styles.iconCarusel, styles.ActiveDot]} style={styles.carusel}>
 
                             {placeData && placeData.OldImagesID && placeData.OldImagesID.length > 0 ? (
+<<<<<<< HEAD
                                 placeData.OldImagesID.map(item =>
                                     <Image style={styles.ImageCarusel} source={{ uri: item }} key={item} />
+=======
+                                placeData.OldImagesID.map(item => 
+                                           <Image style={styles.ImageCarusel} source={{ uri: item }} key={item}   defaultSource={ImgLong} />                                  
+>>>>>>> main
                                 )
                             ) : (
                                 <View style={{ alignItems:'center'}}>
@@ -72,6 +82,7 @@ const InfoCon = ({ data }) => {
         }
     };
 
+    
     return (
         <View style={styles.container}>
 

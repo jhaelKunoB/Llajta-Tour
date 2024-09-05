@@ -6,13 +6,28 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+<<<<<<< HEAD
+=======
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+>>>>>>> main
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "ios": {
+<<<<<<< HEAD
       "supportsTablet": true
+=======
+      "supportsTablet": true,
+      "config": {
+        "googleMapsApiKey": "AIzaSyDwDjy2lThsbIR9w2AOHFVFBHUyahu0PJY"
+      }
+>>>>>>> main
     },
     "android": {
       "adaptiveIcon": {
@@ -35,7 +50,16 @@
             "DEFAULT"
           ]
         }
+<<<<<<< HEAD
       ]
+=======
+      ],
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyDwDjy2lThsbIR9w2AOHFVFBHUyahu0PJY"
+        }
+      }
+>>>>>>> main
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -45,11 +69,16 @@
         "projectId": "b445805d-941a-441a-9c22-ca9abc9e4014"
       }
     },
-    "scheme": [
-      "pr-turismo"
-    ],
+    "scheme": "pr-turismo",
     "plugins": [
-      "expo-font"
+      "expo-font",
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
+        }
+      ],
+      "expo-video"
     ],
     "owner": "boris21"
   }

@@ -33,6 +33,7 @@ const CartsImages = ({ data }) => {
     const getImageHeight = (index) => (index % 2 === 0 ? 160 : 255);
     const getImageHeight1 = (index) => (index % 2 === 0 ? 260 : 150);
 
+<<<<<<< HEAD
     return (
 
 
@@ -80,6 +81,89 @@ const CartsImages = ({ data }) => {
                     <Image source={ImgSearch} style={styles.ContImgSerach} resizeMode={'contain'}></Image>
                 </View>
             )}
+=======
+  return (
+    <View style={{ width: "100%" }}>
+      {data && isImages.length > 0 ? (
+        <View style={styles.container}>
+          <View style={styles.column}>
+            {isImages2[0].map((item, index) => (
+              <TouchableOpacity
+                onPress={() => navigation.navigate("Info", { Id: item.id })}
+                style={styles.item}
+                key={item.id}
+              >
+               
+                  <ImageBackground
+                    source={{ uri: item.ImagesID[0] }}
+                    style={[styles.image, { height: getImageHeight(index) }]}
+                    defaultSource={ImgLond}
+                    resizeMode="cover"
+                    borderRadius={15}
+                  >
+                    <LinearGradient
+                      colors={[
+                        "rgba(41, 42, 42, 1)",
+                        "rgba(255, 255, 255, 0)",
+                        "rgba(255, 255, 255, 0)",
+                        "rgba(255, 255, 255, 0)",
+                      ]}
+                      start={{ x: 1, y: 1 }}
+                      end={{ x: 1, y: 0 }}
+                      style={styles.linerStyle}
+                    >
+                      <View style={styles.ContText}>
+                        <View style={styles.backContText}>
+                          <Text style={styles.imageText}>{item.Name}</Text>
+                        </View>
+                      </View>
+                    </LinearGradient>
+                  </ImageBackground>
+               
+              </TouchableOpacity>
+            ))}
+          </View>
+
+          <View style={styles.column}>
+            {isImages2[1].map((item, index) => (
+              <TouchableOpacity
+                onPress={() => navigation.navigate("Info", { Id: item.id })}
+                style={styles.item}
+                key={item.id}
+              >
+               
+                  <ImageBackground
+                    source={{ uri: item.ImagesID[0] }}
+                    style={[styles.image, { height: getImageHeight1(index) }]}
+                    resizeMode="cover"
+                    defaultSource={ImgLond}
+                    borderRadius={15}
+                  >
+                    <LinearGradient
+                      colors={[
+                        "rgba(41, 42, 42, 1)",
+                        "rgba(255, 255, 255, 0)",
+                        "rgba(255, 255, 255, 0)",
+                        "rgba(255, 255, 255, 0)",
+                      ]}
+                      start={{ x: 1, y: 1 }}
+                      end={{ x: 1, y: 0 }}
+                      style={styles.linerStyle}
+                    >
+                      <View style={styles.ContText}>
+                        <View style={styles.backContText}>
+                          <Text style={styles.imageText} numberOfLines={2}>
+                            {item.Name}
+                          </Text>
+                        </View>
+                      </View>
+                    </LinearGradient>
+                  </ImageBackground>
+               
+              </TouchableOpacity>
+            ))}
+          </View>
+>>>>>>> main
         </View>
     );
 };

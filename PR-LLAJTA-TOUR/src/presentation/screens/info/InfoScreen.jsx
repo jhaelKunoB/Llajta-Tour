@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import React, { useState, useRef, useEffect } from "react";
+=======
+import React, { useState, useEffect } from "react";
+>>>>>>> main
 import {
   View,
   Text,
@@ -7,6 +11,7 @@ import {
   TouchableOpacity,
   Modal,
   Image,
+<<<<<<< HEAD
   Platform,
   TouchableWithoutFeedback
 } from "react-native";
@@ -14,6 +19,16 @@ import {
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
 import { Video, ResizeMode } from "expo-av";
+=======
+  TouchableWithoutFeedback,
+  Platform,
+} from "react-native";
+
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { Ionicons, FontAwesome, Entypo } from "@expo/vector-icons";
+
+
+>>>>>>> main
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -21,6 +36,13 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import Loandin from "./assets/loading.gif";
 
+
+//import MapVista from './CoponentInfo/MapVista'
+//import MapMovil from './CoponentInfo/MapViewMovil'
+import MapViewWeb from "./CoponentInfo/MapViewWeb";
+import * as Location from "expo-location";
+
+import ModalVideo from './CoponentInfo/ModalVideo'
 import Calendar from "./CoponentInfo/Calendar";
 import InfoCon from "./CoponentInfo/InfoCon";
 import ImageNow from "./CoponentInfo/ImagesNow";
@@ -32,20 +54,35 @@ import UserAuth from "../../../../database/userAuth";
 //para Manejo de Favoritos
 import UseFavorite from "./Controler/useFavorite";
 
+<<<<<<< HEAD
+=======
+//para manejar los mapas
+
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+
+>>>>>>> main
 const InfoScreen = () => {
+  const { error, setErrorMsg } = useState("");
+
   const { favorites, toggleFavorite } = UseFavorite(); // Usa el hook
+  const [useFvoriteDisa, setFavoDisable] = useState(false)
+
   const { user, loading } = UserAuth();
 
   const [modalVisible, setModalVisible] = useState(false);
+  const [useModalDirection, setModalDirection] = useState(false);
+  const [useVideoModal, setVideoModal] = useState(false);
 
   const navigation = useNavigation();
-  const video = useRef(null);
-  const [isMuted, setIsMuted] = useState(true);
 
   const [placeData, setPlaceData] = useState(null); //definimos una variable para al macenar el Lugar
   const [isLoading, setIsLoading] = useState(true);
   const route = useRoute();
   const { Id } = route.params;
+<<<<<<< HEAD
+=======
+  const [cantFavorite, setCantLikes] = useState(0);
+>>>>>>> main
 
   //para reccuperar el Lugar
   useEffect(() => {
@@ -53,6 +90,10 @@ const InfoScreen = () => {
       try {
         const data = await getPlace(Id);
         setPlaceData(data);
+<<<<<<< HEAD
+=======
+        setCantLikes(data.Likes);
+>>>>>>> main
         setIsLoading(false); // Marcar la carga como completa
         console.log("datos", data);
       } catch (error) {
@@ -63,6 +104,30 @@ const InfoScreen = () => {
     fetchData();
   }, []);
 
+<<<<<<< HEAD
+=======
+  //------------------------------------------------------------------------
+  const [currentLocation, setCurrentLocation] = useState(null);
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setCurrentLocation({
+        lat: location.coords.latitude,
+        lng: location.coords.longitude,
+      });
+
+      console.log(currentLocation)
+    })();
+  }, []);
+  //------------------------------------------------------------------------------------------------
+
+>>>>>>> main
   // Mostrar indicador de carga mientras se obtienen los datos
   if (isLoading) {
     return (
@@ -72,19 +137,11 @@ const InfoScreen = () => {
     );
   }
 
-  const toggleMute = () => {
-    if (video.current) {
-      setIsMuted((prevIsMuted) => {
-        video.current.setIsMutedAsync(!prevIsMuted);
-        return !prevIsMuted;
-      });
-    }
-  };
-
   const SetCalendar = (data) => {
     console.log("estos son las hora", data);
   };
 
+<<<<<<< HEAD
   return (
     <ScrollView style={styles.Container} nestedScrollEnabled={true}>
       <View style={styles.ContVideo}>
@@ -136,6 +193,58 @@ const InfoScreen = () => {
 
             {placeData && placeData.Video ? (
               <TouchableOpacity onPress={() => toggleMute()}>
+=======
+  
+  const getChangeFavorite = async (Id) => {
+    try {
+      setFavoDisable(true)
+      const isFavorite = favorites.includes(Id);
+      console.log(isFavorite);
+      await toggleFavorite(Id);
+
+      // Update like count
+      setCantLikes((prev) => prev + (isFavorite ? -1 : 1));
+      
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setFavoDisable(false); // Asegúrate de reactivar el botón después de la operación, incluso si ocurre un error
+    }
+  };
+
+
+  return (
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <ScrollView style={styles.Container} nestedScrollEnabled={true}>
+        <View style={styles.ContVideo}>
+
+          <View style={styles.VideoStyle}>
+            <Image
+              source={{ uri: placeData.ImagesID[0] }}
+              resizeMode="cover"
+              style={{ width: "100%", height: "100%" }}
+              defaultSource={ImgLong}
+            ></Image>
+          </View>
+
+          {/* Para los Iconos  */}
+          <LinearGradient
+            style={styles.overlay}
+            colors={[
+              "rgba(41, 42, 42, 0.8)",
+              "rgba(255, 255, 255, 0)",
+              "rgba(255, 255, 255, 0)",
+              "rgba(255, 255, 255, 0)",
+            ]}
+            start={{ x: 1, y: 1 }}
+            end={{ x: 1, y: 0 }}
+          >
+            <View style={styles.ContBack}>
+              <TouchableOpacity
+                onPress={() => navigation.goBack()}
+                style={styles.Contback1}
+              >
+>>>>>>> main
                 <Ionicons
                   name={isMuted ? "mic-off" : "mic"}
                   style={styles.IconSound}
@@ -149,6 +258,7 @@ const InfoScreen = () => {
           </View>
         </LinearGradient>
 
+<<<<<<< HEAD
         <View style={styles.contTittle}>
           <View style={styles.contMicrTitll}>
             <View
@@ -177,8 +287,25 @@ const InfoScreen = () => {
                 <TouchableOpacity onPress={() => setModalVisible(true)}>
                   <Ionicons name={"heart"} style={styles.HeardIcon} />
                 </TouchableOpacity>
+=======
+              {/* toggleMute() */}
+              {placeData && placeData.Video ? (
+                <TouchableOpacity onPress={() => setVideoModal(true)}>
+                  <Entypo
+                    name="video"
+                    style={styles.IconContVideo}
+                    color={"white"}
+                    size={wp("7%")}
+                  />
+                </TouchableOpacity>
+              ) : (
+                <></>
+>>>>>>> main
               )}
+
+
             </View>
+<<<<<<< HEAD
 
             <Modal
               animationType="slide"
@@ -194,6 +321,85 @@ const InfoScreen = () => {
                       <Text style={styles.textSignIn}>
                         Por favor, inicia sesión para habilitar esta función.
                       </Text>
+=======
+
+
+          </LinearGradient>
+
+
+
+          {/* Es para el titulo */}
+          <View style={styles.contTittle}>
+            <View style={styles.contMicrTitll}>
+              <View
+                style={{
+                  flex: 4,
+                  justifyContent: "center",
+                  marginLeft: wp("5%"),
+                }}
+              >
+
+                <Text style={styles.textTittle}>{placeData.Name}</Text>
+              </View>
+
+
+
+              <View style={{ flex: 1, alignItems: "center" }}>
+                {user ? (
+                  <TouchableOpacity onPress={() => getChangeFavorite(Id)} disabled={useFvoriteDisa} >
+                    <Ionicons
+                      name={"heart"}
+                      style={
+                        favorites.includes(Id)
+                          ? styles.HeardIconRed
+                          : styles.HeardIcon
+                      }
+                    />
+                  </TouchableOpacity>
+                ) : (
+
+                  <TouchableOpacity onPress={() => setModalVisible(true)}>
+                    <Ionicons name={"heart"} style={styles.HeardIcon} />
+                  </TouchableOpacity>
+               )}
+              </View>
+
+
+              <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => setModalVisible(false)}
+              >
+                <TouchableWithoutFeedback
+                  onPress={() => setModalVisible(false)}
+                >
+                  <View
+                    style={{
+                      flex: 1,
+                      justifyContent: "flex-end",
+                      alignItems: "center",
+                      backgroundColor: "rgba(0,0,0,0)",
+                    }}
+                  >
+                    <View style={styles.containerMess}>
+                      <View style={styles.ContText}>
+                        <Text style={styles.textSignIn}>
+                          Por favor, inicia sesión para habilitar esta función.
+                        </Text>
+                      </View>
+
+                      <View style={styles.ContButom}>
+                        <TouchableOpacity
+                          onPress={() => navigation.navigate("SignInScreem")}
+                          style={styles.butonSignIn}
+                        >
+                          <Text style={styles.ButontextSignIn}>
+                            Iniciar sesión
+                          </Text>
+                        </TouchableOpacity>
+                      </View>
+>>>>>>> main
                     </View>
 
                     <View style={styles.ContButom}>
@@ -210,16 +416,25 @@ const InfoScreen = () => {
               </View>
 
                 </TouchableWithoutFeedback>
+<<<<<<< HEAD
           
 
 
 
             </Modal>
 
+=======
+              </Modal>
+              
+            </View>
+>>>>>>> main
           </View>
+
+
         </View>
       </View>
 
+<<<<<<< HEAD
       <View style={styles.contOptions}>
         <View style={{ flex: 1 }}>
           <TouchableOpacity>
@@ -247,6 +462,47 @@ const InfoScreen = () => {
           }}
         ></View>
       </View>
+=======
+        <ModalVideo videoData={placeData.Video}  useVideoModal={useVideoModal} setVideoModal={setVideoModal}/>
+
+        {/* para las opciones de mapas audio horario */}
+        <View style={styles.contOptions}>
+          <View style={{ flex: 1 }}>
+            <TouchableOpacity onPress={() => setModalDirection(true)}>
+              <Ionicons
+                name="location-sharp"
+                style={styles.LocationIcon}
+                color={"#006769"}
+                size={wp("6%")}
+              />
+            </TouchableOpacity>
+          </View>
+
+          <View style={{ flex: 1 }}>
+            <TouchableOpacity onPress={() => SetCalendar(placeData.Hours)}>
+              <Calendar data={placeData.Hours} />
+            </TouchableOpacity>
+          </View>
+
+          <View
+            style={{
+              flex: 3,
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <AudioInfo data={placeData.Audio} />
+          </View>
+        </View>
+
+        {/* para poder la direccion y el corazon    */}
+        <View style={styles.ContHeardAddress}>
+          <View style={styles.ContHeart}>
+            <FontAwesome name="heart" size={wp("6%")} color="red" />
+            <Text style={styles.textLikes}>{cantFavorite}</Text>
+          </View>
+>>>>>>> main
 
       <View style={{ marginHorizontal: wp("10%") }}>
         <View
@@ -265,6 +521,7 @@ const InfoScreen = () => {
         </View>
       </View>
 
+<<<<<<< HEAD
       <View style={styles.separator} />
 
       {/* para las Imagens de Haora */}
@@ -276,19 +533,120 @@ const InfoScreen = () => {
       {/* para el Audio */}
       <AudioInfo data={placeData.Audio} />
     </ScrollView>
+=======
+
+
+        <View style={styles.separator} />
+        {/* para las Imagens de Haora */}
+        <ImageNow data={placeData} />
+        {/* para mostar los datos */}
+        <InfoCon data={placeData} />
+      </ScrollView>
+
+      {/* para la Localisacion */}
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={useModalDirection}
+        onRequestClose={() => setModalDirection(false)}
+      >
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "flex-end",
+            alignItems: "center",
+            backgroundColor: "rgba(0,0,0,0.5)",
+          }}
+        >
+          <View style={styles.ContDirection}>
+            <View style={styles.modalHeader}>
+              <View style={styles.contTextNameMap}>
+                <Text numberOfLines={1} style={styles.textHeaderMap}>
+                  {placeData.Name}
+                </Text>
+              </View>
+
+              <View style={styles.contCloseIcon}>
+                <TouchableOpacity onPress={() => setModalDirection(false)}>
+                  <FontAwesome name="close" size={29} color="white" />
+                </TouchableOpacity>
+              </View>
+            </View>
+
+            <MapViewWeb locat={currentLocation} placeDataMap={placeData} />
+
+
+          </View>
+        </View>
+      </Modal>
+
+    </GestureHandlerRootView>
+>>>>>>> main
   );
 };
 
 export default InfoScreen;
 
+
+
 const styles = StyleSheet.create({
+<<<<<<< HEAD
+=======
+
+  //----------------------------------------------
+  ContHeardAddress: {
+    flexDirection: "row",
+    marginHorizontal: hp("3%"),
+    marginVertical: Platform.select({
+      ios: hp("1%"),
+      android: hp("1%"),
+      web: "2%",
+    }),
+  },
+
+  ContHeart: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  ContAddres: {
+    flex: 3.5,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+
+  textLikes: {
+    paddingHorizontal: hp("1%"),
+    fontSize: wp("3%"),
+    color: "#08445a",
+  },
+
+  direccionTxt: {
+    fontSize: wp("3%"),
+    marginLeft: wp("2%"),
+    color: "#08445a",
+    marginRight: 20,
+  },
+
+  //-------------------Contenerdor del mapa------------------
+
+  //-------------------------------------------------
+>>>>>>> main
   ContVideo: {
+    width: "100%",
+    height: hp("60%"),
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
     position: "relative",
+    backgroundColor: "white",
   },
 
   VideoStyle: {
-    width: "100%",
-    height: hp("50%"),
+    display: "flex",
+    width: wp("100%"),
+    height: "100%",
+    backgroundColor: "white",
   },
 
   overlay: {
@@ -298,6 +656,7 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
   },
+
   ContBack: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -305,7 +664,7 @@ const styles = StyleSheet.create({
     marginTop: Platform.select({
       ios: "10%",
       android: "4%",
-      web: "4%",
+      web: "2%",
     }),
   },
 
@@ -317,11 +676,14 @@ const styles = StyleSheet.create({
     paddingRight: 2,
     marginLeft: wp("4%"),
   },
-  IconSound: {
+ 
+
+  IconContVideo: {
     backgroundColor: "rgba(33, 53, 85,0.6)",
     borderRadius: wp("3%"),
-    marginHorizontal: wp("6%"),
-    marginVertical: wp("4%"),
+    marginHorizontal: wp("7%"),
+    marginVertical: wp("5%"),
+    padding:5
   },
   separator: {
     borderBottomColor: "#547775",
@@ -346,8 +708,12 @@ const styles = StyleSheet.create({
   //estilos para el titulo
   contTittle: {
     position: "absolute",
-    marginTop: wp("95%"),
-    width: wp("100%"),
+    justifyContent: "center",
+    //alignItems:'center',
+    width: "100%",
+    bottom: -30, // Coloca el contenedor en la parte inferior
+    left: 0,
+    right: 0,
   },
 
   contMicrTitll: {
@@ -356,7 +722,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 30,
     paddingVertical: 10,
-    shadowColor: "#0F1035",
+    shadowColor: "#B4D4FF",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.44,
     shadowRadius: 10,
@@ -409,6 +775,7 @@ const styles = StyleSheet.create({
   //para la localisacion y la Hora
   contOptions: {
     flexDirection: "row",
+    //justifyContent:'space-between',
     marginHorizontal: wp("6%"),
     paddingVertical: hp("1%"),
     marginTop: hp("7%"),
@@ -473,4 +840,40 @@ const styles = StyleSheet.create({
     color: "#0F1035",
     fontWeight: "500",
   },
+
+  //estilos para el modal de direction
+  ContDirection: {
+    height: "80%",
+    width: "95%",
+    backgroundColor: "#1A2130",
+    padding: 9,
+    borderTopEndRadius: 20,
+    borderTopLeftRadius: 20,
+  },
+
+  contTextNameMap: {
+    flex: 4,
+  },
+  contCloseIcon: {
+    flex: 1,
+    alignItems: "center",
+  },
+
+  modalHeader: {
+    width: "100%",
+    padding: 10,
+    backgroundColor: "#365486",
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    alignItems: "flex-end",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  textHeaderMap: {
+    fontSize: 18,
+    fontWeight: "300",
+    color: "white",
+  },
+
 });

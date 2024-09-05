@@ -15,7 +15,6 @@ const Body = () => {
         const fetchPlaces = async () => {
             try {
                 const placesData = await fetchAllPlaces();
-                console.log("Fetched places:", placesData);
                 setPlaces(placesData.filter(place => place.image));
             } catch (error) {
                 console.error("Error fetching places:", error);
@@ -25,7 +24,6 @@ const Body = () => {
         const fetchCategories = async () => {
             try {
                 const categoriesData = await fetchSomeCategories();
-                console.log("Fetched categories:", categoriesData);
                 setCategories(categoriesData);
             } catch (error) {
                 console.error("Error fetching categories:", error);
@@ -44,17 +42,19 @@ const Body = () => {
         nav.navigate("Categorias");
     };
 
-    const handleCategoryPress = (id) => {
-        nav.navigate('FilteredPlaces', { categoryId: id });
-        console.log({ categoryId: id });
+    const handleCategoryPress = (id, title) => {
+       // nav.navigate('FilteredPlaces', { categoryId: id });
+          nav.navigate("FilteredPlaces", { categoryId: id, name : title });
     };
 
     const handleSearchFocus = () => {
         nav.navigate("SearchPlace");
     };
 
+    
+
     const renderCategoryItem = ({ item }) => (
-        <TouchableOpacity onPress={() => handleCategoryPress(item.id)} style={BodyStyle.ContImagCat}>
+        <TouchableOpacity onPress={() => handleCategoryPress(item.id,item.title)} style={BodyStyle.ContImagCat}>
             <ImageBackground source={{ uri: item.image }} style={BodyStyle.categoryCard} imageStyle={{ borderRadius: 20 }}>
                 <View style={BodyStyle.categoryOverlay}>
                     <Text style={BodyStyle.categoryTitle}>{item.title}</Text>
@@ -65,10 +65,13 @@ const Body = () => {
 
     return (
         <View style={{ marginBottom: 70 }}>
-            <View style={{ marginHorizontal:23, marginTop:20}}>
+            <View style={{ marginHorizontal:23, marginTop:10}}>
                 <Text style={BodyStyle.headerText1}>Explora la diversidad de</Text>
                <Text style={BodyStyle.headerText2}>Cochabamba</Text>
             </View>
+
+
+
             <SearchBar
                 placeholder="Buscar..."
                 lightTheme
@@ -153,7 +156,7 @@ const BodyStyle = StyleSheet.create({
         height: 50,
     },
     leftIconContainer: {
-        marginLeft: 10,
+        marginLeft: 15,
     },
     rightIconContainer: {
         marginRight: 10,

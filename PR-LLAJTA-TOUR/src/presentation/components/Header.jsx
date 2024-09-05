@@ -1,10 +1,12 @@
 import React from 'react';
 import { View, Image,StyleSheet } from 'react-native';
-//import HeaderStyle from '../components/styles/HeaderStyle';
 // Imágenes
-import Logo from '../assets/logo.png';
-import Titulo from '../assets/Titulo.png';
+const Titulo = require('../assets/Titulo.png')
 
+import {
+    widthPercentageToDP as wp,
+    heightPercentageToDP as hp,
+  } from "react-native-responsive-screen";
 
 import PopUpManu from './popPu'
 
@@ -28,7 +30,7 @@ const HeaderStyle = StyleSheet.create({
     Header:{
         flexDirection:'row',
         width:'100%',
-        height:60,
+        height:hp('10%'),
         alignItems:'center',
         justifyContent:'center',
     },
@@ -40,10 +42,11 @@ const HeaderStyle = StyleSheet.create({
     },
     contTitulo:{
         flex:1,  
-        paddingLeft:20
+        paddingLeft:20,
+        justifyContent:'center',
     },
     Titulo:{
-       width:'75%',
-       height:'80%'
+       width:wp('38%'),
+       height:hp('50%')
     },
 });

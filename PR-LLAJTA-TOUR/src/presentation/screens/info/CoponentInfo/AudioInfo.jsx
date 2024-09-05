@@ -91,7 +91,7 @@ const AudioInfo = ({ data }) => {
 
             <View style={styles.ContIcontPlay}>
               <TouchableOpacity onPress={isPlaying ? pauseSound : playSound}>
-                <Ionicons name={isPlaying ? "pause-circle-sharp" : "play-circle-sharp"} style={styles.IconPlay} color={'#009194'} size={wp('14%')} />
+                <Ionicons name={isPlaying ? "pause-circle-sharp" : "play-circle-sharp"} style={styles.IconPlay} color={'#009194'} size={wp('10%')} />
               </TouchableOpacity>
             </View>
           </View>
