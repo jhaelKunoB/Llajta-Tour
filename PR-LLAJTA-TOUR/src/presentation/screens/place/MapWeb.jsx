@@ -47,7 +47,7 @@ const MapWeb = () => {
   const [place, setPlace] = useState();
   const [categorys, setCategori] = useState();
   //para el modal del lugar
-  const snapPoints = useMemo(() => [hp("0.1"), hp("28")], []);
+  const snapPoints = useMemo(() => [hp("0.1"), "40"], []);
   const bottomSheetRef = useRef(null);
   const handlerClose = () => bottomSheetRef.current?.close();
   const handlerOpen = () => bottomSheetRef.current?.expand();

@@ -64,7 +64,7 @@ const MapViewWeb = ({locat, placeDataMap}) => {
 
 
 
- // if (!isLoaded) return <> <Image source={imgLoanding} style={{width:'100%', height:'100%'}} resizeMode='center' /> </>;
+  if (!isLoaded) return <> <Image source={imgLoanding} style={{width:'100%', height:'100%'}} resizeMode='center' /> </>;
 
  
   return (
@@ -92,16 +92,21 @@ const MapViewWeb = ({locat, placeDataMap}) => {
                 }}
               />
 
-              <Marker
-                key={12}
-                position={locat}
-                title={'Mi Local'}
-                icon={{
-                   url: "https://firebasestorage.googleapis.com/v0/b/llajtatour-57c11.appspot.com/o/IconLocation%2FMap%20pin.png?alt=media&token=e40c1124-cd5c-4843-840a-6ef59d2c16ce",
-                  scaledSize: new window.google.maps.Size(45, 50), // Ajusta el tamaño del ícono aquí (30x30 píxeles en este caso)
-                  anchor: new window.google.maps.Point(5, 5), // Ajusta el punto de anclaje del ícono
-                }}
-              />
+             {locat ? (
+               <Marker
+               key={12}
+               position={locat}
+               title={'Mi Local'}
+               icon={{
+                  url: "https://firebasestorage.googleapis.com/v0/b/llajtatour-57c11.appspot.com/o/IconLocation%2FMap%20pin.png?alt=media&token=e40c1124-cd5c-4843-840a-6ef59d2c16ce",
+                 scaledSize: new window.google.maps.Size(45, 50), // Ajusta el tamaño del ícono aquí (30x30 píxeles en este caso)
+                 anchor: new window.google.maps.Point(5, 5), // Ajusta el punto de anclaje del ícono
+               }}
+             />
+             ):(
+              <></>
+             )}
+             
 
       </GoogleMap>
 
