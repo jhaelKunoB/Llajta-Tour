@@ -24,7 +24,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { auth, db } from "../../../../database/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 
-
+//import {makeRedirectUri} from "expo-auth-session"
 
 const ImgFont = require("./assets/fondo2.jpg")
 const IconGloogle = require('./assets/IconGoogle.png')
@@ -37,20 +37,21 @@ const SignInScreen = () => {
   const [loguenado, setLoguenado] = useState(false)
   const [userInfo, setUserInfo] = React.useState();
   const [request, response, promptAsync] = Google.useAuthRequest({
-    webClientId: "172913904569-ifaeffngu9h75cloetkrbqjndii09ejk.apps.googleusercontent.com",
+     webClientId: "172913904569-ifaeffngu9h75cloetkrbqjndii09ejk.apps.googleusercontent.com",
   });
-
-
 
   React.useEffect(() => {
 
-    if (response?.type === "success") {
-      const { accessToken } = response.authentication;
-      handleSignInWithGoogle(accessToken);
-    } else {
-      console.log("Response Error: ", response);
+    try{
+        if (response?.type === "success") {
+          const { accessToken } = response.authentication;
+          handleSignInWithGoogle(accessToken);
+        } else {
+          console.log("Response Error:xxx ", response);
+        }
+    }catch(e){
+      console.log(e)
     }
-
   }, [response]);
 
 
@@ -133,25 +134,6 @@ const SignInScreen = () => {
               </TouchableOpacity>
 
             </View>
-
-
-            {/* <View style={styles.butomContainer}>
-              <TouchableOpacity
-                style={styles.butom1}
-                onPress={() => navigation.navigate("Register")}
-              >
-                <Text style={styles.butomText}>Registrarse</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={styles.butom2}
-                onPress={() => navigation.navigate("Login")}
-              >
-                <Text style={styles.butomText}>Iniciar</Text>
-              </TouchableOpacity>
-            </View> */}
-
-            
           </View>
         </ScrollView>
       </SafeAreaView>

@@ -47,7 +47,7 @@ const MapWeb = () => {
   const [place, setPlace] = useState();
   const [categorys, setCategori] = useState();
   //para el modal del lugar
-  const snapPoints = useMemo(() => [hp("0.1"), "40"], []);
+  const snapPoints = useMemo(() => [hp("0.1"), hp("30")], []);
   const bottomSheetRef = useRef(null);
   const handlerClose = () => bottomSheetRef.current?.close();
   const handlerOpen = () => bottomSheetRef.current?.expand();
@@ -185,7 +185,7 @@ const MapWeb = () => {
       </View>
 
       {/* para poder mostrar mapa */}
-      <LoadScript googleMapsApiKey="AIzaSyDwDjy2lThsbIR9w2AOHFVFBHUyahu0PJY">
+      <LoadScript googleMapsApiKey="AIzaSyClUE7K-Ytz6duQ6wLYFDNNSJyQSnFFgks">
         <GoogleMap
           mapContainerStyle={mapContainerStyle}
           options={mapOptions}
@@ -412,7 +412,7 @@ const styles = StyleSheet.create({
   //---------------para la informacion del lugar------------------
   styleButomSheet: {
     borderRadius: 20,
-    marginBottom: hp("13%"),
+    marginBottom: hp("14%"),
     marginHorizontal: 10,
     display: "flex",
     alignItems: "center",
@@ -454,8 +454,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   imageWrapper: {
-    width: 160,
-    height: 90,
+    width: wp("40%"),
+    height: hp("12%"),
     marginRight: 10,
     borderRadius: 12,
     borderWidth: 1,

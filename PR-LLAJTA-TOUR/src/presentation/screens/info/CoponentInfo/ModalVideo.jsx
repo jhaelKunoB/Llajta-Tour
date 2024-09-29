@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from "react";
 import { Modal, View, TouchableOpacity, StyleSheet } from "react-native";
-import { Ionicons, FontAwesome, Entypo } from "@expo/vector-icons";
+import { Ionicons, FontAwesome, Entypo, MaterialIcons } from "@expo/vector-icons";
 import { Video, ResizeMode } from "expo-av";
 import {
   widthPercentageToDP as wp,
@@ -81,8 +81,8 @@ const ModalVideo = ({ videoData, useVideoModal, setVideoModal }) => {
                 onPress={() => toggleMute()}
                 style={styles.contIcons}
               >
-                <Ionicons
-                  name={isMuted ? "mic-off" : "mic"}
+                <MaterialIcons
+                  name={isMuted ? "volume-off" : "volume-up"}
                   style={styles.iconSound}
                   color={"white"}
                   size={wp("8%")}

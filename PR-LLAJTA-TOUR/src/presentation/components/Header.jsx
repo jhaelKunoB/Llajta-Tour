@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Image,StyleSheet } from 'react-native';
 // Imágenes
-const Titulo = require('../assets/Titulo.png')
+const Titulo = require('../assets/TituloApp.png')
 
 import {
     widthPercentageToDP as wp,
@@ -42,11 +42,11 @@ const HeaderStyle = StyleSheet.create({
     },
     contTitulo:{
         flex:1,  
-        paddingLeft:20,
+        paddingLeft:wp("3%"),
         justifyContent:'center',
     },
     Titulo:{
-       width:wp('38%'),
-       height:hp('50%')
+       width:wp('50%'),
+       height:hp('55%')
     },
 });

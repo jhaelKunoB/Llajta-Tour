@@ -40,7 +40,7 @@ const InfoCon = ({ data }) => {
                             <View style={styles.ContCityTitlle}>
                                 <Text style={styles.titlleDes}>{placeData.Name}</Text>
                             </View>
-                            <Text style={styles.descriptionText} numberOfLines={showFullDescription ? undefined : 5} >{placeData.Description}</Text>
+                            <Text style={styles.descriptionText} numberOfLines={showFullDescription ? undefined : 10} >{placeData.Description}</Text>
 
                             <View style={styles.conteArrow}>
                                 <TouchableOpacity onPress={toggleDescription}>
@@ -82,9 +82,16 @@ const InfoCon = ({ data }) => {
                 <TouchableOpacity onPress={() => [setActiveComponent('Component1'), setActiveBotom(true)]} style={activeBotom ? styles.button : styles.cont}>
                     <Text style={styles.txtItem}>Descripcion</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => [setActiveComponent('Component2'), setActiveBotom(false)]} style={activeBotom ? styles.cont : styles.button}>
-                    <Text style={styles.txtItem}>Retratos del Pasado</Text>
-                </TouchableOpacity>
+               
+
+               { placeData && placeData.OldImagesID && placeData.OldImagesID.length > 0 ?
+               (
+                    <TouchableOpacity onPress={() => [setActiveComponent('Component2'), setActiveBotom(false)]} style={activeBotom ? styles.cont : styles.button}>
+                        <Text style={styles.txtItem}>Retratos del Pasado</Text>
+                    </TouchableOpacity> 
+               ):( <></> )
+               }
+                
             </View>
 
             {/* para mayor detalles */}

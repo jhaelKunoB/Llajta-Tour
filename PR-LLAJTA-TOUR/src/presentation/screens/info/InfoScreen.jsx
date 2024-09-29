@@ -9,6 +9,7 @@ import {
   Image,
   TouchableWithoutFeedback,
   Platform,
+  Linking
 } from "react-native";
 
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -24,11 +25,7 @@ import Loandin from "./assets/loading.gif";
 import ImgLong from "./assets/loading copy.gif";
 
 
-//import MapVista from './CoponentInfo/MapVista'
-//import MapMovil from './CoponentInfo/MapViewMovil'
-import MapViewWeb from "./CoponentInfo/MapViewWeb";
-import * as Location from "expo-location";
-
+//import * as Location from "expo-location";
 import ModalVideo from './CoponentInfo/ModalVideo'
 import Calendar from "./CoponentInfo/Calendar";
 import InfoCon from "./CoponentInfo/InfoCon";
@@ -54,7 +51,6 @@ const InfoScreen = () => {
   const { user, loading } = UserAuth();
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [useModalDirection, setModalDirection] = useState(false);
   const [useVideoModal, setVideoModal] = useState(false);
 
   const navigation = useNavigation();
@@ -83,24 +79,25 @@ const InfoScreen = () => {
   }, []);
 
   //------------------------------------------------------------------------
-  const [currentLocation, setCurrentLocation] = useState(null);
-  useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        setErrorMsg("Permission to access location was denied");
-        return;
-      }
+  //Para recuperar la Ubicacion
+  // const [currentLocation, setCurrentLocation] = useState(null);
+  // useEffect(() => {
+  //   (async () => {
+  //     let { status } = await Location.requestForegroundPermissionsAsync();
+  //     if (status !== "granted") {
+  //       setErrorMsg("Permission to access location was denied");
+  //       return;
+  //     }
 
-      let location = await Location.getCurrentPositionAsync({});
-      setCurrentLocation({
-        lat: location.coords.latitude,
-        lng: location.coords.longitude,
-      });
+  //     let location = await Location.getCurrentPositionAsync({});
+  //     setCurrentLocation({
+  //       lat: location.coords.latitude,
+  //       lng: location.coords.longitude,
+  //     });
 
-      console.log(currentLocation)
-    })();
-  }, []);
+  //     console.log(currentLocation)
+  //   })();
+  // }, []);
   //------------------------------------------------------------------------------------------------
 
   // Mostrar indicador de carga mientras se obtienen los datos
@@ -111,12 +108,9 @@ const InfoScreen = () => {
       </View>
     );
   }
-
   const SetCalendar = (data) => {
     console.log("estos son las hora", data);
   };
-
-  
   const getChangeFavorite = async (Id) => {
     try {
       setFavoDisable(true)
@@ -132,6 +126,23 @@ const InfoScreen = () => {
     } finally {
       setFavoDisable(false); // Asegúrate de reactivar el botón después de la operación, incluso si ocurre un error
     }
+  };
+
+  const openGoogleMaps = () => {
+
+    const latitude = placeData.Coordinates._lat ? placeData.Coordinates._lat : -17.3895000;
+    const longitude = placeData.Coordinates._long ? placeData.Coordinates._long : -66.1568000;
+    const url = `https://www.google.com/maps?q=${latitude},${longitude}`;
+    
+    Linking.canOpenURL(url)
+      .then((supported) => {
+        if (supported) {
+          Linking.openURL(url);
+        } else {
+          Alert.alert('Error', 'No se pudo abrir Google Maps');
+        }
+      })
+      .catch((err) => Alert.alert('Error', err.message));
   };
 
 
@@ -283,7 +294,7 @@ const InfoScreen = () => {
         {/* para las opciones de mapas audio horario */}
         <View style={styles.contOptions}>
           <View style={{ flex: 1 }}>
-            <TouchableOpacity onPress={() => setModalDirection(true)}>
+            <TouchableOpacity onPress={() => openGoogleMaps()}>
               <Ionicons
                 name="location-sharp"
                 style={styles.LocationIcon}
@@ -332,43 +343,6 @@ const InfoScreen = () => {
         {/* para mostar los datos */}
         <InfoCon data={placeData} />
       </ScrollView>
-
-      {/* para la Localisacion */}
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={useModalDirection}
-        onRequestClose={() => setModalDirection(false)}
-      >
-        <View
-          style={{
-            flex: 1,
-            justifyContent: "flex-end",
-            alignItems: "center",
-            backgroundColor: "rgba(0,0,0,0.5)",
-          }}
-        >
-          <View style={styles.ContDirection}>
-            <View style={styles.modalHeader}>
-              <View style={styles.contTextNameMap}>
-                <Text numberOfLines={1} style={styles.textHeaderMap}>
-                  {placeData.Name}
-                </Text>
-              </View>
-
-              <View style={styles.contCloseIcon}>
-                <TouchableOpacity onPress={() => setModalDirection(false)}>
-                  <FontAwesome name="close" size={29} color="white" />
-                </TouchableOpacity>
-              </View>
-            </View>
-
-            <MapViewWeb locat={currentLocation} placeDataMap={placeData} />
-
-
-          </View>
-        </View>
-      </Modal>
 
     </GestureHandlerRootView>
   );

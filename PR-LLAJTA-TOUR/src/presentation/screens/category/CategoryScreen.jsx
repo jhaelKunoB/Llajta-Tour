@@ -19,6 +19,8 @@ import {
 
 import PopUpManu from '../../../presentation/components/popPu'
 
+
+
 const CategoryScreen = () => {
   const navigation = useNavigation();
   const [categories, setCategories] = useState();
