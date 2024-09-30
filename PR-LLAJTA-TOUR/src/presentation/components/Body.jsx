@@ -166,13 +166,12 @@ const Body = () => {
       {IDCategori ? (
         <TouchableOpacity style={BodyStyle.TouchLugaresAltanio} onPress={() => handleCategoryPress(IDCategori.id, IDCategori.title)}>    
             <ImageBackground
-              source={IDCategori.image}
+              source={{uri:IDCategori.image}}
               style={BodyStyle.ImgAntonioCont}
               imageStyle={{ borderRadius: 20 }}
             >
               <View style={BodyStyle.BackGruondImg}>
                 <Text style={BodyStyle.textLugAntanio}>
-                  {" "}
                   {IDCategori.title}
                 </Text>
               </View>

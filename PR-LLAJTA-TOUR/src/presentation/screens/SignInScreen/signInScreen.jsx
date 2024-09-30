@@ -38,6 +38,7 @@ const SignInScreen = () => {
   const [userInfo, setUserInfo] = React.useState();
   const [request, response, promptAsync] = Google.useAuthRequest({
      webClientId: "172913904569-ifaeffngu9h75cloetkrbqjndii09ejk.apps.googleusercontent.com",
+     androidClientId: "160580814948-uu4enf91if7fpt24ua85ften6fpo8o17.apps.googleusercontent.com"
   });
 
   React.useEffect(() => {
