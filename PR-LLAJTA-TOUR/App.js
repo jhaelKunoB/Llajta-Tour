@@ -26,7 +26,7 @@ export default function App() {
 
   return (
     <SafeAreaView style={styles.container}>
-        <StatusBar barStyle="dark-content" backgroundColor="#fff" />
+      <StatusBar barStyle="dark-content" backgroundColor="#fff" />
       <Navigation user={user} />
     </SafeAreaView>
   );

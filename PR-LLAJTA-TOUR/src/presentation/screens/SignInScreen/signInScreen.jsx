@@ -38,7 +38,8 @@ const SignInScreen = () => {
   const [userInfo, setUserInfo] = React.useState();
   const [request, response, promptAsync] = Google.useAuthRequest({
      webClientId: "172913904569-ifaeffngu9h75cloetkrbqjndii09ejk.apps.googleusercontent.com",
-     androidClientId: "160580814948-uu4enf91if7fpt24ua85ften6fpo8o17.apps.googleusercontent.com"
+     androidClientId: "172913904569-dfdghpshq5kurg2mcocre73s19ag4tmh.apps.googleusercontent.com"
+     
   });
 
   React.useEffect(() => {
@@ -62,7 +63,7 @@ const SignInScreen = () => {
 
       setLoguenado(true)//Inicia el Loanding
       // Inicia sesión con Firebase usando el access token de Google
-      const credential = GoogleAuthProvider.credential(null, accessToken);
+      const credential = GoogleAuthProvider.credential(accessToken);
       const userCredential = await signInWithCredential(auth, credential);
       const user = userCredential.user;
 
