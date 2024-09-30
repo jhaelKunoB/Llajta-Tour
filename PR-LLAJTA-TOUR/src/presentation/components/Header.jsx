@@ -47,6 +47,6 @@ const HeaderStyle = StyleSheet.create({
     },
     Titulo:{
        width:wp('50%'),
-       height:hp('55%')
+       height:70
     },
 });

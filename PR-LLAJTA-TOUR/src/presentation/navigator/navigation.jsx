@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
     selectedIconContainer: {
         justifyContent: 'center',
         alignItems: 'center',
-        width: 40,
+        width: 36,
         height: 40,
         borderRadius: 25,
         backgroundColor: 'white',
