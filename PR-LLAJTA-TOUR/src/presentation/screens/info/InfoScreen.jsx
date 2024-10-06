@@ -78,27 +78,6 @@ const InfoScreen = () => {
     fetchData();
   }, []);
 
-  //------------------------------------------------------------------------
-  //Para recuperar la Ubicacion
-  // const [currentLocation, setCurrentLocation] = useState(null);
-  // useEffect(() => {
-  //   (async () => {
-  //     let { status } = await Location.requestForegroundPermissionsAsync();
-  //     if (status !== "granted") {
-  //       setErrorMsg("Permission to access location was denied");
-  //       return;
-  //     }
-
-  //     let location = await Location.getCurrentPositionAsync({});
-  //     setCurrentLocation({
-  //       lat: location.coords.latitude,
-  //       lng: location.coords.longitude,
-  //     });
-
-  //     console.log(currentLocation)
-  //   })();
-  // }, []);
-  //------------------------------------------------------------------------------------------------
 
   // Mostrar indicador de carga mientras se obtienen los datos
   if (isLoading) {

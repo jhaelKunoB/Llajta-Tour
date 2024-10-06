@@ -1,21 +1,29 @@
 import { useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './firebase'; // Asegúrate de exportar tu instancia de auth
-
+ 
 const useAuth = () => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-
+  const [loading, setLoading] = useState(true); // Mantener el estado de carga mientras se espera la autenticación
+ 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
-      setLoading(false);
+    // Escuchar el estado de autenticación de Firebase
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      if (firebaseUser) {
+        // Si el usuario está autenticado, se establece en el estado
+        setUser(firebaseUser);
+      } else {
+        // Si no hay usuario autenticado, el estado será null
+        setUser(null);
+      }
+      setLoading(false); // Ya no está cargando
     });
 
-    return unsubscribe; // Limpiar la suscripción al desmontar el componente
+    // Limpiar el listener cuando el componente se desmonte
+    return () => unsubscribe();
   }, []);
-
-  return { user, loading };
+ 
+  return { user, loading }; // Devolver usuario y estado de carga
 };
-
+ 
 export default useAuth;

@@ -17,6 +17,7 @@ import SignInScreen from '../screens/SignInScreen/signInScreen.jsx';
 import Login from '../screens/login/login.jsx'
 import Register from '../screens/register/register.jsx'
 import Favorite from '../screens/favorite/FavoritesScreen.jsx'
+import Profile from '../screens/Profile/Profile.jsx'
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -64,8 +65,8 @@ function MyTaps() {
             <Tab.Screen name="Inicio" component={Home} options={{ tabBarLabel: 'Inicio', tabBarIcon: 'home-outline' }} />
             <Tab.Screen name="Categorias" component={CategoryScreen} options={{ tabBarLabel: 'Categorias', tabBarIcon: 'list-outline'}} />
             <Tab.Screen name="Lugares" component={Place} options={{ tabBarLabel: 'Explorar', tabBarIcon: 'location-outline'}} />
-            <Tab.Screen name="Favorite" component={Favorite} options={{ tabBarLabel: 'Favoritos', tabBarIcon: 'heart'}} />
-            
+            {/* <Tab.Screen name="Favorite" component={Favorite} options={{ tabBarLabel: 'Favoritos', tabBarIcon: 'heart'}} /> */}
+            <Tab.Screen name="Profile" component={Profile} options={{ tabBarLabel: 'Profile', tabBarIcon: 'person-outline'}} />
         </Tab.Navigator>
     );
 }

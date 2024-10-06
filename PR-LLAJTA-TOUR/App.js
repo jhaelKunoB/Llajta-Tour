@@ -9,9 +9,7 @@ import UserAuth from './database/userAuth'
 
 
 export default function App() {
-
   const { user, loading } = UserAuth();
-
   if (loading) {
     return (
       <>
@@ -27,7 +25,7 @@ export default function App() {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#fff" />
-      <Navigation user={user} />
+       <Navigation user={user} />
     </SafeAreaView>
   );
 }

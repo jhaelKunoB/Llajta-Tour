@@ -1,4 +1,4 @@
-import { Ionicons, MaterialIcons, AntDesign } from "@expo/vector-icons";
+import { Ionicons, MaterialIcons, AntDesign, Octicons } from "@expo/vector-icons";
 import { useRef, useState } from "react";
 import {
   SafeAreaView,
@@ -9,11 +9,13 @@ import {
   Animated,
   Easing,
   TouchableWithoutFeedback,
+  Linking
 } from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
 import UseAuth from "../../../database/userAuth";
 import { getAuth, signOut } from "firebase/auth";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const PopUpMenu = () => {
   const navigation = useNavigation();
@@ -41,11 +43,18 @@ const PopUpMenu = () => {
     const authInstance = getAuth();
     try {
       await signOut(authInstance);
+      await AsyncStorage.removeItem("@user");
       resizeBox(0, () => navigation.navigate("SignInScreem"));
     } catch (error) {
       console.error("Error signing out:", error);
     }
   };
+
+  const openPoliticasPrivacidad = () => {
+    const url = 'https://cochaturistica.blogspot.com/2024/10/politica-de-privacidad-la-presente.html';
+    Linking.openURL(url).catch((err) => console.error("Failed to open URL:", err));
+  };
+  
 
   return (
     <>
@@ -92,6 +101,13 @@ const PopUpMenu = () => {
                     <Text>Favoritos</Text>
                    <AntDesign name="hearto" size={24} color="red" style={{ marginLeft: 10 }} />
                 </TouchableOpacity> 
+
+
+                <TouchableOpacity style={styles.option} onPress={() => openPoliticasPrivacidad()}>
+                    <Text>Aviso de Privacidad</Text>
+                   <Octicons name="shield-lock" size={24} color="black" style={{ marginLeft: 10 }} />  
+                </TouchableOpacity> 
+
 
               <TouchableOpacity
                 style={styles.option}
