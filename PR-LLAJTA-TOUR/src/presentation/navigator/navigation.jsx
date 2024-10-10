@@ -17,7 +17,7 @@ import SignInScreen from '../screens/SignInScreen/signInScreen.jsx';
 import Login from '../screens/login/login.jsx'
 import Register from '../screens/register/register.jsx'
 import Favorite from '../screens/favorite/FavoritesScreen.jsx'
-import Profile from '../screens/Profile/Profile.jsx'
+import Prueva from '../screens/Profile/Profile.jsx'
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -29,7 +29,7 @@ function MyStack({user}) {
             <Stack.Screen name="SignInScreem" component={SignInScreen} options={{ headerShown: false }} />
             <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
             <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
-             <Stack.Screen name="Home" component={MyTaps} options={{ headerShown: false }} /> 
+            <Stack.Screen name="Home" component={MyTaps} options={{ headerShown: false }} /> 
             <Stack.Screen name="Info" component={Info} options={{ headerShown: false }} />
             <Stack.Screen name="SearchPlace" component={SearchPlace} options={{ headerShown: false }} />
             <Stack.Screen name="CategoryScreen" component={CategoryScreen} />
@@ -66,7 +66,7 @@ function MyTaps() {
             <Tab.Screen name="Categorias" component={CategoryScreen} options={{ tabBarLabel: 'Categorias', tabBarIcon: 'list-outline'}} />
             <Tab.Screen name="Lugares" component={Place} options={{ tabBarLabel: 'Explorar', tabBarIcon: 'location-outline'}} />
             {/* <Tab.Screen name="Favorite" component={Favorite} options={{ tabBarLabel: 'Favoritos', tabBarIcon: 'heart'}} /> */}
-            <Tab.Screen name="Profile" component={Profile} options={{ tabBarLabel: 'Profile', tabBarIcon: 'person-outline'}} />
+            <Tab.Screen name="Profile" component={Prueva} options={{ tabBarLabel: 'Profile', tabBarIcon: 'person-outline'}} />
         </Tab.Navigator>
     );
 }

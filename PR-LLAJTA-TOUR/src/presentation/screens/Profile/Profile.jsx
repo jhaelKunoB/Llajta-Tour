@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   Text,
   Image,
@@ -5,89 +6,35 @@ import {
   View,
   TouchableOpacity,
   ImageBackground,
-  useWindowDimensions,
-} from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
+} from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
+} from 'react-native-responsive-screen';
 
-//import Favorite from "../favorite/FavoritesScreen";
-import { SceneMap, TabBar, TabView } from "react-native-tab-view";
-import { useState } from "react";
-
-const Cocha = require("./assets/Ciudad_de_Cochabamba.png");
-const Avatar = require("./assets/fondo.jpg");
-
-
-
-const HomeScreen = () => {
-    return (
-      <View>
-        <Text>Home Screen</Text>
-      </View>
-    );
-  }
-  
-const SettingsScreen = () => {
-    return (
-      <View>
-        <Text>Settings Screen</Text>
-      </View>
-    );
-  }
-
-  const renderScene = SceneMap({
-    first: HomeScreen,
-    second: SettingsScreen
-  })
+import BottomRabVavigator from '../Profile/BottomRabVavigator';
+const Cocha = require('./assets/Ciudad_de_Cochabamba.png');
+const Avatar = require('./assets/fondo.jpg');
 
 const Profile = () => {
   const navigation = useNavigation();
 
-  const layout = useWindowDimensions();
-  const [index, setIndex] = useState(0);
-
-  const [routes] = useState([
-    {key: "first", title:"Favoritos"},
-    {key: "second", title:"Configuracion"}
-  ])
-
-  const renderTabBar = (props) =>(
-    <TabBar
-        {...props}
-        indicatorStyle = {{
-            backgroundColor: "red"
-        }}
-        style={{backgroundColor: "blue", 
-                height: 44}}
-
-        renderLabel={({focused, route}) => (
-            <Text style={[{color:focused ? 'red' : 'blue'}]}>{route.title}</Text>
-        )}
-    />
-  )
-
   return (
-    <>
+    <View style={styles.container}>
       <ImageBackground style={styles.ContImgCocha} source={Cocha}>
         <View style={styles.ContHeader}>
           <View style={styles.headerLeft}>
             <TouchableOpacity onPress={() => navigation.goBack()}>
               <Ionicons
                 name="chevron-back-circle-sharp"
-                size={wp("11%")}
+                size={wp('11%')}
                 color="#DCF2F1"
               />
             </TouchableOpacity>
           </View>
-
-          <View style={styles.headerCenter}>
-            {/* <Text style={styles.titleSearch}>Tu Perfil</Text> */}
-          </View>
-
+          <View style={styles.headerCenter}></View>
           <View style={styles.headerRight}></View>
         </View>
 
@@ -95,89 +42,82 @@ const Profile = () => {
           <Image source={Avatar} style={styles.imgProfile}></Image>
           <View style={styles.ContInfo}>
             <Text style={styles.StytextName}>Jhael Kuno Bustos</Text>
-            <Text style={styles.StytxetEmail}>kbj5001497@est.univalle.edu</Text>
+            <Text style={styles.StytxetEmail}>
+              kbj5001497@est.univalle.edu
+            </Text>
           </View>
         </View>
       </ImageBackground>
 
+      {/* Adjusted TabView */}
       <View style={styles.contOptions}>
-        <TabView navigationState={{index, routes}}
-                 renderScene={renderScene}
-                 onIndexChange={setIndex}
-                 initialLayout={{width: layout.width}}
-                 renderTabBar={renderTabBar}/>
+        <BottomRabVavigator />
       </View>
-    </>
+    </View>
   );
 };
 
 export default Profile;
 
 const styles = StyleSheet.create({
-  contOptions: {
-    top: 100,
+  container: {
+    flex: 1,
+    backgroundColor:'white'
   },
-
-  //para la Inforrmacion
+  contOptions: {
+    marginTop:hp("14%"),
+    flex: 1,
+    backgroundColor: 'white',
+  },
   StytextName: {
     fontSize: 19,
-    color: "#365486",
-    fontWeight: "600",
+    color: '#365486',
+    fontWeight: '600',
   },
   StytxetEmail: {
     fontSize: 10,
-    fontWeight: "300",
+    fontWeight: '300',
   },
-
   ContInfo: {
     marginVertical: 3,
-    alignItems: "center",
+    alignItems: 'center',
   },
-  //para perfil
   ContImgCocha: {
-    height: hp("20%"),
-    position: "relative",
+    height: hp('20%'),
+    position: 'relative',
   },
-
   ContImag: {
-    alignItems: "center",
-    position: "absolute",
-    width: wp("100%"),
-    top: hp("13%"),
+    alignItems: 'center',
+    position: 'absolute',
+    width: wp('100%'),
+    top: hp('13%'),
   },
-
   imgProfile: {
     width: 110,
     height: 110,
     borderRadius: 70,
     borderWidth: 2,
-    borderColor: "#DCF2F1",
-    backgroundColor: "#f0f0f0",
+    borderColor: '#DCF2F1',
+    backgroundColor: '#f0f0f0',
   },
-
   ContHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingVertical: hp("1%"),
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: hp('1%'),
   },
-
   headerLeft: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  headerCenter: {
-    flex: 3,
-    alignItems: "center",
-    justifyContent: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   headerRight: {
     flex: 1,
-    alignItems: "center",
+    alignItems: 'center',
+    backgroundColor: 'blue',
   },
-  titleSearch: {
-    fontSize: wp("5.5%"),
-    color: "#0F1035",
-    fontWeight: "400",
+  headerCenter: {
+    flex: 3,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

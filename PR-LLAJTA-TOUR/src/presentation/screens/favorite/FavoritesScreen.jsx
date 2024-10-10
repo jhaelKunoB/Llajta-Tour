@@ -84,7 +84,7 @@ const Favorite = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.ContHeader}>
+      {/* <View style={styles.ContHeader}>
         <View style={styles.headerLeft}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <Ionicons
@@ -102,7 +102,7 @@ const Favorite = () => {
         <View style={styles.headerRight}>
           <PopUpManu/>
         </View>
-      </View>
+      </View> */}
 
       {!user ? (
 
