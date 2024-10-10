@@ -16,8 +16,8 @@ import FilteredPlaces from '../screens/filterPlaces/FilterPlaces.jsx';
 import SignInScreen from '../screens/SignInScreen/signInScreen.jsx';
 import Login from '../screens/login/login.jsx'
 import Register from '../screens/register/register.jsx'
-import Favorite from '../screens/favorite/FavoritesScreen.jsx'
-import Prueva from '../screens/Profile/Profile.jsx'
+//import Favorite from '../screens/favorite/FavoritesScreen.jsx'
+import Profile from '../screens/Profile/Profile.jsx'
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -29,7 +29,9 @@ function MyStack({user}) {
             <Stack.Screen name="SignInScreem" component={SignInScreen} options={{ headerShown: false }} />
             <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
             <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
-            <Stack.Screen name="Home" component={MyTaps} options={{ headerShown: false }} /> 
+            <Stack.Screen name="Home" options={{ headerShown: false }}>
+                {props => <MyTabs {...props} user={user} />}
+            </Stack.Screen>
             <Stack.Screen name="Info" component={Info} options={{ headerShown: false }} />
             <Stack.Screen name="SearchPlace" component={SearchPlace} options={{ headerShown: false }} />
             <Stack.Screen name="CategoryScreen" component={CategoryScreen} />
@@ -51,71 +53,68 @@ const TabButton = ({ label, iconName, onPress, isSelected, iconColor  }) => {
     );
 };
 
-function MyTaps() {
+function MyTabs({ user }) {
     return (
-        <Tab.Navigator
-            initialRouteName="Inicio"
-            screenOptions={{
-                headerShown: false,
-                tabBarStyle: styles.tabBarStyle,
-                tabBarShowLabel: false,
-            }}
-            tabBar={(props) => <MyTabBar {...props} />}
-        >
-            <Tab.Screen name="Inicio" component={Home} options={{ tabBarLabel: 'Inicio', tabBarIcon: 'home-outline' }} />
-            <Tab.Screen name="Categorias" component={CategoryScreen} options={{ tabBarLabel: 'Categorias', tabBarIcon: 'list-outline'}} />
-            <Tab.Screen name="Lugares" component={Place} options={{ tabBarLabel: 'Explorar', tabBarIcon: 'location-outline'}} />
-            {/* <Tab.Screen name="Favorite" component={Favorite} options={{ tabBarLabel: 'Favoritos', tabBarIcon: 'heart'}} /> */}
-            <Tab.Screen name="Profile" component={Prueva} options={{ tabBarLabel: 'Profile', tabBarIcon: 'person-outline'}} />
-        </Tab.Navigator>
+      <Tab.Navigator
+        initialRouteName="Inicio"
+        screenOptions={{
+          headerShown: false,
+          tabBarShowLabel: false,
+        }}
+        tabBar={(props) => <MyTabBar {...props}/>}
+      >
+        <Tab.Screen name="Inicio" component={Home} options={{ tabBarIcon: 'home-outline' }} />
+        <Tab.Screen name="Categorias" component={CategoryScreen} options={{ tabBarIcon: 'list-outline' }} />
+        <Tab.Screen name="Lugares" component={Place} options={{ tabBarIcon: 'location-outline' }} />
+          {/* Solo muestra la pestaña de perfil si el usuario ha iniciado sesión */}
+          {user && (
+          <Tab.Screen name="Perfil" component={Profile} options={{ tabBarIcon: 'person-outline' }} />
+        )}
+        
+      </Tab.Navigator>
     );
-}
+  }
 
 
-
-const MyTabBar = ({ state, descriptors, navigation }) => {
+  const MyTabBar = ({ state, descriptors, navigation }) => {
     return (
-        <View style={styles.tabBar}>
-            {state.routes.map((route, index) => {
-                const { options } = descriptors[route.key];
-                const label = options.tabBarLabel !== undefined ? options.tabBarLabel : route.name;
-                const iconName = options.tabBarIcon !== undefined ? options.tabBarIcon : 'home-outline';
-                const isSelected = state.index === index;
-
-                        // Calculate icon color based on the selection state
-                let iconColor = isSelected ? '#5A72A0' : '#fff'; // Default for all icons
-
-                if (route.name === 'Favorite') {
-                    iconColor = isSelected ? '#ff0000' : '#ccc'; // Red for selected heart, grey for not selected
-                }
-
-                 
-                const onPress = () => {
-                    const event = navigation.emit({
-                        type: 'tabPress',
-                        target: route.key,
-                        canPreventDefault: true,
-                    });
-
-                    if (!event.defaultPrevented) {
-                        navigation.navigate(route.name);
-                    }
-                };
-
-                return (
-                    <TabButton
-                        key={index}
-                        label={label}
-                        iconName={iconName}
-                        onPress={onPress}
-                        isSelected={isSelected}
-                        iconColor={iconColor}
-                    />
-                );
-            })}
-        </View>
+      <View style={styles.tabBar}>
+        {state.routes.map((route, index) => {
+          const { options } = descriptors[route.key];
+          const label = options.tabBarLabel !== undefined ? options.tabBarLabel : route.name;
+          const iconName = options.tabBarIcon !== undefined ? options.tabBarIcon : 'home-outline';
+          const isSelected = state.index === index;
+          const iconColor = isSelected ? '#5A72A0' : '#fff';
+  
+          const onPress = () => {
+            const event = navigation.emit({
+              type: 'tabPress',
+              target: route.key,
+              canPreventDefault: true,
+            });
+  
+            if (!event.defaultPrevented) {
+              navigation.navigate(route.name);
+            }
+          };
+  
+          return (
+            <TabButton
+              key={index}
+              label={label}
+              iconName={iconName}
+              onPress={onPress}
+              isSelected={isSelected}
+              iconColor={iconColor}
+            />
+          );
+        })}
+      </View>
     );
-};
+  };
+
+
+
 
 const styles = StyleSheet.create({
     tabBar: {
@@ -190,14 +189,14 @@ const styles = StyleSheet.create({
     },
 });
 
-const Navigation = ({user}) => {
-
-   
+const Navigation = ({ user }) => {
+  
     return (
-        <NavigationContainer>
-            <MyStack user={user} />
-        </NavigationContainer>
+      <NavigationContainer>
+        <MyStack user={user} />
+      </NavigationContainer>
     );
-};
+  };
+  
 
 export default Navigation;

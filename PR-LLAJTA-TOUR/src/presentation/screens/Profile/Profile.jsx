@@ -15,11 +15,14 @@ import {
 } from 'react-native-responsive-screen';
 
 import BottomRabVavigator from '../Profile/BottomRabVavigator';
+import UseAuth from "../../../../database/userAuth";
 const Cocha = require('./assets/Ciudad_de_Cochabamba.png');
 const Avatar = require('./assets/fondo.jpg');
 
 const Profile = () => {
   const navigation = useNavigation();
+  const { user } = UseAuth();
+
 
   return (
     <View style={styles.container}>
@@ -39,11 +42,27 @@ const Profile = () => {
         </View>
 
         <View style={styles.ContImag}>
-          <Image source={Avatar} style={styles.imgProfile}></Image>
+
+          {user ? (
+          <Image source={{uri: user.photoURL}} style={styles.imgProfile}></Image>
+          ):(
+            <Image source={Avatar} style={styles.imgProfile}></Image>
+          )}
+
           <View style={styles.ContInfo}>
-            <Text style={styles.StytextName}>Jhael Kuno Bustos</Text>
+            <Text style={styles.StytextName}>
+              {user ? (
+                   user.displayName ? user.displayName : "Usuario anonimo"
+              ) : (
+                <></>
+              )} 
+            </Text>
             <Text style={styles.StytxetEmail}>
-              kbj5001497@est.univalle.edu
+              {user ? (
+                   user.email ? user.email : "juxxxxx@gmail.com"
+              ) : (
+                <></>
+              )} 
             </Text>
           </View>
         </View>
@@ -65,7 +84,7 @@ const styles = StyleSheet.create({
     backgroundColor:'white'
   },
   contOptions: {
-    marginTop:hp("14%"),
+    marginTop:hp("13%"),
     flex: 1,
     backgroundColor: 'white',
   },

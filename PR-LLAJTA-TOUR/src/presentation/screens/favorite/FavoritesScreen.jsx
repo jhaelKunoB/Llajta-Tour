@@ -8,7 +8,6 @@ import {
   ActivityIndicator,
   ImageBackground,
   TouchableOpacity,
-  Button,
 } from "react-native";
 import { getFavoritePlace } from "./controler/ContrFavorite";
 import UseAuth from "../../../../database/userAuth";
@@ -21,8 +20,9 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 
-import PopUpManu from '../../../../src/presentation/components/popPu'
-import fotoImg from './assets/fotoImg.png'
+
+const favoriteImg = require("./assets/Social update.gif")
+
 
 const Favorite = () => {
   const navigation = useNavigation();
@@ -84,43 +84,8 @@ const Favorite = () => {
 
   return (
     <View style={styles.container}>
-      {/* <View style={styles.ContHeader}>
-        <View style={styles.headerLeft}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Ionicons
-              name="chevron-back-circle-sharp"
-              size={wp("11%")}
-              color="#0F1035"
-            />
-          </TouchableOpacity>
-        </View>
 
-        <View style={styles.headerCenter}>
-          <Text style={styles.titleSearch}>Favoritos</Text>
-        </View>
-
-        <View style={styles.headerRight}>
-          <PopUpManu/>
-        </View>
-      </View> */}
-
-      {!user ? (
-
-        <View style={styles.authContainer}>
-
-          <Image source={fotoImg} style={styles.ImgLogin}/>
-          <Text style={styles.authText}>
-            Por favor, inicia sesión para ver tus favoritos.
-          </Text>
-          <TouchableOpacity onPress={() => navigation.navigate("SignInScreem")} style={styles.buttomSign}>
-            <Text style={styles.butonTextSign}>Iniciar sesión</Text>
-          </TouchableOpacity>
-
-        </View>
-
-
-
-      ) : loadingFavorites ? (
+      {loadingFavorites ? (
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color="#0F1035" />
           <Text style={styles.loadingText}>
@@ -137,9 +102,13 @@ const Favorite = () => {
             columnWrapperStyle={styles.row}
             contentContainerStyle={styles.flatListContent}
             ListEmptyComponent={
-              <Text style={styles.emptyText}>
-                No hay favoritos disponibles.
-              </Text>
+              <View style={styles.imageContainer}>
+                <Image
+                  source={favoriteImg} // Tu GIF aquí
+                  style={styles.ImgLogin}
+                  resizeMode="cover" // o "contain", dependiendo de tu necesidad
+                />
+              </View>
             }
           />
         </View>
@@ -159,80 +128,75 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   loadingText: {
-    fontSize: 15,
+    fontSize: wp("4%"),
     fontWeight: "300",
     textAlign: "center",
   },
   flatListContent: {
-    paddingVertical: 10,
-    marginHorizontal: 13,
+    paddingVertical: hp("1%"),
+    marginHorizontal: wp("3%"),
   },
   row: {
     justifyContent: "space-between",
-    marginBottom: 15,
+    marginBottom: hp("2%"),
   },
-
-  
   card: {
     flex: 1,
     backgroundColor: "white",
-    margin: 5,
-    borderRadius: 12,
+    margin: wp("2%"),
+    borderRadius: wp("3%"),
     overflow: "hidden",
     elevation: 3,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
-    shadowRadius: 5,
+    shadowRadius: wp("1%"),
     maxWidth: "48%",
-    minHeight: 220,
+    minHeight: hp("30%"),
   },
   image: {
     width: "100%",
-    height: 150,
+    height: hp("20%"),
     resizeMode: "cover",
   },
   iconContainer: {
     flexDirection: "row",
     justifyContent: "flex-end",
-    padding: 10,
+    padding: wp("2%"),
   },
   infoContainer: {
-    padding: 10,
+    padding: wp("3%"),
   },
   name: {
-    fontSize: 16,
+    fontSize: wp("4.5%"),
     fontWeight: "600",
     color: "#0F1035",
-    marginBottom: 5,
+    marginBottom: hp("1%"),
   },
   addressContainer: {
     flexDirection: "row",
     alignItems: "center",
   },
   textAddress: {
-    fontSize: 12,
+    fontSize: wp("3.5%"),
     fontWeight: "300",
-    marginLeft: 5,
+    marginLeft: wp("2%"),
     color: "#0F1035",
   },
   emptyText: {
     textAlign: "center",
-    marginTop: 20,
-    fontSize: 18,
+    marginTop: hp("3%"),
+    fontSize: wp("4%"),
     color: "#999",
   },
-
-  // Estilos para el encabezado
   ContHeader: {
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: 12,
+    paddingVertical: hp("1.5%"),
     backgroundColor: "white",
     borderBottomWidth: 1,
     borderBottomColor: "#0F1035",
   },
-
   headerLeft: {
     flex: 1,
     justifyContent: "center",
@@ -245,60 +209,61 @@ const styles = StyleSheet.create({
   },
   headerRight: {
     flex: 1,
-    alignItems:'center',
+    alignItems: "center",
   },
   titleSearch: {
     fontSize: wp("5.5%"),
     color: "#0F1035",
     fontWeight: "400",
   },
-
-  //------------------para Inico Seccion
+  ContImgFavorite: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   authContainer: {
     backgroundColor: '#DCF2F1',
-    marginHorizontal: 30,
-    marginTop: 60,
-    padding: 20,
-    borderRadius: 10,
-  
-    // Shadow for iOS
-    shadowColor: '#000', // Black color for the shadow
-    shadowOffset: { width: 0, height: 2 }, // Offsets the shadow from the container
-    shadowOpacity: 0.25, // 25% opacity for the shadow
-    shadowRadius: 3.84, // Blur radius for the shadow
-  
-    // Elevation for Android
-    elevation: 5, // Elevation for the shadow on Android
-    justifyContent:'center',
-    alignItems:'center',
+    marginHorizontal: wp("8%"),
+    marginTop: hp("8%"),
+    padding: wp("5%"),
+    borderRadius: wp("2.5%"),
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 }, 
+    shadowOpacity: 0.25, 
+    shadowRadius: wp("2%"),
+    elevation: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-
-  authText:{
-    paddingVertical:10,
-    fontWeight:'300',
-    color:'#0F1035'
+  authText: {
+    paddingVertical: hp("1.5%"),
+    fontWeight: '300',
+    color: '#0F1035',
   },
-
-  buttomSign:{
-    backgroundColor:'#0F1035',
-    marginVertical:30,
-    paddingVertical:10,
-    borderRadius:10,
-    justifyContent:'center',
-    alignItems:'center',
-    width:'90%'
+  buttomSign: {
+    backgroundColor: '#0F1035',
+    marginVertical: hp("4%"),
+    paddingVertical: hp("1.5%"),
+    borderRadius: wp("2%"),
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: wp("90%"),
   },
-
-  butonTextSign:{
-    color:'white',
-    
+  butonTextSign: {
+    color: 'white',
   },
-  ImgLogin:{
-    alignItems:'center',
-    width:'80%',
-    height:200
-  }
-
+  imageContainer: {
+    borderRadius: wp("5%"),
+    overflow: 'hidden',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  ImgLogin: {
+    width: wp("80%"),
+    height: hp("40%"),
+    borderRadius: wp("5%"),
+  },
 });
+
 
 export default Favorite;

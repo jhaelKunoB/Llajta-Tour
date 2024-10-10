@@ -1,4 +1,4 @@
-import { Ionicons, MaterialIcons, AntDesign, Octicons } from "@expo/vector-icons";
+import { Ionicons, MaterialIcons, AntDesign } from "@expo/vector-icons";
 import { useRef, useState } from "react";
 import {
   SafeAreaView,
@@ -9,20 +9,19 @@ import {
   Animated,
   Easing,
   TouchableWithoutFeedback,
-  Linking
 } from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
 import UseAuth from "../../../database/userAuth";
 import { getAuth, signOut } from "firebase/auth";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import SingoutModal from '../screens/Profile/SingoutModal'
 const PopUpMenu = () => {
   const navigation = useNavigation();
   const [visible, setVisible] = useState(false);
   const scala = useRef(new Animated.Value(0)).current;
   const { user } = UseAuth();
-
+  const [openModalSing, setOpenModalSing] = useState(false);
   function resizeBox(to, callback) {
     if (to === 1) setVisible(true);
     Animated.timing(scala, {
@@ -49,11 +48,6 @@ const PopUpMenu = () => {
       console.error("Error signing out:", error);
     }
   };
-
-  const openPoliticasPrivacidad = () => {
-    const url = 'https://cochaturistica.blogspot.com/2024/10/politica-de-privacidad-la-presente.html';
-    Linking.openURL(url).catch((err) => console.error("Failed to open URL:", err));
-  };
   
 
   return (
@@ -78,14 +72,10 @@ const PopUpMenu = () => {
             <Animated.View
               style={[styles.popUp, { transform: [{ scale: scala }] }]}
             >
-              <TouchableOpacity style={styles.option}>
-                {user ? (
-                    <>
-                     <Text>{user.displayName ? user.displayName.substring(0, 10) : ''}</Text>
-                    </>
-                ):(
-                    <></>
-                )}
+              <TouchableOpacity style={styles.option} onPress={() => navigation.navigate("Profile")}>
+               
+                     <Text>Perfil</Text>
+               
                
                 <Ionicons
                   name="person-outline"
@@ -93,25 +83,13 @@ const PopUpMenu = () => {
                   color="black"
                   style={{ marginLeft: 10 }}
                 />
-
-
               </TouchableOpacity>
 
-               <TouchableOpacity style={styles.option} onPress={() => resizeBox(0, () => navigation.navigate('Favorite'))}>
-                    <Text>Favoritos</Text>
-                   <AntDesign name="hearto" size={24} color="red" style={{ marginLeft: 10 }} />
-                </TouchableOpacity> 
-
-
-                <TouchableOpacity style={styles.option} onPress={() => openPoliticasPrivacidad()}>
-                    <Text>Aviso de Privacidad</Text>
-                   <Octicons name="shield-lock" size={24} color="black" style={{ marginLeft: 10 }} />  
-                </TouchableOpacity> 
 
 
               <TouchableOpacity
                 style={styles.option}
-                onPress={() => handleSignOut()}
+                onPress={() => setOpenModalSing(true)}
               >
                 <Text>Cerrar Sesión</Text>
                 <Ionicons
@@ -125,6 +103,7 @@ const PopUpMenu = () => {
           </SafeAreaView>
         </TouchableWithoutFeedback>
       </Modal>
+      <SingoutModal openModalSing={openModalSing} setOpenModalSing={setOpenModalSing} />
     </>
   );
 };

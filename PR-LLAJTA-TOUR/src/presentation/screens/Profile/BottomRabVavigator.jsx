@@ -2,8 +2,8 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { View, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import Faborite from "../favorite/FavoritesScreen"
-
+import Favorite from "../favorite/FavoritesScreen"
+import Settings from "./Settings"
 const Tab = createBottomTabNavigator();
 
 function HomeScreen() {
@@ -56,7 +56,7 @@ const BottomRabVavigator = () => {
           backgroundColor: 'white',
           elevation: 0,
           borderTopWidth: 0,
-          height: 60, 
+          height: 50, 
           position: 'absolute',
           top: 0
         },
@@ -64,12 +64,12 @@ const BottomRabVavigator = () => {
     >
       <Tab.Screen
         name="favorite"
-        component={Faborite}
+        component={Favorite}
         options={{ tabBarLabel: 'Pantalla 1' }}
       />
       <Tab.Screen
         name="settings"
-        component={SettingsScreen}
+        component={Settings}
         options={{ tabBarLabel: 'Pantalla 2' }}
       />
     </Tab.Navigator>
