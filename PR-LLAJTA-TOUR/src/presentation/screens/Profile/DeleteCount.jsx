@@ -96,7 +96,7 @@ const DeleteCount = ({ openModal, setOpenModal }) => {
             <>
               {/* Botón de Eliminar Cuenta */}
               <TouchableOpacity style={stylesM.Deletebutton} onPress={() => handleDeleteAccount()}>
-                <Text style={stylesM.DeletebuttonText}>Eliminar Cuenta</Text>
+                <Text style={stylesM.DeletebuttonText}>Borrar Cuenta</Text>
               </TouchableOpacity>
 
               {/* Botón de Cancelar que cierra el modal */}
@@ -128,8 +128,12 @@ const stylesM = StyleSheet.create({
     width: wp("100%"), // Usando wp para el ancho
     paddingVertical: hp("3%"), // Usando hp para el padding vertical
     backgroundColor: "white",
-    borderRadius: 15,
     alignItems: "center",
+
+    borderColor:"red",
+    borderTopWidth:3,
+    borderTopRightRadius:15,
+    borderTopLeftRadius:15
   },
 
   modalText: {

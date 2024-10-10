@@ -15,7 +15,7 @@ import { getAuth, signOut } from "firebase/auth";
 import { useNavigation } from "@react-navigation/native";
 
 
-const SingoutModal = ({ openModalSing, setOpenModalSing }) => {
+const SingInModal = ({ openModalSing, setOpenModalSing }) => {
 
     const navigation = useNavigation();
     
@@ -37,15 +37,14 @@ const SingoutModal = ({ openModalSing, setOpenModalSing }) => {
       <View style={stylesM.ContModal}>
         <View style={stylesM.modalContent}>
           <Text style={stylesM.modalText}>
-            ¿Seguro que quieres cerrar la sesión?
+             Por favor, inicia sesión para habilitar esta función.
           </Text>
 
-          {/* Botón de Eliminar Cuenta */}
-          <TouchableOpacity style={stylesM.Deletebutton} onPress={() => handleSignOut()}>
-            <Text style={stylesM.DeletebuttonText}>Cerrar sesion</Text>
+          <TouchableOpacity style={stylesM.Deletebutton} onPress={() => navigation.navigate("SignInScreem")}>
+            <Text style={stylesM.DeletebuttonText}>Iniciar sesión</Text>
           </TouchableOpacity>
 
-          {/* Botón de Cancelar que cierra el modal */}
+         
           <TouchableOpacity
             style={stylesM.cancelButton}
             onPress={() => setOpenModalSing(false)}
@@ -58,65 +57,67 @@ const SingoutModal = ({ openModalSing, setOpenModalSing }) => {
   );
 };
 
-export default SingoutModal;
+export default SingInModal;
 
 const stylesM = StyleSheet.create({
   ContModal: {
     flex: 1,
     justifyContent: "flex-end",
     alignItems: "center",
-    backgroundColor: "rgba(0,0,0,0.3)", // Mejorando la opacidad para el fondo
+    backgroundColor: "rgba(0,0,0,0.3)", 
   },
 
   modalContent: {
-    width: wp("100%"), // Usando wp para el ancho
-    paddingVertical: hp("3%"), // Usando hp para el padding vertical
+    width: wp("100%"),
+    paddingVertical: hp("3%"),
     backgroundColor: "white",
-    
+   
     alignItems: "center",
-    borderColor:"#821131",
+    
+    borderColor:"#7FC7D9",
     borderTopWidth:3,
     borderTopRightRadius:15,
     borderTopLeftRadius:15
   },
 
   modalText: {
-    fontSize: hp("2%"), // Usando hp para el tamaño de texto
+    fontSize: hp("1.8%"),
     textAlign: "center",
-    marginBottom: hp("3%"), // Espacio con hp
-    color: "#495464",
-    fontWeight: "500",
+    marginBottom: hp("3%"),
+    color: "#ababab",
+    fontWeight: "800",
   },
 
   Deletebutton: {
-    paddingVertical: hp("1.5%"), // Usando hp para el padding vertical
-    marginVertical: hp("1%"), // Usando hp para el margen vertical
+    paddingVertical: hp("1.5%"),
+    marginVertical: hp("1%"),
     borderTopWidth: 0.5,
     borderColor: "#ababab",
     borderRadius: 5,
-    width: wp("100%"), // Ancho del botón con wp
+    width: wp("100%"),
     alignItems: "center",
   },
 
   DeletebuttonText: {
-    color: "red",
-    fontSize: hp("2%"), // Usando hp para el tamaño de texto
+    color: "#0F1035",
+    fontSize: hp("2%"),
+    fontWeight:'600'
   },
 
   cancelButton: {
-    paddingVertical: hp("1.5%"), // Usando hp para el padding
-    marginVertical: hp("1%"), // Usando hp para el margen
-    marginBottom: hp("2%"), // Usando hp para el margen inferior
+    paddingVertical: hp("1.5%"),
+    marginVertical: hp("1%"),
+    marginBottom: hp("2%"),
     borderRadius: 5,
-    width: wp("100%"), // Ancho del botón con wp
+    width: wp("100%"),
     alignItems: "center",
     borderTopWidth: 0.5,
     borderColor: "#ababab",
   },
 
   CancelbuttonText: {
-    color: "#ababab",
-    fontSize: hp("2%"), // Usando hp para el tamaño de texto
+    color: "red",
+    fontSize: hp("2%"),
   },
 
   

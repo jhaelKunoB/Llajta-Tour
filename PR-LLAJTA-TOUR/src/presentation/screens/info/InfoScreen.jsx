@@ -31,6 +31,8 @@ import Calendar from "./CoponentInfo/Calendar";
 import InfoCon from "./CoponentInfo/InfoCon";
 import ImageNow from "./CoponentInfo/ImagesNow";
 import AudioInfo from "./CoponentInfo/AudioInfo";
+import SingInModal from "./CoponentInfo/SigInModal";
+
 import { getPlace } from "./Controler/firebaseService";
 
 //para poder recuperar al Usuario
@@ -60,6 +62,7 @@ const InfoScreen = () => {
   const route = useRoute();
   const { Id } = route.params;
   const [cantFavorite, setCantLikes] = useState(0);
+  const [openModalSing, setOpenModalSing] = useState(false);
 
   //para reccuperar el Lugar
   useEffect(() => {
@@ -216,52 +219,13 @@ const InfoScreen = () => {
                   </TouchableOpacity>
                 ) : (
 
-                  <TouchableOpacity onPress={() => setModalVisible(true)}>
+                  <TouchableOpacity onPress={() => setOpenModalSing(true)}>
                     <Ionicons name={"heart"} style={styles.HeardIcon} />
                   </TouchableOpacity>
                )}
               </View>
 
-
-              <Modal
-                animationType="slide"
-                transparent={true}
-                visible={modalVisible}
-                onRequestClose={() => setModalVisible(false)}
-              >
-                <TouchableWithoutFeedback
-                  onPress={() => setModalVisible(false)}
-                >
-                  <View
-                    style={{
-                      flex: 1,
-                      justifyContent: "flex-end",
-                      alignItems: "center",
-                      backgroundColor: "rgba(0,0,0,0)",
-                    }}
-                  >
-                    <View style={styles.containerMess}>
-                      <View style={styles.ContText}>
-                        <Text style={styles.textSignIn}>
-                          Por favor, inicia sesión para habilitar esta función.
-                        </Text>
-                      </View>
-
-                      <View style={styles.ContButom}>
-                        <TouchableOpacity
-                          onPress={() => navigation.navigate("SignInScreem")}
-                          style={styles.butonSignIn}
-                        >
-                          <Text style={styles.ButontextSignIn}>
-                            Iniciar sesión
-                          </Text>
-                        </TouchableOpacity>
-                      </View>
-                    </View>
-                  </View>
-                </TouchableWithoutFeedback>
-              </Modal>
-              
+              <SingInModal openModalSing={openModalSing} setOpenModalSing={setOpenModalSing} />      
             </View>
           </View>
 
