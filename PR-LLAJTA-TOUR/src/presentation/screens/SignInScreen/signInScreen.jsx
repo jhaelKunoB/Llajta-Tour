@@ -52,9 +52,10 @@ const SignInScreen = () => {
 
   useEffect(() => {
     try {
+
       if (response?.type === "success") {
-        const { id_token } = response.params;
-        const credential = GoogleAuthProvider.credential(id_token);
+        const { accessToken  } = response.authentication;
+        const credential = GoogleAuthProvider.credential(null, accessToken);
         signInWithCredential(auth, credential)
           .then(() => {
             console.log("Successfully signed in with Google!");
@@ -67,6 +68,8 @@ const SignInScreen = () => {
       console.log(e);
     }
   }, [response]);
+
+
 
 
   const getLocalUser = async () => {
