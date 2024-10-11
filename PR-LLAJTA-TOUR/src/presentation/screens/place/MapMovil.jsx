@@ -9,18 +9,14 @@ import {
   TouchableOpacity,
   FlatList,
   Switch,
+  Modal,
 } from "react-native";
 
-
-
 import MapView, { Marker, Callout } from "react-native-maps";
-
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 //para recuperar los lugares
 import { placeLocation, getCategory } from "./controler/placeLocation";
-
 import { useNavigation } from "@react-navigation/native";
 import loanding from "./assets/loading.gif";
 import {
@@ -29,8 +25,7 @@ import {
 } from "react-native-responsive-screen";
 import { Ionicons } from "@expo/vector-icons";
 
-
-
+const IconLoanding = require("./assets/Loanding.gif")
 
 const Place = () => {
   const navigation = useNavigation();
@@ -50,84 +45,80 @@ const Place = () => {
   const handlerOpen = () => bottomSheetRef.current?.expand(); //para abrir los lugares
   const HandlerCategoruOpen = () => bottmSheeCategori.current?.expand(); //para abrir las Categorias
   const HandlerCategoruClose = () => bottmSheeCategori.current?.close(); //para abrir las Categorias
-  const [itemSelect, setItemSelect] = useState(null)
+  const [itemSelect, setItemSelect] = useState(null);
 
+  const [openLoanding, setLoanding] = useState(false);
 
   //para el witchValue, para mostarr todos lugares-----------------
   const [switchValue, setSwitchValue] = useState(true);
   const toggleSwitch = (value) => {
     try {
       if (value) {
-        setFindPlace(places)
-        HandlerCategoruClose()
-        handlerClose()
-        setItemSelect(null)
+        setFindPlace(places);
+        HandlerCategoruClose();
+        handlerClose();
+        setItemSelect(null);
       }
       setSwitchValue(value);
     } catch (error) {
       console.error(error);
     }
   };
- 
 
   //para poder recuperar el lugar seleccionado ------------------------------
   const handleMarkerPress = (id) => {
     try {
       if (Array.isArray(places) && places.length > 0 && id) {
-       
         handlerOpen();
         const selectedPlace = places.find((place) => place.id === id);
-        
+
         if (selectedPlace) {
           setPlace(selectedPlace);
         } else {
-          console.warn('Lugar no encontrado con id:', id);
+          console.warn("Lugar no encontrado con id:", id);
         }
       } else {
-        console.warn('No se han encontrado lugares o id no proporcionado');
+        console.warn("No se han encontrado lugares o id no proporcionado");
       }
     } catch (error) {
-      console.error('Error en handleMarkerPress:', error);
+      console.error("Error en handleMarkerPress:", error);
     }
   };
-  
-  
 
   // //para Inicialisar los valores
-   useEffect(() => {
-     const fetchPlaces = async () => {
-       try {
-         const data = await placeLocation();
-         const category = await getCategory();
-         setPlaces(data); // Asegúrate de que data sea un array
-         setFindPlace(data);
-         setCategori(category);
-         console.log("solo una sola ves");
-       } catch (error) {
-         console.error("Error fetching places:", error);
+  useEffect(() => {
+    const fetchPlaces = async () => {
+      try {
+        setLoanding(true)
+        const data = await placeLocation();
+        const category = await getCategory();
+        setPlaces(data); // Asegúrate de que data sea un array
+        setFindPlace(data);
+        setCategori(category);
+        console.log("solo una sola ves");
+      } catch (error) {
+        console.error("Error fetching places:", error);
+      }finally {
+        setLoanding(false);
       }
-     };
+    };
 
-     fetchPlaces();
-   }, []);
-
-
-   
+    fetchPlaces();
+  }, []);
 
   //para Filtrar por  categorias----------------------------------------
   const FindCategoris = (idCat) => {
     if (places) {
-      const fibdCate = places.filter((index) => index.CategoryID?.id == idCat)
-      setItemSelect(idCat)
-      setFindPlace(fibdCate)
-      HandlerCategoruClose()
-      handlerClose()
-      setSwitchValue(false) //para setear todo el filtrado
+      const fibdCate = places.filter((index) => index.CategoryID?.id == idCat);
+      setItemSelect(idCat);
+      setFindPlace(fibdCate);
+      HandlerCategoruClose();
+      handlerClose();
+      setSwitchValue(false); //para setear todo el filtrado
       setAmplitud(0.4); //para setear la amplitudes
       console.log("hola====================", fibdCate);
     }
   };
-
 
   // Estilo del mapa para ocultar POI----------------------------------------
   const customMapStyle = [
@@ -139,23 +130,23 @@ const Place = () => {
   ];
   //para poder renderisar las categorias---------------------------------
   const renderCategori = ({ item }) => {
-    const isSelct = item.id == itemSelect
-    return(
+    const isSelct = item.id == itemSelect;
+    return (
       <TouchableOpacity
-      style={isSelct ? styles.selectItem : styles.itemContainer}
-      onPress={() => FindCategoris(item.id)}>
-      <Image source={{ uri: item.PinMap }} style={{ width: 40, height: 50 }} />
-      <Text style={styles.itemText}>{item.Type}</Text>
-    </TouchableOpacity>
-    )
-  }
-
-
+        style={isSelct ? styles.selectItem : styles.itemContainer}
+        onPress={() => FindCategoris(item.id)}
+      >
+        <Image
+          source={{ uri: item.PinMap }}
+          style={{ width: 40, height: 50 }}
+        />
+        <Text style={styles.itemText}>{item.Type}</Text>
+      </TouchableOpacity>
+    );
+  };
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-
-      
       <View style={styles.ContHeadder}>
         <View style={styles.ContButonnBack}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -167,22 +158,23 @@ const Place = () => {
           </TouchableOpacity>
         </View>
 
-        <View style={{ flex: 2, justifyContent:'center', alignItems:'center'}}>
-          <Text style={styles.textHeader}>
-          Ubicaciones
-          </Text>
+        <View
+          style={{ flex: 2, justifyContent: "center", alignItems: "center" }}
+        >
+          <Text style={styles.textHeader}>Ubicaciones</Text>
         </View>
 
         <View style={styles.ContButomCate}>
-          <TouchableOpacity onPress={() => HandlerCategoruOpen()} style={styles.ContIconCate}>
-            <Ionicons name="filter-sharp" size={wp('7%')} color="white" />
+          <TouchableOpacity
+            onPress={() => HandlerCategoruOpen()}
+            style={styles.ContIconCate}
+          >
+            <Ionicons name="filter-sharp" size={wp("7%")} color="white" />
           </TouchableOpacity>
         </View>
       </View>
 
-
-
-       <MapView
+      <MapView
         style={{ flex: 1 }}
         region={{
           latitude: -17.3935419,
@@ -217,8 +209,6 @@ const Place = () => {
             </Marker>
           ))}
       </MapView>
-
-
 
       {/* para poder mostrar datos del Lugar-------------------------------------- */}
       <BottomSheet
@@ -291,8 +281,6 @@ const Place = () => {
         )}
       </BottomSheet>
 
-
-
       {/* para poder mostrar todas las cateoorias---------------------------------- */}
       <BottomSheet
         handleIndicatorStyle={{ backgroundColor: "black" }}
@@ -302,13 +290,10 @@ const Place = () => {
         snapPoints={snapPointsCatego}
         index={-1}
         containerStyle={styles.ContCategory}
-        // enableContentPanningGesture={false} //para poder avilitar los getos dentro del contenedor
       >
         <View style={styles.ContHeaderBut}>
           <Text style={styles.textHeaderBut}>Explorar por Categoria</Text>
         </View>
-
-
 
         <View style={styles.contAllCatego}>
           <View style={{ flex: 1, alignItems: "center" }}>
@@ -324,8 +309,6 @@ const Place = () => {
             />
           </View>
         </View>
-
-
 
         {categorys ? (
           <BottomSheetScrollView>
@@ -352,7 +335,13 @@ const Place = () => {
         )}
       </BottomSheet>
 
+      <Modal visible={openLoanding} animationType="fade" transparent={true}>
+        <View style={styles.ContLongPlaces}>
+          <Image source={IconLoanding} style={styles.contIconLong}></Image>
+        </View>
+      </Modal>
 
+      
     </GestureHandlerRootView>
   );
 };
@@ -360,33 +349,45 @@ const Place = () => {
 export default Place;
 
 const styles = StyleSheet.create({
+  contIconLong:{
+    width:70,
+    height:80
+  },
+
+  //------------------------------
+  ContLongPlaces: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.3)",
+  },
 
   //paa el modal decarga --------------------
-  loadingContainer:{
+  loadingContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "red",
-    zIndex:1
+    zIndex: 1,
   },
 
   //estilos para categoria =------------------------
-  
-  contAllCatego:{
-    flexDirection:'row',
-    paddingTop:8,
-    paddingBottom:8,
-    backgroundColor:'#DCF2F1',
-    borderRadius:10,
-    justifyContent:'center',
-    alignItems:'center',
-    marginHorizontal:10,
-    marginBottom:5
+
+  contAllCatego: {
+    flexDirection: "row",
+    paddingTop: 8,
+    paddingBottom: 8,
+    backgroundColor: "#DCF2F1",
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    marginHorizontal: 10,
+    marginBottom: 5,
   },
 
-  textCatego:{
-    fontSize:15,
-    fontWeight:'300'
+  textCatego: {
+    fontSize: 15,
+    fontWeight: "300",
   },
 
   //stilos para cada item de las categorias
@@ -403,13 +404,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 
-
   textHeaderBut: {
     textAlign: "center",
     fontSize: 20,
     fontWeight: "300",
     paddingVertical: 5,
-    color:'#222831'
+    color: "#222831",
   },
 
   itemContainer: {
@@ -422,7 +422,7 @@ const styles = StyleSheet.create({
     padding: 2,
   },
 
-  selectItem:{
+  selectItem: {
     flex: 1,
     justifyContent: "space-between",
     alignItems: "center",
@@ -430,8 +430,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#DCF2F1",
     borderRadius: 15,
     padding: 2,
-    borderWidth:3,
-    borderColor:'white'
+    borderWidth: 3,
+    borderColor: "white",
   },
 
   itemText: {
@@ -448,11 +448,10 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: "#02152699",
     zIndex: 1,
-    color:"white",
-    paddingHorizontal:5,
-    paddingVertical:5
+    color: "white",
+    paddingHorizontal: 5,
+    paddingVertical: 5,
   },
-
 
   ContButonnBack: {
     flex: 1,
@@ -467,12 +466,12 @@ const styles = StyleSheet.create({
   textHeader: {
     fontWeight: "500",
     textAlign: "center",
-    fontSize:18,
-    color:'white'
+    fontSize: 18,
+    color: "white",
   },
 
-  ContIconCate:{
-    padding:5,
+  ContIconCate: {
+    padding: 5,
   },
 
   //-------------------------------------------------------

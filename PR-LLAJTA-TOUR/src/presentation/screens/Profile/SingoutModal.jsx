@@ -74,7 +74,7 @@ const stylesM = StyleSheet.create({
     backgroundColor: "white",
     
     alignItems: "center",
-    borderColor:"#821131",
+    borderColor:"#7FC7D9",
     borderTopWidth:3,
     borderTopRightRadius:15,
     borderTopLeftRadius:15

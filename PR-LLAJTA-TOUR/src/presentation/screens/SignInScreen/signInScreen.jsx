@@ -8,7 +8,6 @@ import {
   SafeAreaView,
   Dimensions,
   ScrollView,
-  ActivityIndicator,
   Modal,
   Linking
 } from "react-native";
@@ -29,8 +28,7 @@ import {
 
 import { auth, db } from "../../../../database/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
-
-//import {makeRedirectUri} from "expo-auth-session"
+import IconImg from "../../components/IconLoanding"
 
 const ImgFont = require("./assets/fondo2.jpg");
 const IconGloogle = require("./assets/IconGoogle.png");
@@ -44,9 +42,7 @@ WebBrowser.maybeCompleteAuthSession();
 const SignInScreen = () => {
   const navigation = useNavigation();
   const [loguenado, setLoguenado] = useState(false);
-
   const [userInfo, setUserInfo] = React.useState(null);
-
   const [request, response, promptAsync] = Google.useAuthRequest({
     iosClientId:
       "427143347905-gtf0892k3uhqsdin9dtea7b9eoskfjmm.apps.googleusercontent.com",
@@ -72,11 +68,11 @@ const SignInScreen = () => {
     }
   }, [response]);
 
+
   const getLocalUser = async () => {
     try {
       setLoguenado(true);
       const userJSON = await AsyncStorage.getItem("@user");
-     // console.log("Datos de usuario almacenados:", userJSON); // Depuración
 
       const userData = userJSON ? JSON.parse(userJSON) : null;
       setUserInfo(userData);
@@ -92,23 +88,21 @@ const SignInScreen = () => {
       setLoguenado(false);
     }
   };
-
-
   const saveUserDataToFirestore = async (user) => {
     try {
-      const userDocRef = doc(db, "User", user.uid); // La colección se llamará "Users" y el documento tendrá el uid como ID
-      const userSnapshot = await getDoc(userDocRef); // Verificamos si ya existe el documento
+      const userDocRef = doc(db, "User", user.uid);
+      const userSnapshot = await getDoc(userDocRef); 
   
       if (!userSnapshot.exists()) {
-        // Si el usuario no existe, lo creamos
+       
         await setDoc(userDocRef, {
-          userName: user.displayName || "Usuario", // Puedes usar un valor por defecto si no tiene nombre
+          userName: user.displayName || "Usuario", 
           email: user.email,
-          favorites: [], // Puedes inicializar favoritos como un array vacío
+          favorites: [],
         });
         console.log("Nuevo usuario registrado en Firestore");
       } else {
-        // Si ya existe, no hacemos nada
+      
         console.log("El usuario ya está registrado en Firestore");
       }
     } catch (e) {
@@ -121,7 +115,7 @@ const SignInScreen = () => {
     getLocalUser();
     const unsub = onAuthStateChanged(auth, async (user) => {
       try {
-        setLoguenado(true);
+
         if (user) {
           await AsyncStorage.setItem("@user", JSON.stringify(user));
           console.log("data", JSON.stringify(user, null, 2));
@@ -132,17 +126,17 @@ const SignInScreen = () => {
         } else {
           console.log("User no Autentificado");
         }
+
       } catch (e) {
         console.log(e);
       } finally {
         setLoguenado(false);
       }
+
     });
 
     return () => unsub();
   }, []);
-
-
   const openPoliticasPrivacidad = () => {
     // URL que quieres abrir
     const url = 'https://cochaturistica.blogspot.com/2024/10/politica-de-privacidad-la-presente.html';
@@ -161,9 +155,7 @@ const SignInScreen = () => {
         visible={loguenado}
         onRequestClose={() => {}}
       >
-        <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color="#365486" />
-        </View>
+        <IconImg/>
       </Modal>
 
 
@@ -193,9 +185,7 @@ const SignInScreen = () => {
             <View style={styles.butomContainer}>
               <TouchableOpacity
                 style={styles.butom3}
-                onPress={() => {
-                  promptAsync();
-                }}
+                onPress={() => { setLoguenado(true); promptAsync();}}
               >
                 <Image source={IconGloogle} style={styles.IconGoogleIm}></Image>
                 <Text>Continuar con Google</Text>
@@ -242,12 +232,7 @@ const styles = StyleSheet.create({
 
 
   //para tempo de carga
-  loadingContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#DCF2F180",
-  },
+
 
   IconGoogleIm: {
     width: "10%",
@@ -289,18 +274,10 @@ const styles = StyleSheet.create({
   butomText: {
     color: "#071952",
   },
-  butom1: {
-    flex: 1,
-    alignItems: "center",
-    backgroundColor: "#CDE8E5",
-    padding: 16,
-    borderRadius: 13,
-  },
-  butom2: {
-    flex: 1,
-    alignItems: "center",
-    padding: 16,
-  },
+
+ 
+
+ 
   butom3: {
     flex: 1,
     flexDirection: "row",

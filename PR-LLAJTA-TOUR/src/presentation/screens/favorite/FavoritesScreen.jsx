@@ -5,7 +5,6 @@ import {
   Image,
   FlatList,
   StyleSheet,
-  ActivityIndicator,
   ImageBackground,
   TouchableOpacity,
 } from "react-native";
@@ -15,6 +14,7 @@ import { useFocusEffect } from "@react-navigation/native";
 
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import IconLoanding from "../../components/IconLoanding"
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -23,13 +23,11 @@ import {
 
 const favoriteImg = require("./assets/Social update.gif")
 
-
 const Favorite = () => {
   const navigation = useNavigation();
   const [place, setPlaces] = useState([]);
   const [loadingFavorites, setLoadingFavorites] = useState(true);
   const { user } = UseAuth();
-  
 
   useFocusEffect(
     useCallback(() => {
@@ -49,8 +47,6 @@ const Favorite = () => {
       fetchFavorites();
     }, [user])
   );
-
-
 
 
   const renderFavoriteItem = ({ item }) => (
@@ -84,14 +80,10 @@ const Favorite = () => {
 
   return (
     <View style={styles.container}>
-
       {loadingFavorites ? (
-        <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color="#0F1035" />
-          <Text style={styles.loadingText}>
-            Ya casi... Obteniendo tus favoritos...
-          </Text>
-        </View>
+
+        <IconLoanding text={" Ya casi... Obteniendo tus favoritos..."}/>
+        
       ) : (
         <View style={{ flex: 1, marginBottom:wp('17%') }}>
           <FlatList
@@ -121,16 +113,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#EEF5FF",
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  loadingText: {
-    fontSize: wp("4%"),
-    fontWeight: "300",
-    textAlign: "center",
   },
   flatListContent: {
     paddingVertical: hp("1%"),
@@ -182,75 +164,6 @@ const styles = StyleSheet.create({
     fontWeight: "300",
     marginLeft: wp("2%"),
     color: "#0F1035",
-  },
-  emptyText: {
-    textAlign: "center",
-    marginTop: hp("3%"),
-    fontSize: wp("4%"),
-    color: "#999",
-  },
-  ContHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingVertical: hp("1.5%"),
-    backgroundColor: "white",
-    borderBottomWidth: 1,
-    borderBottomColor: "#0F1035",
-  },
-  headerLeft: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  headerCenter: {
-    flex: 3,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  headerRight: {
-    flex: 1,
-    alignItems: "center",
-  },
-  titleSearch: {
-    fontSize: wp("5.5%"),
-    color: "#0F1035",
-    fontWeight: "400",
-  },
-  ContImgFavorite: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  authContainer: {
-    backgroundColor: '#DCF2F1',
-    marginHorizontal: wp("8%"),
-    marginTop: hp("8%"),
-    padding: wp("5%"),
-    borderRadius: wp("2.5%"),
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 }, 
-    shadowOpacity: 0.25, 
-    shadowRadius: wp("2%"),
-    elevation: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  authText: {
-    paddingVertical: hp("1.5%"),
-    fontWeight: '300',
-    color: '#0F1035',
-  },
-  buttomSign: {
-    backgroundColor: '#0F1035',
-    marginVertical: hp("4%"),
-    paddingVertical: hp("1.5%"),
-    borderRadius: wp("2%"),
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: wp("90%"),
-  },
-  butonTextSign: {
-    color: 'white',
   },
   imageContainer: {
     borderRadius: wp("5%"),

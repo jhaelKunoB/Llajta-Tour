@@ -7,26 +7,24 @@ import {
   TouchableOpacity,
   Modal,
   Image,
-  TouchableWithoutFeedback,
   Platform,
-  Linking
+  Linking,
+  ActivityIndicator
 } from "react-native";
 
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Ionicons, FontAwesome, Entypo } from "@expo/vector-icons";
-
 
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { LinearGradient } from "expo-linear-gradient";
-import Loandin from "./assets/loading.gif";
+import Loandin from "./assets/Loanding.gif";
 import ImgLong from "./assets/loading copy.gif";
 
-
 //import * as Location from "expo-location";
-import ModalVideo from './CoponentInfo/ModalVideo'
+import ModalVideo from "./CoponentInfo/ModalVideo";
 import Calendar from "./CoponentInfo/Calendar";
 import InfoCon from "./CoponentInfo/InfoCon";
 import ImageNow from "./CoponentInfo/ImagesNow";
@@ -45,18 +43,12 @@ import UseFavorite from "./Controler/useFavorite";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const InfoScreen = () => {
-  const { error, setErrorMsg } = useState("");
 
-  const { favorites, toggleFavorite } = UseFavorite(); // Usa el hook
-  const [useFvoriteDisa, setFavoDisable] = useState(false)
-
+  const { favorites, toggleFavorite } = UseFavorite();
+  const [useFvoriteDisa, setFavoDisable] = useState(false);
   const { user, loading } = UserAuth();
-
-  const [modalVisible, setModalVisible] = useState(false);
   const [useVideoModal, setVideoModal] = useState(false);
-
   const navigation = useNavigation();
-
   const [placeData, setPlaceData] = useState(null); //definimos una variable para al macenar el Lugar
   const [isLoading, setIsLoading] = useState(true);
   const route = useRoute();
@@ -81,7 +73,6 @@ const InfoScreen = () => {
     fetchData();
   }, []);
 
-
   // Mostrar indicador de carga mientras se obtienen los datos
   if (isLoading) {
     return (
@@ -90,19 +81,22 @@ const InfoScreen = () => {
       </View>
     );
   }
+
+
+
+
   const SetCalendar = (data) => {
     console.log("estos son las hora", data);
   };
   const getChangeFavorite = async (Id) => {
     try {
-      setFavoDisable(true)
+      setFavoDisable(true);
       const isFavorite = favorites.includes(Id);
       console.log(isFavorite);
       await toggleFavorite(Id);
 
       // Update like count
       setCantLikes((prev) => prev + (isFavorite ? -1 : 1));
-      
     } catch (error) {
       console.error(error);
     } finally {
@@ -110,29 +104,32 @@ const InfoScreen = () => {
     }
   };
 
-  const openGoogleMaps = () => {
 
-    const latitude = placeData.Coordinates._lat ? placeData.Coordinates._lat : -17.3895000;
-    const longitude = placeData.Coordinates._long ? placeData.Coordinates._long : -66.1568000;
+
+  const openGoogleMaps = () => {
+    const latitude = placeData.Coordinates._lat
+      ? placeData.Coordinates._lat
+      : -17.3895;
+    const longitude = placeData.Coordinates._long
+      ? placeData.Coordinates._long
+      : -66.1568;
     const url = `https://www.google.com/maps?q=${latitude},${longitude}`;
-    
+
     Linking.canOpenURL(url)
       .then((supported) => {
         if (supported) {
           Linking.openURL(url);
         } else {
-          Alert.alert('Error', 'No se pudo abrir Google Maps');
+          Alert.alert("Error", "No se pudo abrir Google Maps");
         }
       })
-      .catch((err) => Alert.alert('Error', err.message));
+      .catch((err) => Alert.alert("Error", err.message));
   };
-
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ScrollView style={styles.Container} nestedScrollEnabled={true}>
         <View style={styles.ContVideo}>
-
           <View style={styles.VideoStyle}>
             <Image
               source={{ uri: placeData.ImagesID[0] }}
@@ -180,14 +177,8 @@ const InfoScreen = () => {
               ) : (
                 <></>
               )}
-
-
             </View>
-
-
           </LinearGradient>
-
-
 
           {/* Es para el titulo */}
           <View style={styles.contTittle}>
@@ -199,15 +190,15 @@ const InfoScreen = () => {
                   marginLeft: wp("5%"),
                 }}
               >
-
                 <Text style={styles.textTittle}>{placeData.Name}</Text>
               </View>
 
-
-
               <View style={{ flex: 1, alignItems: "center" }}>
                 {user ? (
-                  <TouchableOpacity onPress={() => getChangeFavorite(Id)} disabled={useFvoriteDisa} >
+                  <TouchableOpacity
+                    onPress={() => getChangeFavorite(Id)}
+                    disabled={useFvoriteDisa}
+                  >
                     <Ionicons
                       name={"heart"}
                       style={
@@ -218,21 +209,32 @@ const InfoScreen = () => {
                     />
                   </TouchableOpacity>
                 ) : (
-
                   <TouchableOpacity onPress={() => setOpenModalSing(true)}>
                     <Ionicons name={"heart"} style={styles.HeardIcon} />
                   </TouchableOpacity>
-               )}
+                )}
               </View>
-
-              <SingInModal openModalSing={openModalSing} setOpenModalSing={setOpenModalSing} />      
             </View>
           </View>
-
-
         </View>
 
-        <ModalVideo videoData={placeData.Video}  useVideoModal={useVideoModal} setVideoModal={setVideoModal}/>
+        {/* Modales */}
+        <SingInModal
+          openModalSing={openModalSing}
+          setOpenModalSing={setOpenModalSing}
+        />
+        <ModalVideo
+          videoData={placeData.Video}
+          useVideoModal={useVideoModal}
+          setVideoModal={setVideoModal}
+        />
+
+        {/* Modal para la carga de Fovoritos */}
+        <Modal visible={useFvoriteDisa} animationType="fade" transparent={true}>
+                <View style = {styles.ContLongFavorite}>
+                  <Image source={Loandin} style={styles.contImgLoand}></Image>
+                </View>
+        </Modal>
 
         {/* para las opciones de mapas audio horario */}
         <View style={styles.contOptions}>
@@ -279,24 +281,29 @@ const InfoScreen = () => {
         </View>
 
 
-
         <View style={styles.separator} />
         {/* para las Imagens de Haora */}
         <ImageNow data={placeData} />
         {/* para mostar los datos */}
         <InfoCon data={placeData} />
       </ScrollView>
-
     </GestureHandlerRootView>
   );
 };
 
 export default InfoScreen;
 
-
-
 const styles = StyleSheet.create({
-
+  contImgLoand:{
+    width:70,
+    height:70
+  },
+  ContLongFavorite:{
+    flex:1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.3)", 
+  },
   //----------------------------------------------
   ContHeardAddress: {
     flexDirection: "row",
@@ -379,14 +386,13 @@ const styles = StyleSheet.create({
     paddingRight: 2,
     marginLeft: wp("4%"),
   },
- 
 
   IconContVideo: {
     backgroundColor: "rgba(33, 53, 85,0.6)",
     borderRadius: wp("3%"),
     marginHorizontal: wp("7%"),
     marginVertical: wp("5%"),
-    padding:5
+    padding: 5,
   },
   separator: {
     borderBottomColor: "#547775",
@@ -573,5 +579,4 @@ const styles = StyleSheet.create({
     fontWeight: "300",
     color: "white",
   },
-
 });

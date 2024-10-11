@@ -6,13 +6,13 @@ import {
   Image,
   TouchableOpacity,
   StyleSheet,
-  ActivityIndicator
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { filterPlaces } from "./controller/FilterPlacesController";
 
 import Ionicons from "react-native-vector-icons/Ionicons";
 import PopUpManu from "../../components/popPu";
+import IconLoanding from "../../components/IconLoanding"
 
 import {
   widthPercentageToDP as wp,
@@ -86,13 +86,7 @@ const FilteredPlaces = ({ route }) => {
           columnWrapperStyle={styles.columnWrapper} // Style for columns
         />
       ) : (
-
-        <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color="#0F1035" />
-          <Text style={styles.loadingText}>
-            Ya casi... Obteniendo categoría...
-          </Text>
-        </View>
+        <IconLoanding text={"  Ya casi... Obteniendo categoría..."}/>
       )}
     </View>
   );
@@ -170,15 +164,4 @@ const styles = StyleSheet.create({
     textAlign:'center'
   },
 
-   //---------para la carga-------------
-   loadingContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#DCF2F150",
-  },
-  loadingText: {
-    fontSize: 15,
-    fontWeight: "300",
-  },
 });

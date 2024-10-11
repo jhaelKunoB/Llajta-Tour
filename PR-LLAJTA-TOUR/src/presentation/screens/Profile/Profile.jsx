@@ -32,7 +32,7 @@ const Profile = () => {
             <TouchableOpacity onPress={() => navigation.goBack()}>
               <Ionicons
                 name="chevron-back-circle-sharp"
-                size={wp('11%')}
+                size={wp('12%')}
                 color="#DCF2F1"
               />
             </TouchableOpacity>

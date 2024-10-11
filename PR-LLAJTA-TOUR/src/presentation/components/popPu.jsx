@@ -72,11 +72,8 @@ const PopUpMenu = () => {
             <Animated.View
               style={[styles.popUp, { transform: [{ scale: scala }] }]}
             >
-              <TouchableOpacity style={styles.option} onPress={() => navigation.navigate("Profile")}>
-               
-                     <Text>Perfil</Text>
-               
-               
+              <TouchableOpacity style={styles.option} onPress={() => navigation.navigate("Perfil")}>              
+                     <Text>Perfil</Text>       
                 <Ionicons
                   name="person-outline"
                   size={24}
@@ -84,8 +81,6 @@ const PopUpMenu = () => {
                   style={{ marginLeft: 10 }}
                 />
               </TouchableOpacity>
-
-
 
               <TouchableOpacity
                 style={styles.option}

@@ -7,18 +7,19 @@ import {
   TextInput,
   FlatList,
   ActivityIndicator,
+  Image,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import ListCategories from "../../components/ListCategories";
 import { fetchAllCategories } from "../category/controller/CategoryController";
 import { Ionicons } from "@expo/vector-icons";
+import ImgLoandin from "../../components/IconLoanding"
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 
 import PopUpManu from '../../../presentation/components/popPu'
-
 
 
 const CategoryScreen = () => {
@@ -88,12 +89,7 @@ const CategoryScreen = () => {
           contentContainerStyle={styles.listContainer}
         />
       ) : (
-        <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color="#0F1035" />
-          <Text style={styles.loadingText}>
-            Ya casi... Obteniendo categorías...
-          </Text>
-        </View>
+          <ImgLoandin text={"Ya casi... Obteniendo categorías..."}/>     
       )}
     </View>
   );
@@ -103,7 +99,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#EEF5FF",
-    position: "relative", // Ensure child elements are positioned correctly
+    position: "relative",
   },
   header: {
     flexDirection: "row",
@@ -167,18 +163,7 @@ const styles = StyleSheet.create({
     paddingBottom:wp("23 %"),
 
   },
-
-  //---------para la carga-------------
-  loadingContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#DCF2F150",
-  },
-  loadingText: {
-    fontSize: 15,
-    fontWeight: "300",
-  },
+ 
 });
 
 export default CategoryScreen;
