@@ -37,6 +37,8 @@ const { height } = Dimensions.get("window");
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Google from "expo-auth-session/providers/google";
 import * as WebBrowser from "expo-web-browser";
+
+
 WebBrowser.maybeCompleteAuthSession();
 
 const SignInScreen = () => {
@@ -44,17 +46,24 @@ const SignInScreen = () => {
   const [loguenado, setLoguenado] = useState(false);
   const [userInfo, setUserInfo] = React.useState(null);
   const [request, response, promptAsync] = Google.useAuthRequest({
+     webClientId:
+       "172913904569-ifaeffngu9h75cloetkrbqjndii09ejk.apps.googleusercontent.com",
     iosClientId:
       "427143347905-gtf0892k3uhqsdin9dtea7b9eoskfjmm.apps.googleusercontent.com",
     androidClientId:
       "427143347905-ro3ikerjrsj9iuhjaiunvkceinu3iit7.apps.googleusercontent.com",
+    
   });
 
   useEffect(() => {
     try {
+      
+
       if (response?.type === "success") {
-        const { id_token } = response.params;
-        const credential = GoogleAuthProvider.credential(id_token);
+
+        const { accessToken  } = response.authentication;
+        const credential = GoogleAuthProvider.credential(null, accessToken );
+
         signInWithCredential(auth, credential)
           .then(() => {
             console.log("Successfully signed in with Google!");
@@ -88,6 +97,8 @@ const SignInScreen = () => {
       setLoguenado(false);
     }
   };
+
+
   const saveUserDataToFirestore = async (user) => {
     try {
       const userDocRef = doc(db, "User", user.uid);
@@ -101,8 +112,8 @@ const SignInScreen = () => {
           favorites: [],
         });
         console.log("Nuevo usuario registrado en Firestore");
-      } else {
-      
+
+      } else {  
         console.log("El usuario ya está registrado en Firestore");
       }
     } catch (e) {
@@ -137,6 +148,8 @@ const SignInScreen = () => {
 
     return () => unsub();
   }, []);
+
+
   const openPoliticasPrivacidad = () => {
     // URL que quieres abrir
     const url = 'https://cochaturistica.blogspot.com/2024/10/politica-de-privacidad-la-presente.html';
