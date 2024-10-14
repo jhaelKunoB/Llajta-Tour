@@ -13,8 +13,6 @@ import {
 
 import { useNavigation } from "@react-navigation/native";
 import UseAuth from "../../../database/userAuth";
-import { getAuth, signOut } from "firebase/auth";
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import SingoutModal from '../screens/Profile/SingoutModal'
 const PopUpMenu = () => {
   const navigation = useNavigation();
@@ -38,18 +36,6 @@ const PopUpMenu = () => {
     });
   }
 
-  const handleSignOut = async () => {
-    const authInstance = getAuth();
-    try {
-      await signOut(authInstance);
-      await AsyncStorage.removeItem("@user");
-      resizeBox(0, () => navigation.navigate("SignInScreem"));
-    } catch (error) {
-      console.error("Error signing out:", error);
-    }
-  };
-  
-
   return (
     <>
       {user ? (
@@ -72,8 +58,8 @@ const PopUpMenu = () => {
             <Animated.View
               style={[styles.popUp, { transform: [{ scale: scala }] }]}
             >
-              <TouchableOpacity style={styles.option} onPress={() => navigation.navigate("Perfil")}>              
-                     <Text>Perfil</Text>       
+              <TouchableOpacity style={styles.option} onPress={() => {navigation.navigate("Perfil"),resizeBox(0)}}>              
+                     <Text>Mi Perfil</Text>       
                 <Ionicons
                   name="person-outline"
                   size={24}
@@ -84,7 +70,7 @@ const PopUpMenu = () => {
 
               <TouchableOpacity
                 style={styles.option}
-                onPress={() => setOpenModalSing(true)}
+                onPress={() => {setOpenModalSing(true), resizeBox(0)}}
               >
                 <Text>Cerrar Sesión</Text>
                 <Ionicons
