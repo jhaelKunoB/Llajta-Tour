@@ -9,7 +9,7 @@ import {
   Dimensions,
   ScrollView,
   Modal,
-  Linking
+  Linking,
 } from "react-native";
 
 import {
@@ -28,7 +28,7 @@ import {
 
 import { auth, db } from "../../../../database/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import IconImg from "../../components/IconLoanding"
+import IconImg from "../../components/IconLoanding";
 
 const ImgFont = require("./assets/fondo2.jpg");
 const IconGloogle = require("./assets/IconGoogle.png");
@@ -54,7 +54,8 @@ const SignInScreen = () => {
     try {
 
       if (response?.type === "success") {
-        const { accessToken  } = response.authentication;
+        setLoguenado(true);
+        const { accessToken } = response.authentication;
         const credential = GoogleAuthProvider.credential(null, accessToken);
         signInWithCredential(auth, credential)
           .then(() => {
@@ -63,18 +64,17 @@ const SignInScreen = () => {
           .catch((error) => {
             console.log("Error signing in with Google: ", error);
           });
+      }else{
+        setLoguenado(false);
       }
+
     } catch (e) {
       console.log(e);
     }
   }, [response]);
 
-
-
-
   const getLocalUser = async () => {
     try {
-      setLoguenado(true);
       const userJSON = await AsyncStorage.getItem("@user");
 
       const userData = userJSON ? JSON.parse(userJSON) : null;
@@ -87,25 +87,21 @@ const SignInScreen = () => {
       }
     } catch (e) {
       console.log("Error al recuperar los datos del usuario:", e);
-    } finally {
-      setLoguenado(false);
     }
   };
   const saveUserDataToFirestore = async (user) => {
     try {
       const userDocRef = doc(db, "User", user.uid);
-      const userSnapshot = await getDoc(userDocRef); 
-  
+      const userSnapshot = await getDoc(userDocRef);
+
       if (!userSnapshot.exists()) {
-       
         await setDoc(userDocRef, {
-          userName: user.displayName || "Usuario", 
+          userName: user.displayName || "Usuario",
           email: user.email,
           favorites: [],
         });
         console.log("Nuevo usuario registrado en Firestore");
       } else {
-      
         console.log("El usuario ya está registrado en Firestore");
       }
     } catch (e) {
@@ -113,54 +109,50 @@ const SignInScreen = () => {
     }
   };
 
-
   useState(() => {
     getLocalUser();
     const unsub = onAuthStateChanged(auth, async (user) => {
       try {
-
         if (user) {
           await AsyncStorage.setItem("@user", JSON.stringify(user));
           console.log("data", JSON.stringify(user, null, 2));
           setUserInfo(user);
-          console.log(user)
-          await saveUserDataToFirestore(user)
+          console.log(user);
+          await saveUserDataToFirestore(user);
           navigation.navigate("Home");
         } else {
           console.log("User no Autentificado");
         }
-
       } catch (e) {
         console.log(e);
       } finally {
         setLoguenado(false);
       }
-
     });
 
     return () => unsub();
   }, []);
+
   const openPoliticasPrivacidad = () => {
     // URL que quieres abrir
-    const url = 'https://cochaturistica.blogspot.com/2024/10/politica-de-privacidad-la-presente.html';
+    const url =
+      "https://cochaturistica.blogspot.com/2024/10/politica-de-privacidad-la-presente.html";
     // Abrir la URL
-    Linking.openURL(url).catch((err) => console.error("Failed to open URL:", err));
+    Linking.openURL(url).catch((err) =>
+      console.error("Failed to open URL:", err)
+    );
   };
-
-
-
 
   return (
     <>
-     <Modal
+      <Modal
         transparent={true}
         animationType="fade"
         visible={loguenado}
         onRequestClose={() => {}}
       >
-        <IconImg/>
+        <IconImg />
       </Modal>
-
 
       <BlurLogin posi={1.55} />
       <SafeAreaView style={styles.contenedor}>
@@ -188,54 +180,42 @@ const SignInScreen = () => {
             <View style={styles.butomContainer}>
               <TouchableOpacity
                 style={styles.butom3}
-                onPress={() => { setLoguenado(true); promptAsync();}}
+                onPress={() => {
+                  promptAsync();
+                }}
               >
                 <Image source={IconGloogle} style={styles.IconGoogleIm}></Image>
                 <Text>Continuar con Google</Text>
               </TouchableOpacity>
             </View>
 
-
-
-            <View style={styles.contText} >
+            <View style={styles.contText}>
               <TouchableOpacity onPress={() => openPoliticasPrivacidad()}>
                 <Text style={styles.textPoliticas}>POLÍTICA DE PRIVACIDAD</Text>
               </TouchableOpacity>
             </View>
-
-
-
           </View>
         </ScrollView>
       </SafeAreaView>
-
-     
     </>
   );
 };
 export default SignInScreen;
 
-
-
 const styles = StyleSheet.create({
-//poloticas
-  contText:{
-    marginTop:hp('4%'),
-    paddingVertical:4,
+  //poloticas
+  contText: {
+    marginTop: hp("4%"),
+    paddingVertical: 4,
   },
-  textPoliticas:{
-    textAlign:'center',
-    color:'#686D76',
-    textDecorationLine:'underline',
-    fontSize:hp("1.5%"),
+  textPoliticas: {
+    textAlign: "center",
+    color: "#686D76",
+    textDecorationLine: "underline",
+    fontSize: hp("1.5%"),
   },
-
-
-
-
 
   //para tempo de carga
-
 
   IconGoogleIm: {
     width: "10%",
@@ -278,9 +258,6 @@ const styles = StyleSheet.create({
     color: "#071952",
   },
 
- 
-
- 
   butom3: {
     flex: 1,
     flexDirection: "row",
