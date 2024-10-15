@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   FlatList,
   Switch,
+  Modal
 } from "react-native";
 import {
   widthPercentageToDP as wp,
@@ -20,6 +21,8 @@ import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 import { placeLocation, getCategory } from "./controler/placeLocation";
 import loanding from "./assets/loading.gif";
+
+const IconLoanding = require("./assets/Loanding.gif")
 
 const mapContainerStyle = {
   height: "100vh",
@@ -58,11 +61,14 @@ const MapWeb = () => {
   const snapPointsCatego = useMemo(() => [hp("0.1"), hp("70")], []);
 
 
+  const [openLoanding, setLoanding] = useState(false);
+
   const mapRef = useRef(null); // Referencia al mapa
   // //para Inicialisar los valores
   useEffect(() => {
     const fetchPlaces = async () => {
       try {
+        setLoanding(true)
         const data = await placeLocation();
         const category = await getCategory();
         setPlaces(data);
@@ -71,6 +77,8 @@ const MapWeb = () => {
         console.log("solo una sola ves");
       } catch (error) {
         console.error("Error fetching places:", error);
+      }finally{
+        setLoanding(false)
       }
     };
 
@@ -366,6 +374,15 @@ const MapWeb = () => {
           </View>
         )}
       </BottomSheet>
+
+
+      <Modal visible={openLoanding} animationType="fade" transparent={true}>
+        <View style={styles.ContLongPlaces}>
+          <Image source={IconLoanding} style={styles.contIconLong}></Image>
+        </View>
+      </Modal>
+
+
     </View>
   );
 };
@@ -373,6 +390,21 @@ const MapWeb = () => {
 export default MapWeb;
 
 const styles = StyleSheet.create({
+
+  
+  //------------------------------Loanding Mapa
+  contIconLong:{
+    width:70,
+    height:80
+  },
+  ContLongPlaces: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.3)",
+  },
+
+
   //para el header del mapa-------------------------------------------------
   ContHeadder: {
     flexDirection: "row",

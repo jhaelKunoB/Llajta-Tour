@@ -26,7 +26,7 @@ const Profile = () => {
 
   return (
     <View style={styles.container}>
-      <ImageBackground style={styles.ContImgCocha} source={Cocha}>
+      <ImageBackground style={styles.ContImgCocha} source={Cocha} resizeMode='cover'>
         <View style={styles.ContHeader}>
           <View style={styles.headerLeft}>
             <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -42,13 +42,11 @@ const Profile = () => {
         </View>
 
         <View style={styles.ContImag}>
-
           {user ? (
           <Image source={{uri: user.photoURL}} style={styles.imgProfile}></Image>
           ):(
             <Image source={Avatar} style={styles.imgProfile}></Image>
           )}
-
           <View style={styles.ContInfo}>
             <Text style={styles.StytextName}>
               {user ? (
@@ -64,14 +62,17 @@ const Profile = () => {
                 <></>
               )} 
             </Text>
-          </View>
+          </View>   
         </View>
       </ImageBackground>
+
 
       {/* Adjusted TabView */}
       <View style={styles.contOptions}>
         <BottomRabVavigator />
       </View>
+
+
     </View>
   );
 };
@@ -84,7 +85,7 @@ const styles = StyleSheet.create({
     backgroundColor:'white'
   },
   contOptions: {
-    marginTop:hp("13%"),
+    marginTop:hp("12%"),
     flex: 1,
     backgroundColor: 'white',
   },
@@ -102,18 +103,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   ContImgCocha: {
-    height: hp('20%'),
+    width:"100%",
+    height: hp('25%'),
     position: 'relative',
   },
   ContImag: {
+    display:'flex',
     alignItems: 'center',
     position: 'absolute',
     width: wp('100%'),
-    top: hp('13%'),
+    top: hp('19%'),
   },
   imgProfile: {
-    width: 110,
-    height: 110,
+    width: 90,
+    height: 90,
     borderRadius: 70,
     borderWidth: 2,
     borderColor: '#DCF2F1',

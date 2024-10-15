@@ -1,26 +1,15 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Favorite from "../favorite/FavoritesScreen"
 import Settings from "./Settings"
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
+
 const Tab = createBottomTabNavigator();
-
-function HomeScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'red' }}>
-      <Text style={{ color: 'white' }}>Home!</Text>
-    </View>
-  );
-}
-
-function SettingsScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'green' }}>
-      <Text style={{ color: 'white' }}>Settings!</Text>
-    </View>
-  );
-}
 
 const BottomRabVavigator = () => {
   return (
@@ -40,7 +29,7 @@ const BottomRabVavigator = () => {
               {focused && (
                 <View
                   style={{
-                    width: '100%',
+                    width: wp('50%'),
                     height: 3,
                     backgroundColor: '#365486',
                     position: 'absolute',
@@ -56,7 +45,7 @@ const BottomRabVavigator = () => {
           backgroundColor: 'white',
           elevation: 0,
           borderTopWidth: 0,
-          height: 50, 
+          height: hp('6%'), 
           position: 'absolute',
           top: 0
         },
