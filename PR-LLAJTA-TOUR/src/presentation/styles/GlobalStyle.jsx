@@ -1,12 +1,13 @@
 const colors = {
-    violeta: "#A61B4E",
-    violeta2: "#590F32",
-    violeta3: "#8C4F70",
-    violeta4: "#FDFDFE",
+    violeta: "#590F32",
+    viletaClaro: '#A61B4E'
 }
-
 const colorText = {
-    black: "#1B2021"
+    text: "#112D4E",
+    title:"#62152d"
+}
+const borderColor = {
+    border:"#FCFFFE" //los bordes de los botones
 }
 
-export {colorText,colors}
+export {borderColor, colorText,colors}
