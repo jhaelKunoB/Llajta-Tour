@@ -11,7 +11,7 @@ import {
 import { getFavoritePlace } from "./controler/ContrFavorite";
 import UseAuth from "../../../../database/userAuth";
 import { useFocusEffect } from "@react-navigation/native";
-
+import {colors, colorText,iconColor} from '../../styles/GlobalStyle'
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import IconLoanding from "../../components/IconLoanding"
@@ -21,7 +21,7 @@ import {
 } from "react-native-responsive-screen";
 
 
-const favoriteImg = require("./assets/Social update.gif")
+const favoriteImg = require("./assets/FavoriteVoid.gif")
 
 const Favorite = () => {
   const navigation = useNavigation();
@@ -66,7 +66,7 @@ const Favorite = () => {
         <View style={styles.infoContainer}>
           <Text numberOfLines={1} style={styles.name}>{item.Name}</Text>
           <View style={styles.addressContainer}>
-            <Ionicons name={"location"} color={"#0F1035"} size={20} />
+            <Ionicons name={"location"} color={iconColor.colorV} size={20} />
             <Text style={styles.textAddress} numberOfLines={1}>
               {item.Address}
             </Text>
@@ -112,7 +112,7 @@ const Favorite = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#EEF5FF",
+    backgroundColor: colors.violetaClaro1,
   },
   flatListContent: {
     paddingVertical: hp("1%"),
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
   name: {
     fontSize: wp("4.5%"),
     fontWeight: "600",
-    color: "#0F1035",
+    color: colorText.text,
     marginBottom: hp("1%"),
   },
   addressContainer: {

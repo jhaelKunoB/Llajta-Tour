@@ -14,6 +14,7 @@ import {
 import { FontAwesome } from "@expo/vector-icons";
 import ImageViewer from "react-native-image-zoom-viewer";
 import ImgLong from '../assets/loading copy.gif'
+import { colors } from "../../../styles/GlobalStyle";
 
 const ModalImage = ({ img }) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -117,7 +118,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.9)",
   },
   modalView: {
-    backgroundColor: "#1A2130",
+    backgroundColor: colors.violetaOscuro,
     borderRadius: 20,
     padding: 7,
   },

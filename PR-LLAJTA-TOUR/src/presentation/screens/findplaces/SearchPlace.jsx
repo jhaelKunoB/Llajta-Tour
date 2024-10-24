@@ -15,15 +15,13 @@ import {
 import { SearchBar } from "react-native-elements";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-
 import PlaceCards from "./Component/CartsImages";
 import CartName from "./Component/CartsName";
-
-import ImgSearch from "./assets/Losearch.gif";
-
+import ImgSearch from "./assets/findImage.gif";
 import { getAllPlaces } from "./Controler/firebaseSerch";
-
 import PopUpMenu from '../../../presentation/components/popPu'
+import {colors, iconColor, colorText} from '../../styles/GlobalStyle'
+
 
 
 const SearchPlace = () => {
@@ -32,7 +30,6 @@ const SearchPlace = () => {
   const [placeData, setPlaceData] = useState(null);
   const [placefind, setPlaceFind] = useState([]);
   const [isName, setName] = useState([]);
-
   //para busqueda por nombre
   const handleSearch = async (searchText) => {
     setSearchText(searchText);
@@ -53,7 +50,6 @@ const SearchPlace = () => {
       setName([]);
     }
   };
-
   const handleSearchSubmit = async () => {
     if (placeData && searchText !== "") {
       const searchTextUpper = searchText.toUpperCase();
@@ -64,7 +60,6 @@ const SearchPlace = () => {
       setPlaceFind(filteredPlaces);
     }
   };
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -77,16 +72,19 @@ const SearchPlace = () => {
     fetchData();
   }, []);
 
+
+
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <View style={styles.ContHeader}>
+        
         <View style={{ flex: 1 }}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <Ionicons
               name="chevron-back-circle-sharp"
-              size={wp("11%")}
-              color="#0F1035"
-              style={{ textAlign: "center" }}
+              size = {wp("11%")}
+              color = {iconColor.colorV1}
+              style = {{ textAlign: "center" }}
             />
           </TouchableOpacity>
         </View>
@@ -132,7 +130,7 @@ const SearchPlace = () => {
             <Text style={styles.textResult}>Sin Resultados</Text>
           </>
         )}
-      </View>
+      </View>   
 
       <ScrollView style={styles.SearchBarConten}>
         <View style={styles.CotnCarts}>
@@ -176,10 +174,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginTop: 20,
   },
+
   InputContainer: {
-    backgroundColor: "rgb(235, 244, 246)",
+    backgroundColor: colors.violetaClaro1,
     borderWidth: 1,
-    borderColor: "#0F1035",
+    borderColor: colors.violetaOscuro,
     ...Platform.select({
       ios: {
         shadowColor: "#000",
@@ -195,6 +194,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 1,
   },
+
   ContainerStyle: {
     backgroundColor: "rgba(255, 255, 255,0)",
     borderBottomColor: "transparent",
@@ -221,7 +221,7 @@ const styles = StyleSheet.create({
   },
   titleSearch: {
     fontSize: wp("5.5%"),
-    color: "#0F1035",
+    color: colorText.text,
     fontWeight: "400",
   },
 
@@ -235,6 +235,6 @@ const styles = StyleSheet.create({
   textResult: {
     fontSize: 16,
     fontWeight: "300",
-    color: "#0F1035",
+    color: colorText.text,
   },
 });

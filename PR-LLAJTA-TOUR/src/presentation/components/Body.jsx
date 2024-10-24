@@ -21,7 +21,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-
+import {colorText, lineborderColor, iconColor, colors} from "../styles/GlobalStyle"
 
 
 const Body = () => {
@@ -106,7 +106,7 @@ const Body = () => {
       </View>
 
       <SearchBar
-        placeholder="Buscar..."
+        placeholder="Explorar..."
         lightTheme
         round
         containerStyle={BodyStyle.searchBarContainer}
@@ -119,7 +119,7 @@ const Body = () => {
       />
 
       <View style={BodyStyle.headerContainer}>
-        <Text style={BodyStyle.headerText}>Destinos Imprescindibles</Text>
+        <Text style={BodyStyle.headerText}>DESTINOS IMPRESCINDIBLES</Text>
       </View>
 
       <FlatList
@@ -140,7 +140,7 @@ const Body = () => {
                   <Icon
                     name="map-marker-alt"
                     size={16}
-                    color="#164863"
+                    color={iconColor.colorV}
                     style={BodyStyle.locationIcon}
                   />
                   <Text numberOfLines={1} style={BodyStyle.text}>
@@ -156,7 +156,7 @@ const Body = () => {
       />
 
       <View style={BodyStyle.headerContainer}>
-        <Text style={BodyStyle.headerText}>Categorías Más Populares</Text>
+        <Text style={BodyStyle.headerText}>CATEGORÍAS MÁS POPULARES</Text>
         <TouchableOpacity onPress={handleShowAllPress}>
           <Text style={BodyStyle.showAllText}>Mostrar todo</Text>
         </TouchableOpacity>
@@ -242,15 +242,17 @@ const BodyStyle = StyleSheet.create({
   },
 
   headerText1: {
-    fontSize: 25,
+    fontSize: 23,
     fontWeight: "500",
-    color: "#11394f",
+    color: colorText.text
   },
   headerText2: {
-    fontSize: 25,
+    fontSize: 23,
     fontWeight: "500",
-    color: "#365486",
+    color: colorText.title
   },
+
+
   searchBarContainer: {
     backgroundColor: "transparent",
     borderTopWidth: 0,
@@ -259,7 +261,7 @@ const BodyStyle = StyleSheet.create({
     marginVertical: 15,
   },
   inputContainer: {
-    backgroundColor: "rgb(235, 244, 246)",
+    backgroundColor: colors.violetaclaro2,
     borderRadius: 20,
     height: 50,
   },
@@ -278,9 +280,9 @@ const BodyStyle = StyleSheet.create({
     marginHorizontal: 15,
   },
   headerText: {
-    fontSize: 18,
-    fontWeight: "500",
-    color: "#11394f",
+    fontSize: 15,
+    fontWeight: "320",
+    color: colorText.text
   },
   carouselItem: {
     borderRadius: 20,
@@ -312,7 +314,7 @@ const BodyStyle = StyleSheet.create({
     fontSize: 17,
     fontWeight: "bold",
     marginBottom: 5,
-    color: "#164863",
+    color: colorText.text,
   },
   locationContainer: {
     flexDirection: "row",
@@ -327,10 +329,10 @@ const BodyStyle = StyleSheet.create({
   },
   showAllText: {
     fontSize: 15,
-    color: "#7FC7D9",
+    color: colorText.black,
     fontWeight: "300",
     borderBottomWidth: 1,
-    borderColor: "#365486",
+    borderColor: lineborderColor.linecolor,
   },
   categoryCard: {
     width: "100%",

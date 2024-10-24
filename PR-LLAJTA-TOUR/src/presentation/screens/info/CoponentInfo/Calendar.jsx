@@ -3,8 +3,8 @@ import {Modal, StyleSheet, Text, Pressable, View, FlatList, Image } from 'react-
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { FontAwesome } from '@expo/vector-icons';
 
-import NotHour from '../assets/NotHour.jpg'
-
+import NotHour from '../assets/Calendar.gif'
+import { colorText, colors, iconColor } from '../../../styles/GlobalStyle';
 const Calendar = ({ data }) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [isHours, setHours] = useState([]);
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     },
 
     IconClock: {
-        color: '#9AC8CD',
+        color: iconColor.colorV,
         fontSize: wp('8%')
     },
 
@@ -124,12 +124,12 @@ const styles = StyleSheet.create({
 
     text: {
         fontSize: wp('3.5%'),
-        color: '#99A8B2',
+        color: colorText.text,
     },
 
     textDay:{
         fontSize: wp('4%'),
-        color:'#35858B'
+        color: colorText.text
     },
     textClose:{
         fontSize: wp('3.5%'),
@@ -137,16 +137,16 @@ const styles = StyleSheet.create({
     },
 
     CalendarIcon: {
-        backgroundColor: '#DCF2F130',
+        backgroundColor: colors.violetaClaro1,
         borderRadius: 10,
         paddingHorizontal: wp('3%'),
         paddingVertical: hp('2%'),
         width: wp('15%'),
         textAlign: 'center',
-        color: '#006769',
+        color: iconColor.colorV1,
         fontSize: wp('6%'),
         borderWidth:2,
-        borderColor:'#DCF2F1'
+        borderColor:colors.violeta
     },
 
     centeredView: {
@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
 
     title: {
         fontSize: wp('4%'),
-        color: '#092635'
+        color: colorText.title
     },
 
     ContTittle: {
@@ -216,12 +216,12 @@ const styles = StyleSheet.create({
     },
     IconClose: {
         fontSize: wp('7%'),
-        color: '#4D869C',
+        color: iconColor.colorV,
         textAlign: 'right'
     },
 
     line: {
-        backgroundColor: '#252B48',
+        backgroundColor: colorText.text,
         width: '100%',
         height: hp('0.2%'),
         borderRadius: 3,

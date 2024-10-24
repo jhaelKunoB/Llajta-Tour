@@ -24,14 +24,16 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { Ionicons } from "@expo/vector-icons";
+import { colors, colorText, iconColor } from "../../styles/GlobalStyle";
 
-const IconLoanding = require("./assets/Loanding.gif")
+const IconLoanding = require("./assets/AnimLoanding.gif")
 
 const Place = () => {
   const navigation = useNavigation();
   const [places, setPlaces] = useState([]); //para recuperar los lugares
   const [categorys, setCategori] = useState(); //todos las categorias
   const [findPLace, setFindPlace] = useState([]); //variable para filtrar por categoria
+  const [visibleC, setVisibleC] = useState(false)
 
   const [place, setPlace] = useState();
   const snapPoints = useMemo(() => [hp("25")], []);
@@ -51,6 +53,7 @@ const Place = () => {
 
   //para el witchValue, para mostarr todos lugares-----------------
   const [switchValue, setSwitchValue] = useState(true);
+
   const toggleSwitch = (value) => {
     try {
       if (value) {
@@ -58,6 +61,7 @@ const Place = () => {
         HandlerCategoruClose();
         handlerClose();
         setItemSelect(null);
+        setVisibleC(false)
       }
       setSwitchValue(value);
     } catch (error) {
@@ -109,6 +113,7 @@ const Place = () => {
   //para Filtrar por  categorias----------------------------------------
   const FindCategoris = (idCat) => {
     if (places) {
+      setVisibleC(true)
       const fibdCate = places.filter((index) => index.CategoryID?.id == idCat);
       setItemSelect(idCat);
       setFindPlace(fibdCate);
@@ -140,7 +145,7 @@ const Place = () => {
           source={{ uri: item.PinMap }}
           style={{ width: 40, height: 50 }}
         />
-        <Text style={styles.itemText}>{item.Type}</Text>
+        <Text style={styles.itemText} numberOfLines={1}>{item.Type}</Text>
       </TouchableOpacity>
     );
   };
@@ -214,7 +219,7 @@ const Place = () => {
       <BottomSheet
         handleIndicatorStyle={{ backgroundColor: "white" }}
         enablePanDownToClose={true}
-        backgroundStyle={{ backgroundColor: "#001C30" }}
+        backgroundStyle={{ backgroundColor: colors.violeta }}
         ref={bottomSheetRef}
         snapPoints={snapPoints}
         index={-1}
@@ -283,9 +288,9 @@ const Place = () => {
 
       {/* para poder mostrar todas las cateoorias---------------------------------- */}
       <BottomSheet
-        handleIndicatorStyle={{ backgroundColor: "black" }}
+        handleIndicatorStyle={{ backgroundColor: iconColor.colorV }}
         enablePanDownToClose={true}
-        backgroundStyle={{ backgroundColor: "#EEF7FF" }}
+        backgroundStyle={{ backgroundColor: colors.violetaClaro1 }}
         ref={bottmSheeCategori}
         snapPoints={snapPointsCatego}
         index={-1}
@@ -295,7 +300,7 @@ const Place = () => {
           <Text style={styles.textHeaderBut}>Explorar por Categoria</Text>
         </View>
 
-        <View style={styles.contAllCatego}>
+        <View style={visibleC ? styles.contAllCatego : styles.contDispleyNone}>
           <View style={{ flex: 1, alignItems: "center" }}>
             <Text style={styles.textCatego}>Ver Todos los Sitios</Text>
           </View>
@@ -303,8 +308,8 @@ const Place = () => {
             <Switch
               value={switchValue}
               style={{ transform: [{ scale: 1.2 }] }}
-              thumbColor={switchValue ? "#153448" : "white"} // Cambia el color del thumb
-              trackColor={{ false: "#767577", true: "#9AC8CD" }}
+              thumbColor={switchValue ? colors.violeta : "white"} // Cambia el color del thumb
+              trackColor={{ false: "#767577", true: colors.violetaclaro2 }}
               onValueChange={toggleSwitch}
             />
           </View>
@@ -321,7 +326,7 @@ const Place = () => {
               contentContainerStyle={styles.ContCategoryFlatList}
               ListEmptyComponent={
                 <Text style={styles.emptyText}>
-                  No hay favoritos disponibles.
+                  No hay favoritos categorias disponibles.
                 </Text>
               }
               scrollEnabled={true}
@@ -377,12 +382,16 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     paddingTop: 8,
     paddingBottom: 8,
-    backgroundColor: "#DCF2F1",
+    backgroundColor: colors.violetaclaro2,
     borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
     marginHorizontal: 10,
     marginBottom: 5,
+  },
+
+  contDispleyNone:{
+    display:'none'
   },
 
   textCatego: {
@@ -427,7 +436,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     margin: 5,
-    backgroundColor: "#DCF2F1",
+    backgroundColor: colors.violetaclaro2,
     borderRadius: 15,
     padding: 2,
     borderWidth: 3,
@@ -437,7 +446,7 @@ const styles = StyleSheet.create({
   itemText: {
     fontSize: 12,
     textAlign: "center",
-    color: "#070F2B",
+    color: colorText.text,
   },
 
   //para el navegador de arriva
@@ -556,7 +565,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   butomPlace: {
-    backgroundColor: "#EEF5FF",
+    backgroundColor:colors.violetaClaro1,
     borderRadius: 20,
     paddingHorizontal: 10,
   },
@@ -569,7 +578,7 @@ const styles = StyleSheet.create({
   calloutContainer: {
     width: 150,
     padding: 5,
-    backgroundColor: "#DCF2F1",
+    backgroundColor: colors.violetaclaro2,
     borderRadius: 8,
     shadowColor: "#000",
     shadowOffset: {

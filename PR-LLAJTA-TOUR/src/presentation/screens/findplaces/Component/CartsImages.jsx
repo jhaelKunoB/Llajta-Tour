@@ -15,9 +15,7 @@ import styles from "../styles/CartStyle";
 const CartsImages = ({ data }) => {
   const navigation = useNavigation();
   const [isImages, setImages] = useState([]);
-
   const [isImages2, setImages2] = useState([[], []]);
-
   useEffect(() => {
     if (data) {
       setImages(data);
@@ -33,9 +31,10 @@ const CartsImages = ({ data }) => {
       console.log("columnna2", isImages2[1]);
     }
   }, [data]);
-
   const getImageHeight = (index) => (index % 2 === 0 ? 160 : 255);
   const getImageHeight1 = (index) => (index % 2 === 0 ? 260 : 150);
+
+
 
   return (
     <View style={{ width: "100%" }}>
@@ -58,7 +57,7 @@ const CartsImages = ({ data }) => {
                   >
                     <LinearGradient
                       colors={[
-                        "rgba(41, 42, 42, 1)",
+                        "rgba(128, 0, 32, 1)",
                         "rgba(255, 255, 255, 0)",
                         "rgba(255, 255, 255, 0)",
                         "rgba(255, 255, 255, 0)",
@@ -96,7 +95,7 @@ const CartsImages = ({ data }) => {
                   >
                     <LinearGradient
                       colors={[
-                        "rgba(41, 42, 42, 1)",
+                        "rgba(128, 0, 32, 1)",
                         "rgba(255, 255, 255, 0)",
                         "rgba(255, 255, 255, 0)",
                         "rgba(255, 255, 255, 0)",

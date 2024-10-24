@@ -6,8 +6,6 @@ import {
   StyleSheet,
   TextInput,
   FlatList,
-  ActivityIndicator,
-  Image,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import ListCategories from "../../components/ListCategories";
@@ -18,7 +16,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-
+import {colorText, colors, iconColor} from '../../styles/GlobalStyle'
 import PopUpManu from '../../../presentation/components/popPu'
 
 
@@ -52,7 +50,7 @@ const CategoryScreen = () => {
             <Ionicons
               name="chevron-back-circle-sharp"
               size={wp("11%")}
-              color="#0F1035"
+              color= {iconColor.colorV1}
             />
           </TouchableOpacity>
         </View>
@@ -98,7 +96,7 @@ const CategoryScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#EEF5FF",
+    backgroundColor: colors.violetaClaro1,
     position: "relative",
   },
   header: {
@@ -111,7 +109,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 5,
-    borderBottomColor: "#0F1035",
+    borderBottomColor: colors.violetaOscuro,
     borderBottomWidth: 1,
   },
   headerLeft: {
@@ -130,14 +128,14 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: wp("5.5%"),
-    color: "#0F1035",
+    color: colorText.title,
     fontWeight: "400",
   },
   searchContainer: {
     flexDirection: "row",
     alignItems: "center",
     borderRadius: 20,
-    backgroundColor: "rgb(235, 244, 246)", // Transparent background
+    backgroundColor: colors.violetaclaro2, // Transparent background
     elevation: 5, // Shadow for Android
     marginHorizontal: 20,
     marginVertical: 10,

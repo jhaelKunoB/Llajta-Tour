@@ -13,7 +13,7 @@ import { filterPlaces } from "./controller/FilterPlacesController";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import PopUpManu from "../../components/popPu";
 import IconLoanding from "../../components/IconLoanding"
-
+import { colors, colorText, iconColor } from "../../styles/GlobalStyle";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -50,7 +50,7 @@ const FilteredPlaces = ({ route }) => {
     >
       <Image source={{ uri: item.firstImage }} style={styles.placeImage} />
       <View style={styles.placeNameContainer}>
-        <Text style={styles.placeName}>{item.Name}</Text>
+        <Text style={styles.placeName} numberOfLines={1}>{item.Name}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -63,7 +63,7 @@ const FilteredPlaces = ({ route }) => {
             <Ionicons
               name="chevron-back-circle-sharp"
               size={wp("11%")}
-              color="#0F1035"
+              color={iconColor.colorV1}
             />
           </TouchableOpacity>
         </View>
@@ -97,7 +97,7 @@ export default FilteredPlaces;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    color: "#EEF5FF",
+    backgroundColor: colors.violetaClaro1,
   },
   placeContainer: {
     flex: 1,
@@ -118,18 +118,18 @@ const styles = StyleSheet.create({
   },
   placeNameContainer: {
     padding: 8,
-    backgroundColor: "white", // Background color for text
+    backgroundColor: "white",
   },
   placeName: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: "600",
-    color: "#0F1035",
+    color: colorText.text,
     textAlign:'center'
   },
   columnWrapper: {
     flex:1,
     justifyContent: 'space-around',
-    backgroundColor:'#EEF5FF',
+    backgroundColor: colors.violetaClaro1,
     marginTop:20
   },
 
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     backgroundColor: "white",
     borderBottomWidth: 1,
-    borderBottomColor: "#0F1035",
+    borderBottomColor: colors.violetaOscuro,
   },
 
   headerLeft: {
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
   },
   titleSearch: {
     fontSize: wp("5%"),
-    color: "#0F1035",
+    color: colorText.title,
     fontWeight: "400",
     textAlign:'center'
   },

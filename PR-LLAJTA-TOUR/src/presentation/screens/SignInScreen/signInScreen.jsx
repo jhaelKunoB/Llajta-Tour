@@ -134,7 +134,6 @@ const SignInScreen = () => {
 
     return () => unsub();
   }, []);
-
   const openPoliticasPrivacidad = () => {
     // URL que quieres abrir
     const url =
@@ -217,8 +216,6 @@ const styles = StyleSheet.create({
     fontSize: hp("1.5%"),
   },
 
-  //para tempo de carga
-
   IconGoogleIm: {
     width: "10%",
     height: 20,
@@ -275,7 +272,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "100%",
     borderWidth: 2,
-    //borderColor: "#EEF7FF",
     borderColor: borderColor.border,
     borderRadius: 16,
     marginTop: "10%",
@@ -285,7 +281,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "100%",
     borderWidth: 2,
-    //borderColor: "#EEF7FF",
     borderColor: borderColor.border,
     borderRadius: 16,
     marginTop: "5%",

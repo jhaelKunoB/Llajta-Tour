@@ -10,26 +10,12 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { getAuth, signOut } from "firebase/auth";
 import { useNavigation } from "@react-navigation/native";
-
+import { colors } from "../../../styles/GlobalStyle";
 
 const SingInModal = ({ openModalSing, setOpenModalSing }) => {
 
     const navigation = useNavigation();
-    
-    const handleSignOut = async () => {
-        const authInstance = getAuth();
-        try {
-          await signOut(authInstance);
-          await AsyncStorage.removeItem("@user");
-          setOpenModalSing(false);
-          navigation.navigate("SignInScreem");
-        } catch (error) {
-          console.error("Error signing out:", error);
-        }
-      };
 
 
   return (
@@ -40,7 +26,7 @@ const SingInModal = ({ openModalSing, setOpenModalSing }) => {
              Por favor, inicia sesión para habilitar esta función.
           </Text>
 
-          <TouchableOpacity style={stylesM.Deletebutton} onPress={() => navigation.navigate("SignInScreem")}>
+          <TouchableOpacity style={stylesM.Deletebutton} onPress={() => {navigation.navigate("SignInScreem"), setOpenModalSing(false) }}>
             <Text style={stylesM.DeletebuttonText}>Iniciar sesión</Text>
           </TouchableOpacity>
 
@@ -74,7 +60,7 @@ const stylesM = StyleSheet.create({
    
     alignItems: "center",
     
-    borderColor:"#7FC7D9",
+    borderColor: colors.violeta,
     borderTopWidth:3,
     borderTopRightRadius:15,
     borderTopLeftRadius:15

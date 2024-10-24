@@ -9,7 +9,6 @@ import {
   Image,
   Platform,
   Linking,
-  ActivityIndicator
 } from "react-native";
 
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -20,7 +19,7 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { LinearGradient } from "expo-linear-gradient";
-import Loandin from "./assets/Loanding.gif";
+import Loandin from "./assets/AnimLoanding.gif";
 import ImgLong from "./assets/loading copy.gif";
 
 //import * as Location from "expo-location";
@@ -30,7 +29,6 @@ import InfoCon from "./CoponentInfo/InfoCon";
 import ImageNow from "./CoponentInfo/ImagesNow";
 import AudioInfo from "./CoponentInfo/AudioInfo";
 import SingInModal from "./CoponentInfo/SigInModal";
-
 import { getPlace } from "./Controler/firebaseService";
 
 //para poder recuperar al Usuario
@@ -39,9 +37,9 @@ import UserAuth from "../../../../database/userAuth";
 import UseFavorite from "./Controler/useFavorite";
 
 //para manejar los mapas
-
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-
+//para los estilos
+import { colors, colorText, iconColor } from "../../styles/GlobalStyle";
 const InfoScreen = () => {
 
   const { favorites, toggleFavorite } = UseFavorite();
@@ -77,13 +75,10 @@ const InfoScreen = () => {
   if (isLoading) {
     return (
       <View style={styles.loadingContainer}>
-        <Image source={Loandin}></Image>
+        <Image source={Loandin} style={{width:wp("13%"), height:hp('10%')}}></Image>
       </View>
     );
   }
-
-
-
 
   const SetCalendar = (data) => {
     console.log("estos son las hora", data);
@@ -243,7 +238,7 @@ const InfoScreen = () => {
               <Ionicons
                 name="location-sharp"
                 style={styles.LocationIcon}
-                color={"#006769"}
+                color={iconColor.colorV1}
                 size={wp("6%")}
               />
             </TouchableOpacity>
@@ -279,7 +274,6 @@ const InfoScreen = () => {
             <Text style={styles.direccionTxt}>{placeData.Address}</Text>
           </View>
         </View>
-
 
         <View style={styles.separator} />
         {/* para las Imagens de Haora */}
@@ -329,13 +323,13 @@ const styles = StyleSheet.create({
   textLikes: {
     paddingHorizontal: hp("1%"),
     fontSize: wp("3%"),
-    color: "#08445a",
+    color: colorText.text,
   },
 
   direccionTxt: {
     fontSize: wp("3%"),
     marginLeft: wp("2%"),
-    color: "#08445a",
+    color: colorText.text,
     marginRight: 20,
   },
 
@@ -379,7 +373,7 @@ const styles = StyleSheet.create({
   },
 
   Contback1: {
-    backgroundColor: "rgba(33, 53, 85,0.7)",
+    backgroundColor: iconColor.colorV,
     borderRadius: 10,
     alignItems: "center",
     justifyContent: "center",
@@ -395,7 +389,7 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   separator: {
-    borderBottomColor: "#547775",
+    borderBottomColor: colors.violetaOscuro,
     borderBottomWidth: 2,
     marginHorizontal: hp("3%"),
     marginVertical: hp("1%"),
@@ -431,16 +425,16 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 30,
     paddingVertical: 10,
-    shadowColor: "#B4D4FF",
+    shadowColor: colors.viletaClaro,//----------------------------------------
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.44,
     shadowRadius: 10,
-    elevation: 10,
+    elevation: 3,
   },
 
   textTittle: {
     textAlign: "auto",
-    color: "#0F1035",
+    color: colorText.text,
     fontSize: wp("4.5%"),
     fontWeight: "400",
   },
@@ -453,18 +447,18 @@ const styles = StyleSheet.create({
 
   //para el Icono de Localisacion
   LocationIcon: {
-    backgroundColor: "#DCF2F130",
+    backgroundColor: colors.violetaClaro1,
     borderRadius: 10,
     paddingHorizontal: 11,
     paddingVertical: hp("2%"),
     width: wp("15%"),
     textAlign: "center",
     borderWidth: 2,
-    borderColor: "#DCF2F1",
+    borderColor: colors.violeta,
   },
 
   HeardIcon: {
-    backgroundColor: "rgba(154, 200, 205, 0.4)",
+    backgroundColor: colors.violetaclaro2,
     borderRadius: 50,
     paddingHorizontal: wp("3%"),
     paddingVertical: hp("1.3%"),
@@ -494,7 +488,7 @@ const styles = StyleSheet.create({
 
   txtDireccion: {
     flexDirection: "row",
-    backgroundColor: "#e8f9f3",
+    backgroundColor: colorText.text,
     borderRadius: wp("4%"),
     padding: wp("2%"),
     alignItems: "center",

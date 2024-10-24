@@ -13,7 +13,7 @@ import {
 } from "@expo/vector-icons";
 import DeleteCount from './DeleteCount'
 import SingoutModal from './SingoutModal'
-
+import {colors, colorText, iconColor} from '../../styles/GlobalStyle'
 
 const Settings = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -106,7 +106,7 @@ const Settings = () => {
                 <MaterialIcons
                   name="logout"
                   size={24}
-                  color="#FF1E00"
+                  color={iconColor.colorV2}
                   style={{ marginRight: 12 }}
                 />
                 <Text style={styles.rowLabelLogout}>Cerrar sesión</Text>
@@ -114,7 +114,7 @@ const Settings = () => {
                   <MaterialIcons
                     name="keyboard-arrow-right"
                     size={29}
-                    color="#FF1E00"
+                    color={iconColor.colorV2}
                   />
                 </View>
               </View>
@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   Cont: {
-    backgroundColor: "#F3F8FF",
+    backgroundColor: colors.violetaClaro1,
   },
   header: {
     paddingHorizontal: 24,
@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
   rowLabelLogout: {
     fontSize: 15,
     fontWeight: "500",
-    color: "#FF1E00",
+    color: iconColor.colorV2,
   },
 
   rowSpacer: {

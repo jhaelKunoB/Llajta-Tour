@@ -4,6 +4,7 @@ import { View, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import Favorite from "../favorite/FavoritesScreen"
 import Settings from "./Settings"
+import {iconColor} from '../../styles/GlobalStyle'
 const Tab = createBottomTabNavigator();
 
 function HomeScreen() {
@@ -36,13 +37,13 @@ const BottomRabVavigator = () => {
 
           return (
             <View style={{ alignItems: 'center' }}>
-              <Ionicons name={iconName} size={30} color={focused ? '#365486' : '#B0B0B0'} />
+              <Ionicons name={iconName} size={30} color={focused ? iconColor.colorV : '#B0B0B0'} />
               {focused && (
                 <View
                   style={{
                     width: '100%',
                     height: 3,
-                    backgroundColor: '#365486',
+                    backgroundColor: iconColor.colorV,
                     position: 'absolute',
                     bottom: -10,
                   }}

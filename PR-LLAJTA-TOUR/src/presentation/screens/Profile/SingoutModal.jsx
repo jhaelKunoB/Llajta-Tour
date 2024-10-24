@@ -13,7 +13,7 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getAuth, signOut } from "firebase/auth";
 import { useNavigation } from "@react-navigation/native";
-
+import {colors} from '../../styles/GlobalStyle'
 
 const SingoutModal = ({ openModalSing, setOpenModalSing }) => {
 
@@ -74,7 +74,7 @@ const stylesM = StyleSheet.create({
     backgroundColor: "white",
     
     alignItems: "center",
-    borderColor:"#7FC7D9",
+    borderColor:colors.viletaClaro,
     borderTopWidth:3,
     borderTopRightRadius:15,
     borderTopLeftRadius:15
