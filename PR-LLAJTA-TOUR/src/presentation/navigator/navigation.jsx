@@ -1,10 +1,11 @@
 import React from 'react';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
+import { colors} from '../styles/GlobalStyle.jsx'
+import styles from './styles/NavigationStyle.jsx'
 //import UseAuth from '../../../database/userAuth.jsx'
 // Importa tus pantallas
 import Home from '../screens/home/Home.jsx';
@@ -76,6 +77,7 @@ function MyTabs({ user }) {
   }
 
 
+
   const MyTabBar = ({ state, descriptors, navigation }) => {
     return (
       <View style={styles.tabBar}>
@@ -84,7 +86,7 @@ function MyTabs({ user }) {
           const label = options.tabBarLabel !== undefined ? options.tabBarLabel : route.name;
           const iconName = options.tabBarIcon !== undefined ? options.tabBarIcon : 'home-outline';
           const isSelected = state.index === index;
-          const iconColor = isSelected ? '#5A72A0' : '#fff';
+          const iconColor = isSelected ? colors.violeta : '#fff';
   
           const onPress = () => {
             const event = navigation.emit({
@@ -113,81 +115,6 @@ function MyTabs({ user }) {
     );
   };
 
-
-
-
-const styles = StyleSheet.create({
-    tabBar: {
-        flexDirection: 'row',
-        height: 65,
-        backgroundColor: '#1A2130',
-        borderTopColor: '#ddd',
-        justifyContent: 'space-around',
-        paddingBottom: 10,
-        paddingHorizontal: 10,
-        position: 'absolute',
-        bottom: 10,
-        right: 10,
-        left: 10,
-        borderRadius: 29,
-    },
-    tabButton: {
-        flex: 1,
-        alignItems: 'center',
-    },
-    button: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 10,
-    },
-    selectedButton: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 10,
-        backgroundColor: 'white',
-        borderRadius: 90,
-        position: 'relative',
-        bottom: 16, // Aumenta la elevación
-        elevation: 20,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 5 },
-        shadowOpacity: 0.3,
-        shadowRadius: 5,
-        borderWidth:1,
-        borderColor:'#5A72A0'
-    },
-    iconContainer: {
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    selectedIconContainer: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: 36,
-        height: 40,
-        borderRadius: 25,
-        backgroundColor: 'white',
-    },
-    label: {
-        fontSize: 12,
-        color: '#fff',     
-    },
-    selectedLabel: {
-        fontSize: 12,
-        color: '#366273',
-        display:'none'
-    },
-    tabBarStyle: {
-        position: 'absolute',
-        height: 60,
-        bottom: 24,
-        right: 16,
-        left: 16,
-        borderRadius: 16,
-        backgroundColor: '#366273',
-        borderTopWidth: 1,
-    },
-});
 
 const Navigation = ({ user }) => {
   

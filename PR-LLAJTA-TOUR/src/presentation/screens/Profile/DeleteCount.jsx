@@ -13,12 +13,12 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { Feather } from "@expo/vector-icons";
-import firebase from 'firebase/app'; // Importa Firebase
 import 'firebase/auth'; // Importa autenticación de Firebase
 import { useNavigation } from '@react-navigation/native';
 import { getFirestore, doc, deleteDoc } from "firebase/firestore";
 import UseAuth from "../../../../database/userAuth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {colors} from '../../styles/GlobalStyle'
 
 const DeleteCount = ({ openModal, setOpenModal }) => {
   const [loading, setLoading] = React.useState(false); // Estado para la carga
@@ -130,7 +130,7 @@ const stylesM = StyleSheet.create({
     backgroundColor: "white",
     alignItems: "center",
 
-    borderColor:"red",
+    borderColor:colors.viletaClaro,
     borderTopWidth:3,
     borderTopRightRadius:15,
     borderTopLeftRadius:15

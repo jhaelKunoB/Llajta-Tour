@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     },
 
     backContText:{
-        backgroundColor: 'rgba(77, 134, 156,0.4)', 
+        backgroundColor: 'rgba(89, 0, 22, 1)',
         height: 40,   
         justifyContent: 'center', 
         paddingLeft: 10, 

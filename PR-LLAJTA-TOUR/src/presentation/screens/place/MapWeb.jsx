@@ -8,8 +8,7 @@ import {
   ImageBackground,
   TouchableOpacity,
   FlatList,
-  Switch,
-  Modal
+  Switch
 } from "react-native";
 import {
   widthPercentageToDP as wp,
@@ -21,8 +20,9 @@ import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 import { placeLocation, getCategory } from "./controler/placeLocation";
 import loanding from "./assets/loading.gif";
+import {colors, colorText} from '../../styles/GlobalStyle'
 
-const IconLoanding = require("./assets/Loanding.gif")
+const IconLoanding = require("./assets/AnimLoanding.gif")
 
 const mapContainerStyle = {
   height: "100vh",
@@ -61,14 +61,11 @@ const MapWeb = () => {
   const snapPointsCatego = useMemo(() => [hp("0.1"), hp("70")], []);
 
 
-  const [openLoanding, setLoanding] = useState(false);
-
   const mapRef = useRef(null); // Referencia al mapa
   // //para Inicialisar los valores
   useEffect(() => {
     const fetchPlaces = async () => {
       try {
-        setLoanding(true)
         const data = await placeLocation();
         const category = await getCategory();
         setPlaces(data);
@@ -77,8 +74,6 @@ const MapWeb = () => {
         console.log("solo una sola ves");
       } catch (error) {
         console.error("Error fetching places:", error);
-      }finally{
-        setLoanding(false)
       }
     };
 
@@ -150,6 +145,8 @@ const MapWeb = () => {
       </TouchableOpacity>
     );
   };
+
+
   //para Filtrar por  categorias----------------------------------------
   const FindCategoris = (idCat) => {
     if (places) {
@@ -158,9 +155,7 @@ const MapWeb = () => {
       setFindPlace(fibdCate);
       HandlerCategoruClose();
       handlerClose();
-
       setSwitchValue(false);
-
       setIsSwitchDisabled(false);
     }
   };
@@ -194,43 +189,48 @@ const MapWeb = () => {
 
       {/* para poder mostrar mapa */}
       <LoadScript googleMapsApiKey="AIzaSyClUE7K-Ytz6duQ6wLYFDNNSJyQSnFFgks">
-        <GoogleMap
-          mapContainerStyle={mapContainerStyle}
-          options={mapOptions}
-          zoom={11}
-          center={center}
-          onLoad={(map) => (mapRef.current = map)} 
-        >
-          {findPLace.length > 0 &&
-            findPLace.map((item) => (
-              <Marker
-                onClick={() => handleMarkerPress(item.id)}
-                key={item.id}
-                position={{
-                  lat: item.latitude,
-                  lng: item.longitude,
-                }}
-                title={item.Name}
-                icon={{
-                  url: item?.CategoryID?.PinMap
-                    ? item.CategoryID.PinMap
-                    : "https://firebasestorage.googleapis.com/v0/b/llajtatour-57c11.appspot.com/o/IconLocation%2FNoCategori.png?alt=media&token=3003764b-0fc8-4452-8cd5-074b6567f4fb",
-                  scaledSize: new window.google.maps.Size(45, 50), // Ajusta el tamaño del ícono aquí (30x30 píxeles en este caso)
-                  anchor: new window.google.maps.Point(4, 4), // Ajusta el punto de anclaje del ícono
-                }}
-              >
-              </Marker>
-            ))}
-
-         
-        </GoogleMap>
+      {typeof google !== "undefined" && google.maps ? (
+          <GoogleMap
+            mapContainerStyle={mapContainerStyle}
+            options={mapOptions}
+            zoom={11}
+            center={center}
+            onLoad={(map) => (mapRef.current = map)}
+          >
+            {findPLace.length > 0 &&
+              findPLace.map((item) => (
+                <Marker
+                  onClick={() => handleMarkerPress(item.id)}
+                  key={item.id}
+                  position={{
+                    lat: item.latitude,
+                    lng: item.longitude,
+                  }}
+                  title={item.Name}
+                  icon={{
+                    url: item?.CategoryID?.PinMap
+                      ? item.CategoryID.PinMap
+                      : "https://firebasestorage.googleapis.com/v0/b/llajtatour-57c11.appspot.com/o/IconLocation%2FNoCategori.png?alt=media&token=3003764b-0fc8-4452-8cd5-074b6567f4fb",
+                    scaledSize: new window.google.maps.Size(45, 50),
+                    anchor: new window.google.maps.Point(4, 4),
+                  }}
+                />
+              ))}
+          </GoogleMap>
+        ) : (
+          <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
+              <Image source={IconLoanding} style={styles.contIconLong}></Image>
+              <Text style={styles.loadingText}>Conectando con el mapa...</Text>
+          </View>
+      
+        )}
       </LoadScript>
 
       {/* para poder mostrar datos del Lugar-------------------------------------- */}
       <BottomSheet
         handleIndicatorStyle={{ backgroundColor: "transparent" }}
         enablePanDownToClose={false}
-        backgroundStyle={{ backgroundColor: "#001C30" }}
+        backgroundStyle={{ backgroundColor: colors.violeta  }}
         ref={bottomSheetRef}
         snapPoints={snapPoints}
         index={-1}
@@ -314,7 +314,7 @@ const MapWeb = () => {
       <BottomSheet
         handleIndicatorStyle={{ backgroundColor: "transparent" }}
         enablePanDownToClose={true}
-        backgroundStyle={{ backgroundColor: "#EEF7FF" }}
+        backgroundStyle={{ backgroundColor: colors.violetaClaro1 }}
         ref={bottmSheeCategori}
         snapPoints={snapPointsCatego}
         index={-1}
@@ -363,7 +363,7 @@ const MapWeb = () => {
               contentContainerStyle={styles.ContCategoryFlatList}
               ListEmptyComponent={
                 <Text style={styles.emptyText}>
-                  No hay favoritos disponibles.
+                  No hay categorias disponibles.
                 </Text>
               }
             />
@@ -376,13 +376,6 @@ const MapWeb = () => {
       </BottomSheet>
 
 
-      <Modal visible={openLoanding} animationType="fade" transparent={true}>
-        <View style={styles.ContLongPlaces}>
-          <Image source={IconLoanding} style={styles.contIconLong}></Image>
-        </View>
-      </Modal>
-
-
     </View>
   );
 };
@@ -390,6 +383,11 @@ const MapWeb = () => {
 export default MapWeb;
 
 const styles = StyleSheet.create({
+
+  loadingText: {
+    fontSize: 15,
+    fontWeight: "300",
+},
 
   
   //------------------------------Loanding Mapa
@@ -478,7 +476,7 @@ const styles = StyleSheet.create({
   },
   textButm: {
     padding: 5,
-    color: "#1A2130",
+    color: colorText.text,
   },
 
   scrollView: {
@@ -548,7 +546,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     paddingTop: 8,
     paddingBottom: 8,
-    backgroundColor: "#B4D4FF",
+    backgroundColor: colors.violetaClaro1,
     borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
@@ -566,7 +564,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     margin: 5,
-    backgroundColor: "white",
+    backgroundColor: colors.violetaclaro2,
     borderRadius: 15,
     padding: 2,
   },
@@ -576,21 +574,22 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     margin: 5,
-    backgroundColor: "#DCF2F1",
+    backgroundColor: colors.violetaClaro1,
     borderRadius: 15,
     padding: 2,
-    borderWidth: 3,
-    borderColor: "white",
+    borderWidth: 2,
+    borderColor: colors.violetaOscuro,
   },
 
   itemText: {
     fontSize: 12,
     textAlign: "center",
-    color: "#070F2B",
+    color: colorText.text,
   },
 
+  
   handleIndicator1: {
-    backgroundColor: "#001C30",
+    backgroundColor: colors.violetaclaro2,
     justifyContent: "center",
     alignItems: "center",
     width: wp("15%"),

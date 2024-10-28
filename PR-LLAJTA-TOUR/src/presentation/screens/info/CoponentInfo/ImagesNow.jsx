@@ -5,7 +5,6 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import ImaNot from '../assets/Nodata.gif'
 import ImgModal from './ModaImage'
 
-
 const ImageNow = ({ data }) => {
     const [placeData, setPlaceData] = useState(null);
 

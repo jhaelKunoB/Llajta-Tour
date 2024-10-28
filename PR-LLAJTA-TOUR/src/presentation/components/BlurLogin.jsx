@@ -1,9 +1,8 @@
 import React from "react";
 import { ImageBackground, StyleSheet } from "react-native";
-import blurImg from '../assets/blurImg1.png';
+import blurImg from '../assets/fondo8.png';
 
 const BlurLogin = () => {
-
   return (
     <ImageBackground 
       source={blurImg} 

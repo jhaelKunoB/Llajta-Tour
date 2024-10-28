@@ -9,6 +9,7 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 
+import {iconColor} from '../../styles/GlobalStyle'
 const Tab = createBottomTabNavigator();
 
 const BottomRabVavigator = () => {
@@ -25,13 +26,13 @@ const BottomRabVavigator = () => {
 
           return (
             <View style={{ alignItems: 'center' }}>
-              <Ionicons name={iconName} size={30} color={focused ? '#365486' : '#B0B0B0'} />
+              <Ionicons name={iconName} size={30} color={focused ? iconColor.colorV : '#B0B0B0'} />
               {focused && (
                 <View
                   style={{
                     width: wp('50%'),
                     height: 3,
-                    backgroundColor: '#365486',
+                    backgroundColor: iconColor.colorV,
                     position: 'absolute',
                     bottom: -10,
                   }}

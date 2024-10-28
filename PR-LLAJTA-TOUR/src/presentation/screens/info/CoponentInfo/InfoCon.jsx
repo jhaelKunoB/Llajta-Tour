@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Text, View, TouchableOpacity, StyleSheet, ScrollView, Image, ImageBackground } from 'react-native'
+import { Text, View, TouchableOpacity, StyleSheet, ScrollView, Image } from 'react-native'
 
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -7,7 +7,7 @@ import Carousel from 'pinar'
 import { FontAwesome } from '@expo/vector-icons';
 
 import ImaNot from '../assets/Nodata.gif'
-//import ImgLong from '../assets/loading copy.gif'
+import { colors, colorText, iconColor } from '../../../styles/GlobalStyle';
 const ImgLong = require('../assets/loading copy.gif')
 
 const InfoCon = ({ data }) => {
@@ -33,7 +33,7 @@ const InfoCon = ({ data }) => {
             case 'Component1':
                 return (
                     <ScrollView style={styles.ContDescription} nestedScrollEnabled={true}>
-                        <LinearGradient colors={['rgba(155, 190, 200,1)', 'rgba(255, 255, 255, 0)', 'rgba(255, 255, 255, 0)', 'rgba(255, 255, 255, 0)']}
+                        <LinearGradient colors={['rgba(110, 0, 30, 0.4)', 'rgba(255, 255, 255, 0)', 'rgba(255, 255, 255, 0)', 'rgba(255, 255, 255, 0)']}
                             start={{ x: 1, y: 1 }}
                             end={{ x: 1, y: 0 }}
                             style={styles.GradientDes}>
@@ -47,8 +47,6 @@ const InfoCon = ({ data }) => {
                                     <FontAwesome style={styles.toggleButton} name={showFullDescription ? 'arrow-up' : 'arrow-down'} />
                                 </TouchableOpacity>
                             </View>
-
-
                         </LinearGradient>
                     </ScrollView>
                 );
@@ -59,7 +57,7 @@ const InfoCon = ({ data }) => {
 
                             {placeData && placeData.OldImagesID && placeData.OldImagesID.length > 0 ? (
                                 placeData.OldImagesID.map(item => 
-                                           <Image style={styles.ImageCarusel} source={{ uri: item }} key={item}   defaultSource={ImgLong} />                                  
+                                           <Image style={styles.ImageCarusel} source={{ uri: item }} key={item} defaultSource={ImgLong} />                                  
                                 )
                             ) : (
                                 <View style={{ alignItems:'center'}}>
@@ -113,9 +111,9 @@ const styles = StyleSheet.create({
 
     //para la flecha
     toggleButton: {
-        color: '#164863',
+        color: iconColor.colorV,
         width: wp('10%'),
-        backgroundColor: '#DCF2F1',
+        backgroundColor: colors.violetaClaro1,
         borderRadius: 10,
         textAlign: 'center',
         fontSize: wp('6%'),
@@ -132,7 +130,7 @@ const styles = StyleSheet.create({
 
 
     ActiveDot: {
-        backgroundColor: '#6BBFB7'
+        backgroundColor: colors.violeta
     },
 
 
@@ -174,21 +172,22 @@ const styles = StyleSheet.create({
     //para el boton
     button: {
         borderBottomWidth: 3,
-        borderBottomColor: '#427D9D',
+        borderBottomColor: colors.violeta,
         borderRadius: 5,
         marginHorizontal: wp('2%'),
         padding:5,
         borderWidth:1,
-        borderColor:'#0F1035'
+        borderColor:colors.violeta
     },
+
     cont: {
         marginHorizontal: wp('2%'),
         padding:5
     },
+
     txtItem: {
         fontSize: wp('4%')
     },
-
 
     ContDescription: {
         maxHeight: hp('50%'),
@@ -222,7 +221,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: wp('1%'),
         fontSize: wp('4.5%'),
         fontWeight: '800',
-        color: '#164863',
+        color: colorText.title,
     },
 
 

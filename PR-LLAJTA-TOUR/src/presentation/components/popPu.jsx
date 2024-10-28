@@ -11,9 +11,10 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 
-import { useNavigation } from "@react-navigation/native";
-import UseAuth from "../../../database/userAuth";
+import { useNavigation } from "@react-navigation/native"
+import UseAuth from "../../../database/userAuth"
 import SingoutModal from '../screens/Profile/SingoutModal'
+import {colors, iconColor} from '../styles/GlobalStyle'
 const PopUpMenu = () => {
   const navigation = useNavigation();
   const [visible, setVisible] = useState(false);
@@ -41,13 +42,13 @@ const PopUpMenu = () => {
       {user ? (
         <>
           <TouchableOpacity onPress={() => resizeBox(1)}>
-            <MaterialIcons name="menu-open" size={30} color="black" />
+            <MaterialIcons name="menu-open" size={30} color={iconColor.colorV1} />
           </TouchableOpacity>
         </>
       ) : (
         <>
             <TouchableOpacity onPress={() => navigation.navigate('SignInScreem')}>
-               <AntDesign name="login" size={24} color="black" />
+               <AntDesign name="login" size={24} color={iconColor.colorV1} />
             </TouchableOpacity>
         </>
       )}
@@ -94,7 +95,7 @@ export default PopUpMenu;
 const styles = StyleSheet.create({
   popUp: {
     borderRadius: 8,
-    borderColor: "#333",
+    borderColor: colors.violetaOscuro,
     borderWidth: 1,
     backgroundColor: "#fff",
     paddingHorizontal: 10,

@@ -16,7 +16,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-
+import {colors, colorText, borderColor} from "../../styles/GlobalStyle"
 import { useNavigation } from "@react-navigation/native";
 import BlurLogin from "../../components/BlurLogin";
 
@@ -31,6 +31,8 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 import IconImg from "../../components/IconLoanding";
 
 const ImgFont = require("./assets/fondo2.jpg");
+
+
 const IconGloogle = require("./assets/IconGoogle.png");
 const { height } = Dimensions.get("window");
 
@@ -52,9 +54,9 @@ const SignInScreen = () => {
       "427143347905-gtf0892k3uhqsdin9dtea7b9eoskfjmm.apps.googleusercontent.com",
     androidClientId:
       "427143347905-ro3ikerjrsj9iuhjaiunvkceinu3iit7.apps.googleusercontent.com",
-    
   });
-
+ 
+  
   useEffect(() => {
     try {
 
@@ -139,7 +141,6 @@ const SignInScreen = () => {
 
     return () => unsub();
   }, []);
-
   const openPoliticasPrivacidad = () => {
     // URL que quieres abrir
     const url =
@@ -192,7 +193,7 @@ const SignInScreen = () => {
                 }}
               >
                 <Image source={IconGloogle} style={styles.IconGoogleIm}></Image>
-                <Text>Continuar con Google</Text>
+                <Text style={styles.textGoogle}>Continuar con Google</Text>
               </TouchableOpacity>
             </View>
 
@@ -222,8 +223,6 @@ const styles = StyleSheet.create({
     fontSize: hp("1.5%"),
   },
 
-  //para tempo de carga
-
   IconGoogleIm: {
     width: "10%",
     height: 20,
@@ -251,7 +250,7 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     lineHeight: 35,
     textAlign: "center",
-    color: "#071952",
+    color: colorText.title,
   },
   body: {
     paddingTop: 20,
@@ -259,10 +258,13 @@ const styles = StyleSheet.create({
     lineHeight: 23,
     fontWeight: "400",
     textAlign: "center",
-    color: "#071952",
+    color: colorText.text,
   },
   butomText: {
-    color: "#071952",
+    color: colorText.text,
+  },
+  textGoogle:{
+    color: colorText.text,
   },
 
   butom3: {
@@ -277,7 +279,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "100%",
     borderWidth: 2,
-    borderColor: "#EEF7FF",
+    borderColor: borderColor.border,
     borderRadius: 16,
     marginTop: "10%",
   },
@@ -286,7 +288,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "100%",
     borderWidth: 2,
-    borderColor: "#EEF7FF",
+    borderColor: borderColor.border,
     borderRadius: 16,
     marginTop: "5%",
   },

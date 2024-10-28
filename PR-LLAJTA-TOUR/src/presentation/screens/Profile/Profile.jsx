@@ -14,6 +14,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
+import {colorText, colors, iconColor} from '../../styles/GlobalStyle'
 import BottomRabVavigator from '../Profile/BottomRabVavigator';
 import UseAuth from "../../../../database/userAuth";
 const Cocha = require('./assets/Ciudad_de_Cochabamba.png');
@@ -33,7 +34,7 @@ const Profile = () => {
               <Ionicons
                 name="chevron-back-circle-sharp"
                 size={wp('12%')}
-                color="#DCF2F1"
+                color={iconColor.colorV1}
               />
             </TouchableOpacity>
           </View>
@@ -91,7 +92,7 @@ const styles = StyleSheet.create({
   },
   StytextName: {
     fontSize: 19,
-    color: '#365486',
+    color: colorText.text,
     fontWeight: '600',
   },
   StytxetEmail: {
@@ -119,7 +120,7 @@ const styles = StyleSheet.create({
     height: 90,
     borderRadius: 70,
     borderWidth: 2,
-    borderColor: '#DCF2F1',
+    borderColor: colors.violetaClaro1,
     backgroundColor: '#f0f0f0',
   },
   ContHeader: {
