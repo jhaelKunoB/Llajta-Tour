@@ -302,7 +302,7 @@ const Place = () => {
 
         <View style={visibleC ? styles.contAllCatego : styles.contDispleyNone}>
           <View style={{ flex: 1, alignItems: "center" }}>
-            <Text style={styles.textCatego}>Ver Todos los Sitios</Text>
+            <Text style={styles.textCatego}>Quitar Filtro :</Text>
           </View>
           <View style={{ flex: 1, alignItems: "center" }}>
             <Switch

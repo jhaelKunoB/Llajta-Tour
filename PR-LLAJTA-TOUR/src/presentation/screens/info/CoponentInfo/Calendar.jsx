@@ -71,7 +71,7 @@ const Calendar = ({ data }) => {
                         ) : (
                             <View style={styles.contMess}>
                                 <Image source={NotHour} style={styles.notImage} resizeMode='cover'></Image>
-                                <Text style={styles.textNotHour}>Este sitio está disponible a cualquier hora</Text>
+                                <Text style={styles.textNotHour}>Aún no fue asignado un horario</Text>
                             </View>
                         )}
                     </View>
