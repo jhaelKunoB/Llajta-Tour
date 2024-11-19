@@ -111,7 +111,7 @@ const ModalVideo = ({ videoData, useVideoModal, setVideoModal }) => {
             <Video
               ref={video}
               source={{ uri: videoData }}
-              resizeMode={ResizeMode.STRETCH}
+              resizeMode={ResizeMode.CONTAIN}
               isLooping
               volume={0.9}
               //shouldPlay
