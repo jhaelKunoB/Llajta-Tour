@@ -15,7 +15,7 @@ const BlurLogin = () => {
 const styles = StyleSheet.create({
   backgroundImage: {
     width: '100%',
-    height: '105%', // Cambiado a '100%' para asegurar que cubre todo el contenedor
+    height: hp("4%"), // Cambiado a '100%' para asegurar que cubre todo el contenedor
     position: 'absolute',
     top: 0, // Añadido para asegurar que se alinea al top del contenedor
     left: 0, // Añadido para asegurar que se alinea al left del contenedor

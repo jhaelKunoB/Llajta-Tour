@@ -22,7 +22,7 @@ import Profile from '../screens/Profile/Profile.jsx'
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
-//const { userNew } = UseAuth();
+
 
 function MyStack({user}) {
     return (
@@ -113,7 +113,9 @@ function MyTabs({ user }) {
         })}
       </View>
     );
-  };
+};
+
+
 
 
 const Navigation = ({ user }) => {
@@ -123,7 +125,7 @@ const Navigation = ({ user }) => {
         <MyStack user={user} />
       </NavigationContainer>
     );
-  };
+};
   
 
 export default Navigation;
