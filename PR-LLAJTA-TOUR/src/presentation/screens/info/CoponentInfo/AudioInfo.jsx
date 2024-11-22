@@ -18,19 +18,21 @@ const AudioInfo = ({ data }) => {
   async function playSound() {
     if (sound) {
       console.log('Resuming Sound');
-      await sound.playAsync();
       setIsPlaying(true);
+      await sound.playAsync();
+     
     } else {
       console.log('Loading Sound');
       try {
         console.log(data)
         if (data) {
+          setIsPlaying(true);
           const { sound } = await Audio.Sound.createAsync({ uri: placeData });
           setSound(sound);
           sound.setOnPlaybackStatusUpdate(onPlaybackStatusUpdate);
 
           await sound.playAsync();
-          setIsPlaying(true);
+         
         }
       } catch (error) {
         console.error('Error loading sound:', error);
@@ -98,6 +100,8 @@ const AudioInfo = ({ data }) => {
                 <Ionicons name={isPlaying ? "pause-circle-sharp" : "play-circle-sharp"} style={styles.IconPlay} color={iconColor.colorV} size={wp('10%')} />
               </TouchableOpacity>
             </View>
+
+
         </View>
       ) : (
         <> 

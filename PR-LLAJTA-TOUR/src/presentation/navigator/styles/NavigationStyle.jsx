@@ -1,9 +1,5 @@
 import { StyleSheet } from 'react-native';
 import {colors} from '../../styles/GlobalStyle'
-import {
-    widthPercentageToDP as wp,
-    heightPercentageToDP as hp,
-  } from "react-native-responsive-screen";
 const styles = StyleSheet.create({
     tabBar: {
         flexDirection: 'row',
@@ -51,7 +47,7 @@ const styles = StyleSheet.create({
     selectedIconContainer: {
         justifyContent: 'center',
         alignItems: 'center',
-        width: 36,
+        width: 40,
         height: 40,
         borderRadius: 25,
         backgroundColor: 'white',

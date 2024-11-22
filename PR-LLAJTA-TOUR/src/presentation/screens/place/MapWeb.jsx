@@ -328,12 +328,8 @@ const MapWeb = () => {
           <Text style={styles.textHeaderBut}>Explorar por Categoria</Text>
         </View>
 
-        <View style={styles.contAllCatego}>
-          {/* <View style={{ flex: 1, alignItems: "center" }}>
-            <Text style={styles.textCatego}>Quitar Filtro :</Text>
-          </View> */}
-
-
+        <View style={visibilitiFilter ? styles.contAllCatego : styles.contDispleyNone}>
+          
           <View style={{ flex: 1, alignItems: "center" }}>
 
           {visibilitiFilter ? (
@@ -534,16 +530,32 @@ const styles = StyleSheet.create({
     color: "#222831",
   },
 
+  // contAllCatego: {
+  //   flexDirection: "row",
+  //   paddingTop: 8,
+  //   paddingBottom: 8,
+  //   backgroundColor: colors.violetaClaro1,
+  //   borderRadius: 10,
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  //   marginHorizontal: 10,
+  //   marginBottom: 5,
+  // },
+
   contAllCatego: {
     flexDirection: "row",
     paddingTop: 8,
     paddingBottom: 8,
-    backgroundColor: colors.violetaClaro1,
+    backgroundColor: colors.violetaclaro2,
     borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
     marginHorizontal: 10,
     marginBottom: 5,
+  },
+
+ contDispleyNone:{
+    display:'none'
   },
 
   textCatego: {
