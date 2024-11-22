@@ -28,7 +28,7 @@ import {
 
 import { auth, db } from "../../../../database/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import IconImg from "../../components/IconLoanding";
+import IconImg from "../../components/singLoanding";
 
 const ImgFont = require("./assets/fondo2.jpg");
 
@@ -152,7 +152,7 @@ const SignInScreen = () => {
   };
 
   return (
-    <>
+    <View style={{flex:1}}>
       <Modal
         transparent={true}
         animationType="fade"
@@ -161,9 +161,8 @@ const SignInScreen = () => {
       >
         <IconImg />
       </Modal>
-
       <BlurLogin posi={1.55} />
-      <SafeAreaView style={styles.contenedor}>
+     
         <ScrollView contentContainerStyle={styles.contenedor}>
           <Image source={ImgFont} style={styles.ImgLogin} />
 
@@ -202,10 +201,10 @@ const SignInScreen = () => {
                 <Text style={styles.textPoliticas}>POLÍTICA DE PRIVACIDAD</Text>
               </TouchableOpacity>
             </View>
+
           </View>
         </ScrollView>
-      </SafeAreaView>
-    </>
+    </View>
   );
 };
 export default SignInScreen;
@@ -214,7 +213,7 @@ const styles = StyleSheet.create({
   //poloticas
   contText: {
     marginTop: hp("4%"),
-    paddingVertical: 4,
+    marginBottom:hp("2%")
   },
   textPoliticas: {
     textAlign: "center",
@@ -229,33 +228,35 @@ const styles = StyleSheet.create({
   },
 
   contenedor: {
-    flex: 1,
+    flexGrow: 1,
     alignItems: "center",
     backgroundColor: "transparent",
   },
+
   ImgLogin: {
-    width: "85%",
-    height: (height / 3) * 1.3,
-    borderRadius: 16,
-    marginBottom: 25,
-    marginTop: hp("4%"),
+    width: wp("85%"),
+    height: hp("45%"), 
+    borderRadius: wp("4%"), 
+    marginBottom: hp("3%"),
+    marginTop: hp("3%"),
   },
 
   ContContainer: {
-    paddingHorizontal: 30,
+    paddingHorizontal: wp("7%"),
   },
 
   title: {
-    fontSize: 32,
+    fontSize: hp("3.6%"),
     fontWeight: "700",
-    lineHeight: 35,
+    lineHeight: hp("4.5%"),
     textAlign: "center",
     color: colorText.title,
   },
+
   body: {
-    paddingTop: 20,
-    fontSize: 16,
-    lineHeight: 23,
+    paddingTop: hp("2%"),
+    fontSize: hp("1.9%"),
+    lineHeight: hp("2.5%"),
     fontWeight: "400",
     textAlign: "center",
     color: colorText.text,
@@ -263,7 +264,7 @@ const styles = StyleSheet.create({
   butomText: {
     color: colorText.text,
   },
-  textGoogle:{
+  textGoogle: {
     color: colorText.text,
   },
 
@@ -272,7 +273,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    padding: 16,
+    padding: wp("4%"),
   },
 
   butomContinuo: {
@@ -280,8 +281,8 @@ const styles = StyleSheet.create({
     width: "100%",
     borderWidth: 2,
     borderColor: borderColor.border,
-    borderRadius: 16,
-    marginTop: "10%",
+    borderRadius: wp("4%"),
+    marginTop: hp("4%"),
   },
 
   butomContainer: {
@@ -289,7 +290,7 @@ const styles = StyleSheet.create({
     width: "100%",
     borderWidth: 2,
     borderColor: borderColor.border,
-    borderRadius: 16,
-    marginTop: "5%",
+    borderRadius: wp("4%"),
+    marginTop: hp("1.5%"),
   },
 });

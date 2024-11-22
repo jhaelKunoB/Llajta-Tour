@@ -39,11 +39,14 @@ const FilteredPlaces = ({ route }) => {
     fetchPlaces();
   }, [categoryId]);
 
+
   const handlePlacePress = (placeId) => {
     navigation.navigate("Info", { Id: placeId });
   };
 
+
   const renderPlaceItem = ({ item }) => (
+
     <TouchableOpacity
       style={styles.placeContainer}
       onPress={() => handlePlacePress(item.id)}

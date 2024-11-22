@@ -81,8 +81,17 @@ const AudioInfo = ({ data }) => {
       {data ? (
         <View style={styles.ContImgAudio}>
             <View style={styles.ImgAudio}>
-               <FontAwesome name={isPlaying ? "microphone": "microphone-slash"} size={35} color={iconColor.colorV1}  />
+               <MaterialIcons name={isPlaying ? "volume-up": "volume-off"} size={35} color={iconColor.colorV1}  />
             </View>
+
+
+            {/* <MaterialIcons
+                  name={isMuted ? "volume-off" : "volume-up"}
+                  style={styles.iconSound}
+                  color={"white"}
+                  size={wp("8%")}
+                /> */}
+
 
             <View style={styles.ContIcontPlay}>
               <TouchableOpacity onPress={isPlaying ? pauseSound : playSound}>

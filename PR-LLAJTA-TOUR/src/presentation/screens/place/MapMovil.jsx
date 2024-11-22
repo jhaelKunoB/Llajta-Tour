@@ -302,7 +302,7 @@ const Place = () => {
 
         <View style={visibleC ? styles.contAllCatego : styles.contDispleyNone}>
           <View style={{ flex: 1, alignItems: "center" }}>
-            <Text style={styles.textCatego}>Ver Todos los Sitios</Text>
+            <Text style={styles.textCatego}>Quitar Filtro :</Text>
           </View>
           <View style={{ flex: 1, alignItems: "center" }}>
             <Switch
@@ -343,6 +343,7 @@ const Place = () => {
       <Modal visible={openLoanding} animationType="fade" transparent={true}>
         <View style={styles.ContLongPlaces}>
           <Image source={IconLoanding} style={styles.contIconLong}></Image>
+          <Text style={styles.textLoanding}>Cargando información...</Text>
         </View>
       </Modal>
 
@@ -354,6 +355,12 @@ const Place = () => {
 export default Place;
 
 const styles = StyleSheet.create({
+
+  textLoanding:{
+    color:'white',
+    fontSize:wp('4%'),
+    fontWeight:'600'
+  },
   contIconLong:{
     width:70,
     height:80
@@ -364,7 +371,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0,0,0,0.3)",
+    backgroundColor: "rgba(0,0,0,0.4)",
   },
 
   //paa el modal decarga --------------------
@@ -426,7 +433,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     margin: 5,
-    backgroundColor: "white",
+    backgroundColor: "#EEEEEE",
     borderRadius: 15,
     padding: 2,
   },

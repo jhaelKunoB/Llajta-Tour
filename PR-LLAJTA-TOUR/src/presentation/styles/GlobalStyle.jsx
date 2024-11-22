@@ -12,7 +12,7 @@ const colorText = {
     black: "#000"
 }
 const borderColor = {
-    border:"#FCFFFE" //los bordes de los botones
+    border:"#FCFFFE"
 }
 const lineborderColor={
     linecolor:"#A61B4E"

@@ -42,7 +42,7 @@ const SingoutModal = ({ openModalSing, setOpenModalSing }) => {
 
           {/* Botón de Eliminar Cuenta */}
           <TouchableOpacity style={stylesM.Deletebutton} onPress={() => handleSignOut()}>
-            <Text style={stylesM.DeletebuttonText}>Cerrar sesion</Text>
+            <Text style={stylesM.DeletebuttonText}>Cerrar sesión</Text>
           </TouchableOpacity>
 
           {/* Botón de Cancelar que cierra el modal */}

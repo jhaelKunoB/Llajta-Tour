@@ -79,7 +79,6 @@ const MapWeb = () => {
 
     fetchPlaces();
   }, []);
-
   const handleMarkerPress = (id) => {
     try {
       if (Array.isArray(places) && places.length > 0 && id) {
@@ -95,12 +94,9 @@ const MapWeb = () => {
               lng: selectedPlace.longitude,
             });
           }
-
         } else {
           console.warn("Lugar no encontrado con id:", id);
         }
-
-
       } else {
         console.warn("No se han encontrado lugares o id no proporcionado");
       }
@@ -110,19 +106,15 @@ const MapWeb = () => {
   };
 
   //----------------------------------
-  const [isSwitchDisabled, setIsSwitchDisabled] = useState(true);
-  const [switchValue, setSwitchValue] = useState(true);
+  const [visibilitiFilter , setVisivilityFilter] = useState(false)
 
-  const toggleSwitch = (value) => {
+  const toggleSwitch = () => {
     try {
-      if (value) {
+        setVisivilityFilter(false)
         setFindPlace(places);
         HandlerCategoruClose();
         handlerClose();
         setItemSelect(null);
-        setIsSwitchDisabled(true);
-      }
-      setSwitchValue(value);
     } catch (error) {
       console.error(error);
     }
@@ -155,8 +147,7 @@ const MapWeb = () => {
       setFindPlace(fibdCate);
       HandlerCategoruClose();
       handlerClose();
-      setSwitchValue(false);
-      setIsSwitchDisabled(false);
+      setVisivilityFilter(true)
     }
   };
 
@@ -186,6 +177,7 @@ const MapWeb = () => {
           </TouchableOpacity>
         </View>
       </View>
+
 
       {/* para poder mostrar mapa */}
       <LoadScript googleMapsApiKey="AIzaSyClUE7K-Ytz6duQ6wLYFDNNSJyQSnFFgks">
@@ -337,18 +329,19 @@ const MapWeb = () => {
         </View>
 
         <View style={styles.contAllCatego}>
+          {/* <View style={{ flex: 1, alignItems: "center" }}>
+            <Text style={styles.textCatego}>Quitar Filtro :</Text>
+          </View> */}
+
+
           <View style={{ flex: 1, alignItems: "center" }}>
-            <Text style={styles.textCatego}>Ver Todos los Sitios</Text>
-          </View>
-          <View style={{ flex: 1, alignItems: "center" }}>
-            <Switch
-              value={switchValue}
-              style={{ transform: [{ scale: 1.2 }] }}
-              thumbColor={switchValue ? "#176B87" : "white"} // Cambia el color del thumb
-              trackColor={{ false: "#767577", true: "#9AC8CD" }}
-              onValueChange={toggleSwitch}
-              disabled={isSwitchDisabled}
-            />
+
+          {visibilitiFilter ? (
+            <TouchableOpacity style={styles.button} onPress={() => toggleSwitch()}>
+            <Text style={styles.buttonText}>Quitar Filtro</Text>
+          </TouchableOpacity>
+          ):(<></>)}
+       
           </View>
         </View>
 
@@ -387,9 +380,8 @@ const styles = StyleSheet.create({
   loadingText: {
     fontSize: 15,
     fontWeight: "300",
-},
+  },
 
-  
   //------------------------------Loanding Mapa
   contIconLong:{
     width:70,
@@ -594,5 +586,27 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: wp("15%"),
     borderRadius: 10,
+  },
+
+  //para el Botom de Filtrado
+  button: {
+    backgroundColor: "#FFF5E1",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 25, // Botón redondeado
+    alignItems: "center",
+    justifyContent: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5, // Sombra en Android
+    margin: 4, // Espaciado alrededor del botón
+  },
+  buttonText: {
+    color: "#973131", // Color del texto
+    fontSize: 12,
+    fontWeight: "400",
+    textTransform: "uppercase", // Texto en mayúsculas
   },
 });

@@ -177,12 +177,16 @@ const styles = StyleSheet.create({
         marginHorizontal: wp('2%'),
         padding:5,
         borderWidth:1,
-        borderColor:colors.violeta
+        borderColor:colors.violeta,
+      
     },
 
     cont: {
         marginHorizontal: wp('2%'),
-        padding:5
+        padding:5,
+        borderRadius:5,
+       borderWidth:0.5,
+       borderColor:colors.violeta,
     },
 
     txtItem: {
@@ -196,7 +200,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         borderRadius: wp('4%'),
     },
-
     descriptionText: {
         paddingTop: hp('0.5%'),
         paddingHorizontal: wp('1%'),

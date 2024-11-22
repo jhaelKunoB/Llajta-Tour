@@ -13,7 +13,7 @@ import {
 
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Ionicons, FontAwesome, Entypo } from "@expo/vector-icons";
-
+import ImageTransition from  './CoponentInfo/ImgesTransition'
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -126,12 +126,19 @@ const InfoScreen = () => {
       <ScrollView style={styles.Container} nestedScrollEnabled={true}>
         <View style={styles.ContVideo}>
           <View style={styles.VideoStyle}>
-            <Image
+            {placeData.ImagesID?.[0] && placeData.OldImagesID?.[0] ? (
+              <ImageTransition
+                image1={placeData.ImagesID[0]}
+                image2={placeData.OldImagesID[0]}
+                transitionTime={5000}
+              />
+            ) : (
+              <Image
               source={{ uri: placeData.ImagesID[0] }}
               resizeMode="cover"
               style={{ width: "100%", height: "100%" }}
-              defaultSource={ImgLong}
-            ></Image>
+              defaultSource={ImgLong}/>
+            )}
           </View>
 
           {/* Para los Iconos  */}
@@ -160,7 +167,7 @@ const InfoScreen = () => {
               </TouchableOpacity>
 
               {/* toggleMute() */}
-              {placeData && placeData.Video ? (
+              {/* {placeData && placeData.Video ? (
                 <TouchableOpacity onPress={() => setVideoModal(true)}>
                   <Entypo
                     name="video"
@@ -171,7 +178,7 @@ const InfoScreen = () => {
                 </TouchableOpacity>
               ) : (
                 <></>
-              )}
+              )} */}
             </View>
           </LinearGradient>
 
@@ -233,7 +240,8 @@ const InfoScreen = () => {
 
         {/* para las opciones de mapas audio horario */}
         <View style={styles.contOptions}>
-          <View style={{ flex: 1 }}>
+
+          <View style={{ alignItems:'center', display:'flex'}}>
             <TouchableOpacity onPress={() => openGoogleMaps()}>
               <Ionicons
                 name="location-sharp"
@@ -244,22 +252,55 @@ const InfoScreen = () => {
             </TouchableOpacity>
           </View>
 
-          <View style={{ flex: 1 }}>
-            <TouchableOpacity onPress={() => SetCalendar(placeData.Hours)}>
-              <Calendar data={placeData.Hours} />
-            </TouchableOpacity>
-          </View>
 
-          <View
-            style={{
-              flex: 3,
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <AudioInfo data={placeData.Audio} />
-          </View>
+
+
+          {/* ------------------------------------------------------------------------------- */}
+            {/* <View style={{ flex: 1 }}>
+              <TouchableOpacity onPress={() => SetCalendar(placeData.Hours)}>
+                <Calendar data={placeData.Hours} />
+              </TouchableOpacity>
+            </View>  */}
+          {/* ------------------------------------------------------------------------------- */}
+          
+
+
+          {placeData && placeData.Video ? (
+                <View style={{ alignItems:'center', display:'flex', paddingHorizontal:wp('3%') }}>
+                <TouchableOpacity onPress={() => setVideoModal(true)}>
+                  <Entypo
+                        name="video"
+                        style={styles.LocationIcon}
+                        color={iconColor.colorV1}
+                        size={wp("6%")}
+                  />
+                </TouchableOpacity>
+              </View> 
+            ) : (
+                <></>
+            )}
+
+
+
+
+          {placeData && placeData.Audio ? (
+              <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+                paddingHorizontal:wp('2%'),
+            
+              }}
+            >
+              <AudioInfo data={placeData.Audio} />
+            </View>
+          ):(
+            <></>
+          )}
+        
+
+
         </View>
 
         {/* para poder la direccion y el corazon    */}
@@ -480,7 +521,7 @@ const styles = StyleSheet.create({
   //para la localisacion y la Hora
   contOptions: {
     flexDirection: "row",
-    //justifyContent:'space-between',
+    alignItems:'flex-start',
     marginHorizontal: wp("6%"),
     paddingVertical: hp("1%"),
     marginTop: hp("7%"),
