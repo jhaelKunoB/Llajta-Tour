@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { View, StyleSheet, Animated } from "react-native";
+const ImgLong = require('../assets/cargaImg.jpg')
 
 const ImageTransition = ({ image1, image2, transitionTime = 3000 }) => {
   const [currentImage, setCurrentImage] = useState(0); // Controla la imagen actual
@@ -45,11 +46,13 @@ const ImageTransition = ({ image1, image2, transitionTime = 3000 }) => {
         source={{ uri: image1 }}
         style={[styles.image, { opacity: fadeAnim1 }]}
         resizeMode="cover"
+        defaultSource={ImgLong}
       />
       <Animated.Image
         source={{ uri: image2 }}
         style={[styles.image, { opacity: fadeAnim2 }]}
         resizeMode="cover"
+        defaultSource={ImgLong}
       />
     </View>
   );

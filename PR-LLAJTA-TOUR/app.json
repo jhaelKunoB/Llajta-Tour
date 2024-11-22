@@ -2,7 +2,7 @@
   "expo": {
     "name": "Cochabamba Turística", 
     "slug": "llajtatour",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -22,7 +22,7 @@
         "googleMapsApiKey": "AIzaSyClUE7K-Ytz6duQ6wLYFDNNSJyQSnFFgks"
       },
       "bundleIdentifier": "com.jhael123.llajtatour",
-      "buildNumber": "3"
+      "buildNumber": "4"
     },
     "android": {
       "adaptiveIcon": {
@@ -53,7 +53,7 @@
         }
       },
       "package": "com.jhael123.llajtatour",
-      "versionCode": 3
+      "versionCode": 5
     },
     "web": {
       "favicon": "./assets/icon.png"

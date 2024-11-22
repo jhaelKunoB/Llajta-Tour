@@ -37,7 +37,7 @@ const Place = () => {
 
   const [place, setPlace] = useState();
   const snapPoints = useMemo(() => [hp("25")], []);
-  const snapPointsCatego = useMemo(() => [hp("14"), hp("70")], []);
+  const snapPointsCatego = useMemo(() => [hp("70")], []);
   const bottomSheetRef = useRef(null);
   const bottmSheeCategori = useRef(null);
 
@@ -53,17 +53,17 @@ const Place = () => {
 
   //para el witchValue, para mostarr todos lugares-----------------
   const [switchValue, setSwitchValue] = useState(true);
+  const [visibilitiFilter , setVisivilityFilter] = useState(false)
 
-  const toggleSwitch = (value) => {
+  const toggleSwitch = () => {
     try {
-      if (value) {
         setFindPlace(places);
         HandlerCategoruClose();
         handlerClose();
         setItemSelect(null);
         setVisibleC(false)
-      }
-      setSwitchValue(value);
+        setVisivilityFilter(false)
+     // setSwitchValue(value);
     } catch (error) {
       console.error(error);
     }
@@ -119,8 +119,9 @@ const Place = () => {
       setFindPlace(fibdCate);
       HandlerCategoruClose();
       handlerClose();
-      setSwitchValue(false); //para setear todo el filtrado
+     // setSwitchValue(false); //para setear todo el filtrado
       setAmplitud(0.4); //para setear la amplitudes
+      setVisivilityFilter(true)
       console.log("hola====================", fibdCate);
     }
   };
@@ -300,20 +301,15 @@ const Place = () => {
           <Text style={styles.textHeaderBut}>Explorar por Categoria</Text>
         </View>
 
+
         <View style={visibleC ? styles.contAllCatego : styles.contDispleyNone}>
-          <View style={{ flex: 1, alignItems: "center" }}>
-            <Text style={styles.textCatego}>Quitar Filtro :</Text>
-          </View>
-          <View style={{ flex: 1, alignItems: "center" }}>
-            <Switch
-              value={switchValue}
-              style={{ transform: [{ scale: 1.2 }] }}
-              thumbColor={switchValue ? colors.violeta : "white"} // Cambia el color del thumb
-              trackColor={{ false: "#767577", true: colors.violetaclaro2 }}
-              onValueChange={toggleSwitch}
-            />
-          </View>
+            {visibilitiFilter ? (
+              <TouchableOpacity style={styles.button} onPress={() => toggleSwitch()}>
+              <Text style={styles.buttonText}>Quitar Filtro</Text>
+            </TouchableOpacity>
+            ):(<></>)}
         </View>
+
 
         {categorys ? (
           <BottomSheetScrollView>
@@ -603,5 +599,29 @@ const styles = StyleSheet.create({
     marginVertical: 1,
     textAlign: "center",
     color: "#0F1035",
+  },
+
+
+
+   //para el Botom de Filtrado
+   button: {
+    backgroundColor: "#FFF5E1",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 25, // Botón redondeado
+    alignItems: "center",
+    justifyContent: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5, // Sombra en Android
+    margin: 4, // Espaciado alrededor del botón
+  },
+  buttonText: {
+    color: "#973131", // Color del texto
+    fontSize: 12,
+    fontWeight: "400",
+    textTransform: "uppercase", // Texto en mayúsculas
   },
 });

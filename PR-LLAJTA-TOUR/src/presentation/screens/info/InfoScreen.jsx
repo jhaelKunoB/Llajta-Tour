@@ -21,7 +21,7 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import Loandin from "./assets/AnimLoanding.gif";
 import ImgLong from "./assets/loading copy.gif";
-
+const imgLo = require('./assets/cargaImg.jpg')
 //import * as Location from "expo-location";
 import ModalVideo from "./CoponentInfo/ModalVideo";
 import Calendar from "./CoponentInfo/Calendar";
@@ -137,7 +137,7 @@ const InfoScreen = () => {
               source={{ uri: placeData.ImagesID[0] }}
               resizeMode="cover"
               style={{ width: "100%", height: "100%" }}
-              defaultSource={ImgLong}/>
+              defaultSource={imgLo}/>
             )}
           </View>
 
