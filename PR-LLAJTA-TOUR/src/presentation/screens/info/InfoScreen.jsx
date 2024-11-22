@@ -13,7 +13,7 @@ import {
 
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Ionicons, FontAwesome, Entypo } from "@expo/vector-icons";
-
+import ImageTransition from  './CoponentInfo/ImgesTransition'
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -126,12 +126,19 @@ const InfoScreen = () => {
       <ScrollView style={styles.Container} nestedScrollEnabled={true}>
         <View style={styles.ContVideo}>
           <View style={styles.VideoStyle}>
-            <Image
+            {placeData.ImagesID?.[0] && placeData.OldImagesID?.[0] ? (
+              <ImageTransition
+                image1={placeData.ImagesID[0]}
+                image2={placeData.OldImagesID[0]}
+                transitionTime={5000}
+              />
+            ) : (
+              <Image
               source={{ uri: placeData.ImagesID[0] }}
               resizeMode="cover"
               style={{ width: "100%", height: "100%" }}
-              defaultSource={ImgLong}
-            ></Image>
+              defaultSource={ImgLong}/>
+            )}
           </View>
 
           {/* Para los Iconos  */}

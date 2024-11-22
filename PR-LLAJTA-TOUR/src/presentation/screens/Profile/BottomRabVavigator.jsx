@@ -7,6 +7,8 @@ import Settings from "./Settings"
 import {iconColor} from '../../styles/GlobalStyle'
 const Tab = createBottomTabNavigator();
 
+
+
 function HomeScreen() {
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'red' }}>
