@@ -1,4 +1,5 @@
 import { Ionicons, MaterialIcons, AntDesign } from "@expo/vector-icons";
+
 import { useRef, useState } from "react";
 import {
   SafeAreaView,
@@ -22,6 +23,7 @@ const PopUpMenu = () => {
   const { user } = UseAuth();
   const [openModalSing, setOpenModalSing] = useState(false);
   function resizeBox(to, callback) {
+
     if (to === 1) setVisible(true);
     Animated.timing(scala, {
       toValue: to,

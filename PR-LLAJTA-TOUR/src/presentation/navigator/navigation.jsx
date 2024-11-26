@@ -6,6 +6,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { colors} from '../styles/GlobalStyle.jsx'
 import styles from './styles/NavigationStyle.jsx'
+
 //import UseAuth from '../../../database/userAuth.jsx'
 // Importa tus pantallas
 import Home from '../screens/home/Home.jsx';
@@ -119,7 +120,6 @@ function MyTabs({ user }) {
 
 
 const Navigation = ({ user }) => {
-  
     return (
       <NavigationContainer>
         <MyStack user={user} />
