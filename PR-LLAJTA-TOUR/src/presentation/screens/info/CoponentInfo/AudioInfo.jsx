@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { View, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
 import { Audio } from 'expo-av';
-import { Ionicons, MaterialIcons } from '@expo/vector-icons';
+import { Ionicons, MaterialIcons, FontAwesome } from '@expo/vector-icons';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-
+import { colors, colorText, iconColor } from '../../../styles/GlobalStyle';
 const AudioGiif = require('../assets/Microphone.gif')
 const ImgAudio1 = require('../assets/Microphone-0.jpg')
 
@@ -80,19 +80,34 @@ const AudioInfo = ({ data }) => {
 
       {data ? (
         <View style={styles.ContImgAudio}>
-            <ImageBackground source={isPlaying ? AudioGiif : ImgAudio1} style={styles.ImgAudio} resizeMode="cover" />
+            <View style={styles.ImgAudio}>
+               <MaterialIcons name={isPlaying ? "volume-up": "volume-off"} size={35} color={iconColor.colorV1}  />
+            </View>
+
+
+            {/* <MaterialIcons
+                  name={isMuted ? "volume-off" : "volume-up"}
+                  style={styles.iconSound}
+                  color={"white"}
+                  size={wp("8%")}
+                /> */}
+
+
             <View style={styles.ContIcontPlay}>
               <TouchableOpacity onPress={isPlaying ? pauseSound : playSound}>
-                <Ionicons name={isPlaying ? "pause-circle-sharp" : "play-circle-sharp"} style={styles.IconPlay} color={'#009194'} size={wp('10%')} />
+                <Ionicons name={isPlaying ? "pause-circle-sharp" : "play-circle-sharp"} style={styles.IconPlay} color={iconColor.colorV} size={wp('10%')} />
               </TouchableOpacity>
             </View>
         </View>
       ) : (
         <> 
          <View style={styles.ContImgAudio}>
-            <ImageBackground source={isPlaying ? AudioGiif : ImgAudio1} style={styles.ImgAudio} resizeMode="cover" />
+      
+            <View style={styles.ImgAudio}>
+               <FontAwesome name="microphone-slash" size={35} color={iconColor.colorV1}  />
+            </View>
             <View style={styles.ContIcontPlay}>       
-                <MaterialIcons name="play-disabled" style={styles.IconPlay} color={'#009194'} size={wp('11%')}/>
+                <MaterialIcons name="play-disabled" style={styles.IconPlay} color={iconColor.colorV} size={wp('11%')}/>
             </View>
         </View>
         </>
@@ -105,9 +120,8 @@ export default AudioInfo
 
 const styles = StyleSheet.create({
 
-  container: {
-   
-    backgroundColor: '#DCF2F160',
+  container: {  
+    backgroundColor: colors.violetaClaro1,
     flexDirection: 'row',
     borderRadius: 21,
     width:150,
@@ -121,7 +135,7 @@ const styles = StyleSheet.create({
     borderWidth:2, 
     borderRadius:15,
     overflow:'hidden',
-    borderColor:'#DCF2F1',
+    borderColor:colors.violeta,
   },
   contTittle: {
     flex: 1,
@@ -130,7 +144,10 @@ const styles = StyleSheet.create({
   ImgAudio: {
     width: wp('17%'),
     height: hp('7%'),
-    borderRadius: 21
+    borderRadius: 21,
+    backgroundColor:'white',
+    justifyContent:'center',
+    alignItems:'center'
   },
   ContTextIcon: {
     flex: 1,

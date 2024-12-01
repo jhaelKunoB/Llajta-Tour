@@ -9,18 +9,14 @@ import {
   TouchableOpacity,
   FlatList,
   Switch,
+  Modal,
 } from "react-native";
 
-
-
 import MapView, { Marker, Callout } from "react-native-maps";
-
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 //para recuperar los lugares
 import { placeLocation, getCategory } from "./controler/placeLocation";
-
 import { useNavigation } from "@react-navigation/native";
 import loanding from "./assets/loading.gif";
 import {
@@ -28,19 +24,20 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { Ionicons } from "@expo/vector-icons";
+import { colors, colorText, iconColor } from "../../styles/GlobalStyle";
 
-
-
+const IconLoanding = require("./assets/AnimLoanding.gif")
 
 const Place = () => {
   const navigation = useNavigation();
   const [places, setPlaces] = useState([]); //para recuperar los lugares
   const [categorys, setCategori] = useState(); //todos las categorias
   const [findPLace, setFindPlace] = useState([]); //variable para filtrar por categoria
+  const [visibleC, setVisibleC] = useState(false)
 
   const [place, setPlace] = useState();
   const snapPoints = useMemo(() => [hp("25")], []);
-  const snapPointsCatego = useMemo(() => [hp("14"), hp("70")], []);
+  const snapPointsCatego = useMemo(() => [hp("70")], []);
   const bottomSheetRef = useRef(null);
   const bottmSheeCategori = useRef(null);
 
@@ -50,84 +47,84 @@ const Place = () => {
   const handlerOpen = () => bottomSheetRef.current?.expand(); //para abrir los lugares
   const HandlerCategoruOpen = () => bottmSheeCategori.current?.expand(); //para abrir las Categorias
   const HandlerCategoruClose = () => bottmSheeCategori.current?.close(); //para abrir las Categorias
-  const [itemSelect, setItemSelect] = useState(null)
+  const [itemSelect, setItemSelect] = useState(null);
 
+  const [openLoanding, setLoanding] = useState(false);
 
   //para el witchValue, para mostarr todos lugares-----------------
   const [switchValue, setSwitchValue] = useState(true);
-  const toggleSwitch = (value) => {
+  const [visibilitiFilter , setVisivilityFilter] = useState(false)
+
+  const toggleSwitch = () => {
     try {
-      if (value) {
-        setFindPlace(places)
-        HandlerCategoruClose()
-        handlerClose()
-        setItemSelect(null)
-      }
-      setSwitchValue(value);
+        setFindPlace(places);
+        HandlerCategoruClose();
+        handlerClose();
+        setItemSelect(null);
+        setVisibleC(false)
+        setVisivilityFilter(false)
+     // setSwitchValue(value);
     } catch (error) {
       console.error(error);
     }
   };
- 
 
   //para poder recuperar el lugar seleccionado ------------------------------
   const handleMarkerPress = (id) => {
     try {
       if (Array.isArray(places) && places.length > 0 && id) {
-       
         handlerOpen();
         const selectedPlace = places.find((place) => place.id === id);
-        
+
         if (selectedPlace) {
           setPlace(selectedPlace);
         } else {
-          console.warn('Lugar no encontrado con id:', id);
+          console.warn("Lugar no encontrado con id:", id);
         }
       } else {
-        console.warn('No se han encontrado lugares o id no proporcionado');
+        console.warn("No se han encontrado lugares o id no proporcionado");
       }
     } catch (error) {
-      console.error('Error en handleMarkerPress:', error);
+      console.error("Error en handleMarkerPress:", error);
     }
   };
-  
-  
 
   // //para Inicialisar los valores
-   useEffect(() => {
-     const fetchPlaces = async () => {
-       try {
-         const data = await placeLocation();
-         const category = await getCategory();
-         setPlaces(data); // Asegúrate de que data sea un array
-         setFindPlace(data);
-         setCategori(category);
-         console.log("solo una sola ves");
-       } catch (error) {
-         console.error("Error fetching places:", error);
+  useEffect(() => {
+    const fetchPlaces = async () => {
+      try {
+        setLoanding(true)
+        const data = await placeLocation();
+        const category = await getCategory();
+        setPlaces(data); // Asegúrate de que data sea un array
+        setFindPlace(data);
+        setCategori(category);
+        console.log("solo una sola ves");
+      } catch (error) {
+        console.error("Error fetching places:", error);
+      }finally {
+        setLoanding(false);
       }
-     };
+    };
 
-     fetchPlaces();
-   }, []);
-
-
-   
+    fetchPlaces();
+  }, []);
 
   //para Filtrar por  categorias----------------------------------------
   const FindCategoris = (idCat) => {
     if (places) {
-      const fibdCate = places.filter((index) => index.CategoryID?.id == idCat)
-      setItemSelect(idCat)
-      setFindPlace(fibdCate)
-      HandlerCategoruClose()
-      handlerClose()
-      setSwitchValue(false) //para setear todo el filtrado
+      setVisibleC(true)
+      const fibdCate = places.filter((index) => index.CategoryID?.id == idCat);
+      setItemSelect(idCat);
+      setFindPlace(fibdCate);
+      HandlerCategoruClose();
+      handlerClose();
+     // setSwitchValue(false); //para setear todo el filtrado
       setAmplitud(0.4); //para setear la amplitudes
+      setVisivilityFilter(true)
       console.log("hola====================", fibdCate);
     }
   };
-
 
   // Estilo del mapa para ocultar POI----------------------------------------
   const customMapStyle = [
@@ -139,23 +136,23 @@ const Place = () => {
   ];
   //para poder renderisar las categorias---------------------------------
   const renderCategori = ({ item }) => {
-    const isSelct = item.id == itemSelect
-    return(
+    const isSelct = item.id == itemSelect;
+    return (
       <TouchableOpacity
-      style={isSelct ? styles.selectItem : styles.itemContainer}
-      onPress={() => FindCategoris(item.id)}>
-      <Image source={{ uri: item.PinMap }} style={{ width: 40, height: 50 }} />
-      <Text style={styles.itemText}>{item.Type}</Text>
-    </TouchableOpacity>
-    )
-  }
-
-
+        style={isSelct ? styles.selectItem : styles.itemContainer}
+        onPress={() => FindCategoris(item.id)}
+      >
+        <Image
+          source={{ uri: item.PinMap }}
+          style={{ width: 40, height: 50 }}
+        />
+        <Text style={styles.itemText} numberOfLines={1}>{item.Type}</Text>
+      </TouchableOpacity>
+    );
+  };
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-
-      
       <View style={styles.ContHeadder}>
         <View style={styles.ContButonnBack}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -167,22 +164,23 @@ const Place = () => {
           </TouchableOpacity>
         </View>
 
-        <View style={{ flex: 2, justifyContent:'center', alignItems:'center'}}>
-          <Text style={styles.textHeader}>
-          Ubicaciones
-          </Text>
+        <View
+          style={{ flex: 2, justifyContent: "center", alignItems: "center" }}
+        >
+          <Text style={styles.textHeader}>Ubicaciones</Text>
         </View>
 
         <View style={styles.ContButomCate}>
-          <TouchableOpacity onPress={() => HandlerCategoruOpen()} style={styles.ContIconCate}>
-            <Ionicons name="filter-sharp" size={wp('7%')} color="white" />
+          <TouchableOpacity
+            onPress={() => HandlerCategoruOpen()}
+            style={styles.ContIconCate}
+          >
+            <Ionicons name="filter-sharp" size={wp("7%")} color="white" />
           </TouchableOpacity>
         </View>
       </View>
 
-
-
-       <MapView
+      <MapView
         style={{ flex: 1 }}
         region={{
           latitude: -17.3935419,
@@ -218,13 +216,11 @@ const Place = () => {
           ))}
       </MapView>
 
-
-
       {/* para poder mostrar datos del Lugar-------------------------------------- */}
       <BottomSheet
         handleIndicatorStyle={{ backgroundColor: "white" }}
         enablePanDownToClose={true}
-        backgroundStyle={{ backgroundColor: "#001C30" }}
+        backgroundStyle={{ backgroundColor: colors.violeta }}
         ref={bottomSheetRef}
         snapPoints={snapPoints}
         index={-1}
@@ -291,40 +287,28 @@ const Place = () => {
         )}
       </BottomSheet>
 
-
-
       {/* para poder mostrar todas las cateoorias---------------------------------- */}
       <BottomSheet
-        handleIndicatorStyle={{ backgroundColor: "black" }}
+        handleIndicatorStyle={{ backgroundColor: iconColor.colorV }}
         enablePanDownToClose={true}
-        backgroundStyle={{ backgroundColor: "#EEF7FF" }}
+        backgroundStyle={{ backgroundColor: colors.violetaClaro1 }}
         ref={bottmSheeCategori}
         snapPoints={snapPointsCatego}
         index={-1}
         containerStyle={styles.ContCategory}
-        // enableContentPanningGesture={false} //para poder avilitar los getos dentro del contenedor
       >
         <View style={styles.ContHeaderBut}>
           <Text style={styles.textHeaderBut}>Explorar por Categoria</Text>
         </View>
 
 
-
-        <View style={styles.contAllCatego}>
-          <View style={{ flex: 1, alignItems: "center" }}>
-            <Text style={styles.textCatego}>Ver Todos los Sitios</Text>
-          </View>
-          <View style={{ flex: 1, alignItems: "center" }}>
-            <Switch
-              value={switchValue}
-              style={{ transform: [{ scale: 1.2 }] }}
-              thumbColor={switchValue ? "#153448" : "white"} // Cambia el color del thumb
-              trackColor={{ false: "#767577", true: "#9AC8CD" }}
-              onValueChange={toggleSwitch}
-            />
-          </View>
+        <View style={visibleC ? styles.contAllCatego : styles.contDispleyNone}>
+            {visibilitiFilter ? (
+              <TouchableOpacity style={styles.button} onPress={() => toggleSwitch()}>
+              <Text style={styles.buttonText}>Quitar Filtro</Text>
+            </TouchableOpacity>
+            ):(<></>)}
         </View>
-
 
 
         {categorys ? (
@@ -338,7 +322,7 @@ const Place = () => {
               contentContainerStyle={styles.ContCategoryFlatList}
               ListEmptyComponent={
                 <Text style={styles.emptyText}>
-                  No hay favoritos disponibles.
+                  No hay favoritos categorias disponibles.
                 </Text>
               }
               scrollEnabled={true}
@@ -352,7 +336,14 @@ const Place = () => {
         )}
       </BottomSheet>
 
+      <Modal visible={openLoanding} animationType="fade" transparent={true}>
+        <View style={styles.ContLongPlaces}>
+          <Image source={IconLoanding} style={styles.contIconLong}></Image>
+          <Text style={styles.textLoanding}>Cargando información...</Text>
+        </View>
+      </Modal>
 
+      
     </GestureHandlerRootView>
   );
 };
@@ -361,32 +352,54 @@ export default Place;
 
 const styles = StyleSheet.create({
 
+  textLoanding:{
+    color:'white',
+    fontSize:wp('4%'),
+    fontWeight:'600'
+  },
+  contIconLong:{
+    width:70,
+    height:80
+  },
+
+  //------------------------------
+  ContLongPlaces: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.4)",
+  },
+
   //paa el modal decarga --------------------
-  loadingContainer:{
+  loadingContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "red",
-    zIndex:1
+    zIndex: 1,
   },
 
   //estilos para categoria =------------------------
-  
-  contAllCatego:{
-    flexDirection:'row',
-    paddingTop:8,
-    paddingBottom:8,
-    backgroundColor:'#DCF2F1',
-    borderRadius:10,
-    justifyContent:'center',
-    alignItems:'center',
-    marginHorizontal:10,
-    marginBottom:5
+
+  contAllCatego: {
+    flexDirection: "row",
+    paddingTop: 8,
+    paddingBottom: 8,
+    backgroundColor: colors.violetaclaro2,
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    marginHorizontal: 10,
+    marginBottom: 5,
   },
 
-  textCatego:{
-    fontSize:15,
-    fontWeight:'300'
+  contDispleyNone:{
+    display:'none'
+  },
+
+  textCatego: {
+    fontSize: 15,
+    fontWeight: "300",
   },
 
   //stilos para cada item de las categorias
@@ -403,13 +416,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 
-
   textHeaderBut: {
     textAlign: "center",
     fontSize: 20,
     fontWeight: "300",
     paddingVertical: 5,
-    color:'#222831'
+    color: "#222831",
   },
 
   itemContainer: {
@@ -417,27 +429,27 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     margin: 5,
-    backgroundColor: "white",
+    backgroundColor: "#EEEEEE",
     borderRadius: 15,
     padding: 2,
   },
 
-  selectItem:{
+  selectItem: {
     flex: 1,
     justifyContent: "space-between",
     alignItems: "center",
     margin: 5,
-    backgroundColor: "#DCF2F1",
+    backgroundColor: colors.violetaclaro2,
     borderRadius: 15,
     padding: 2,
-    borderWidth:3,
-    borderColor:'white'
+    borderWidth: 3,
+    borderColor: "white",
   },
 
   itemText: {
     fontSize: 12,
     textAlign: "center",
-    color: "#070F2B",
+    color: colorText.text,
   },
 
   //para el navegador de arriva
@@ -448,11 +460,10 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: "#02152699",
     zIndex: 1,
-    color:"white",
-    paddingHorizontal:5,
-    paddingVertical:5
+    color: "white",
+    paddingHorizontal: 5,
+    paddingVertical: 5,
   },
-
 
   ContButonnBack: {
     flex: 1,
@@ -467,12 +478,12 @@ const styles = StyleSheet.create({
   textHeader: {
     fontWeight: "500",
     textAlign: "center",
-    fontSize:18,
-    color:'white'
+    fontSize: 18,
+    color: "white",
   },
 
-  ContIconCate:{
-    padding:5,
+  ContIconCate: {
+    padding: 5,
   },
 
   //-------------------------------------------------------
@@ -557,7 +568,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   butomPlace: {
-    backgroundColor: "#EEF5FF",
+    backgroundColor:colors.violetaClaro1,
     borderRadius: 20,
     paddingHorizontal: 10,
   },
@@ -570,7 +581,7 @@ const styles = StyleSheet.create({
   calloutContainer: {
     width: 150,
     padding: 5,
-    backgroundColor: "#DCF2F1",
+    backgroundColor: colors.violetaclaro2,
     borderRadius: 8,
     shadowColor: "#000",
     shadowOffset: {
@@ -588,5 +599,29 @@ const styles = StyleSheet.create({
     marginVertical: 1,
     textAlign: "center",
     color: "#0F1035",
+  },
+
+
+
+   //para el Botom de Filtrado
+   button: {
+    backgroundColor: "#FFF5E1",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 25, // Botón redondeado
+    alignItems: "center",
+    justifyContent: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5, // Sombra en Android
+    margin: 4, // Espaciado alrededor del botón
+  },
+  buttonText: {
+    color: "#973131", // Color del texto
+    fontSize: 12,
+    fontWeight: "400",
+    textTransform: "uppercase", // Texto en mayúsculas
   },
 });

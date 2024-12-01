@@ -6,14 +6,14 @@ import {
   Image,
   TouchableOpacity,
   StyleSheet,
-  ActivityIndicator
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { filterPlaces } from "./controller/FilterPlacesController";
 
 import Ionicons from "react-native-vector-icons/Ionicons";
 import PopUpManu from "../../components/popPu";
-
+import IconLoanding from "../../components/IconLoanding"
+import { colors, colorText, iconColor } from "../../styles/GlobalStyle";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -39,18 +39,21 @@ const FilteredPlaces = ({ route }) => {
     fetchPlaces();
   }, [categoryId]);
 
+
   const handlePlacePress = (placeId) => {
     navigation.navigate("Info", { Id: placeId });
   };
 
+
   const renderPlaceItem = ({ item }) => (
+
     <TouchableOpacity
       style={styles.placeContainer}
       onPress={() => handlePlacePress(item.id)}
     >
       <Image source={{ uri: item.firstImage }} style={styles.placeImage} />
       <View style={styles.placeNameContainer}>
-        <Text style={styles.placeName}>{item.Name}</Text>
+        <Text style={styles.placeName} numberOfLines={1}>{item.Name}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -63,7 +66,7 @@ const FilteredPlaces = ({ route }) => {
             <Ionicons
               name="chevron-back-circle-sharp"
               size={wp("11%")}
-              color="#0F1035"
+              color={iconColor.colorV1}
             />
           </TouchableOpacity>
         </View>
@@ -86,13 +89,7 @@ const FilteredPlaces = ({ route }) => {
           columnWrapperStyle={styles.columnWrapper} // Style for columns
         />
       ) : (
-
-        <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color="#0F1035" />
-          <Text style={styles.loadingText}>
-            Ya casi... Obteniendo categoría...
-          </Text>
-        </View>
+        <IconLoanding text={"  Ya casi... Obteniendo categoría..."}/>
       )}
     </View>
   );
@@ -103,7 +100,7 @@ export default FilteredPlaces;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    color: "#EEF5FF",
+    backgroundColor: colors.violetaClaro1,
   },
   placeContainer: {
     flex: 1,
@@ -124,18 +121,18 @@ const styles = StyleSheet.create({
   },
   placeNameContainer: {
     padding: 8,
-    backgroundColor: "white", // Background color for text
+    backgroundColor: "white",
   },
   placeName: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: "600",
-    color: "#0F1035",
+    color: colorText.text,
     textAlign:'center'
   },
   columnWrapper: {
     flex:1,
     justifyContent: 'space-around',
-    backgroundColor:'#EEF5FF',
+    backgroundColor: colors.violetaClaro1,
     marginTop:20
   },
 
@@ -146,7 +143,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     backgroundColor: "white",
     borderBottomWidth: 1,
-    borderBottomColor: "#0F1035",
+    borderBottomColor: colors.violetaOscuro,
   },
 
   headerLeft: {
@@ -165,20 +162,9 @@ const styles = StyleSheet.create({
   },
   titleSearch: {
     fontSize: wp("5%"),
-    color: "#0F1035",
+    color: colorText.title,
     fontWeight: "400",
     textAlign:'center'
   },
 
-   //---------para la carga-------------
-   loadingContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#DCF2F150",
-  },
-  loadingText: {
-    fontSize: 15,
-    fontWeight: "300",
-  },
 });

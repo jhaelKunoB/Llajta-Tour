@@ -6,19 +6,18 @@ import {
   StyleSheet,
   TextInput,
   FlatList,
-  ActivityIndicator,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import ListCategories from "../../components/ListCategories";
 import { fetchAllCategories } from "../category/controller/CategoryController";
 import { Ionicons } from "@expo/vector-icons";
+import ImgLoandin from "../../components/IconLoanding"
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-
+import {colorText, colors, iconColor} from '../../styles/GlobalStyle'
 import PopUpManu from '../../../presentation/components/popPu'
-
 
 
 const CategoryScreen = () => {
@@ -51,7 +50,7 @@ const CategoryScreen = () => {
             <Ionicons
               name="chevron-back-circle-sharp"
               size={wp("11%")}
-              color="#0F1035"
+              color= {iconColor.colorV1}
             />
           </TouchableOpacity>
         </View>
@@ -88,12 +87,7 @@ const CategoryScreen = () => {
           contentContainerStyle={styles.listContainer}
         />
       ) : (
-        <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color="#0F1035" />
-          <Text style={styles.loadingText}>
-            Ya casi... Obteniendo categorías...
-          </Text>
-        </View>
+          <ImgLoandin text={"Ya casi... Obteniendo categorías..."}/>     
       )}
     </View>
   );
@@ -102,8 +96,8 @@ const CategoryScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#EEF5FF",
-    position: "relative", // Ensure child elements are positioned correctly
+    backgroundColor: colors.violetaClaro1,
+    position: "relative",
   },
   header: {
     flexDirection: "row",
@@ -115,7 +109,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 5,
-    borderBottomColor: "#0F1035",
+    borderBottomColor: colors.violetaOscuro,
     borderBottomWidth: 1,
   },
   headerLeft: {
@@ -134,14 +128,14 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: wp("5.5%"),
-    color: "#0F1035",
+    color: colorText.title,
     fontWeight: "400",
   },
   searchContainer: {
     flexDirection: "row",
     alignItems: "center",
     borderRadius: 20,
-    backgroundColor: "rgb(235, 244, 246)", // Transparent background
+    backgroundColor: colors.violetaclaro2, // Transparent background
     elevation: 5, // Shadow for Android
     marginHorizontal: 20,
     marginVertical: 10,
@@ -167,18 +161,7 @@ const styles = StyleSheet.create({
     paddingBottom:wp("23 %"),
 
   },
-
-  //---------para la carga-------------
-  loadingContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#DCF2F150",
-  },
-  loadingText: {
-    fontSize: 15,
-    fontWeight: "300",
-  },
+ 
 });
 
 export default CategoryScreen;

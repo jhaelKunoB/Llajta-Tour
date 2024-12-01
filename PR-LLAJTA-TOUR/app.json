@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "PR-TURISMO",
+    "name": "Cochabamba Turística", 
     "slug": "llajtatour",
-    "version": "1.0.0",
+    "version": "1.0.3",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -20,16 +20,19 @@
       "supportsTablet": true,
       "config": {
         "googleMapsApiKey": "AIzaSyClUE7K-Ytz6duQ6wLYFDNNSJyQSnFFgks"
-      }
+      },
+      "bundleIdentifier": "com.jhael123.llajtatour",
+      "buildNumber": "4"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.kbj5001497.PRTURISMO",
       "permissions": [
-        "INTERNET"
+        "INTERNET",
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION"
       ],
       "intentFilters": [
         {
@@ -48,17 +51,19 @@
         "googleMaps": {
           "apiKey": "AIzaSyClUE7K-Ytz6duQ6wLYFDNNSJyQSnFFgks"
         }
-      }
+      },
+      "package": "com.jhael123.llajtatour",
+      "versionCode": 5
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/icon.png"
     },
     "extra": {
       "eas": {
         "projectId": "026c1165-1b85-46f4-a904-2e02d536cb49"
       }
     },
-    "scheme": "pr-turismo",
+    "scheme": "llajtatour",
     "plugins": [
       "expo-font",
       [

@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-
+import {colorText} from '../../styles/GlobalStyle'
 const PlaceCardStyle = StyleSheet.create({
     Container:{
         display:'flex',
@@ -22,7 +22,7 @@ const PlaceCardStyle = StyleSheet.create({
     tittle:{
         fontSize:20,
         fontWeight:'300',
-        color:'#366273'
+        color: colorText.text
     },
     location:{
         alignItems:'center',

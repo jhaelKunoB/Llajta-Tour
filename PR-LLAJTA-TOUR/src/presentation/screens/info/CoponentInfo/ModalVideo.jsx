@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from "react";
 import { Modal, View, TouchableOpacity, StyleSheet } from "react-native";
-import { Ionicons, FontAwesome, Entypo, MaterialIcons } from "@expo/vector-icons";
+import { FontAwesome, Entypo, MaterialIcons } from "@expo/vector-icons";
 import { Video, ResizeMode } from "expo-av";
 import {
   widthPercentageToDP as wp,
@@ -111,7 +111,7 @@ const ModalVideo = ({ videoData, useVideoModal, setVideoModal }) => {
             <Video
               ref={video}
               source={{ uri: videoData }}
-              resizeMode={ResizeMode.STRETCH}
+              resizeMode={ResizeMode.CONTAIN}
               isLooping
               volume={0.9}
               //shouldPlay

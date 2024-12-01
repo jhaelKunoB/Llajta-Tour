@@ -11,16 +11,16 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 
-import { useNavigation } from "@react-navigation/native";
-import UseAuth from "../../../database/userAuth";
-import { getAuth, signOut } from "firebase/auth";
-
+import { useNavigation } from "@react-navigation/native"
+import UseAuth from "../../../database/userAuth"
+import SingoutModal from '../screens/Profile/SingoutModal'
+import {colors, iconColor} from '../styles/GlobalStyle'
 const PopUpMenu = () => {
   const navigation = useNavigation();
   const [visible, setVisible] = useState(false);
   const scala = useRef(new Animated.Value(0)).current;
   const { user } = UseAuth();
-
+  const [openModalSing, setOpenModalSing] = useState(false);
   function resizeBox(to, callback) {
     if (to === 1) setVisible(true);
     Animated.timing(scala, {
@@ -37,28 +37,18 @@ const PopUpMenu = () => {
     });
   }
 
-  const handleSignOut = async () => {
-    const authInstance = getAuth();
-    try {
-      await signOut(authInstance);
-      resizeBox(0, () => navigation.navigate("SignInScreem"));
-    } catch (error) {
-      console.error("Error signing out:", error);
-    }
-  };
-
   return (
     <>
       {user ? (
         <>
           <TouchableOpacity onPress={() => resizeBox(1)}>
-            <MaterialIcons name="menu-open" size={30} color="black" />
+            <MaterialIcons name="menu-open" size={30} color={iconColor.colorV1} />
           </TouchableOpacity>
         </>
       ) : (
         <>
             <TouchableOpacity onPress={() => navigation.navigate('SignInScreem')}>
-               <AntDesign name="login" size={24} color="black" />
+               <AntDesign name="login" size={24} color={iconColor.colorV1} />
             </TouchableOpacity>
         </>
       )}
@@ -69,33 +59,19 @@ const PopUpMenu = () => {
             <Animated.View
               style={[styles.popUp, { transform: [{ scale: scala }] }]}
             >
-              <TouchableOpacity style={styles.option}>
-                {user ? (
-                    <>
-                     <Text>{user.displayName ? user.displayName.substring(0, 10) : ''}</Text>
-                    </>
-                ):(
-                    <></>
-                )}
-               
+              <TouchableOpacity style={styles.option} onPress={() => {navigation.navigate("Perfil"),resizeBox(0)}}>              
+                     <Text>Mi Perfil</Text>       
                 <Ionicons
                   name="person-outline"
                   size={24}
                   color="black"
                   style={{ marginLeft: 10 }}
                 />
-
-
               </TouchableOpacity>
-
-               <TouchableOpacity style={styles.option} onPress={() => resizeBox(0, () => navigation.navigate('Favorite'))}>
-                    <Text>Favoritos</Text>
-                   <AntDesign name="hearto" size={24} color="red" style={{ marginLeft: 10 }} />
-                </TouchableOpacity> 
 
               <TouchableOpacity
                 style={styles.option}
-                onPress={() => handleSignOut()}
+                onPress={() => {setOpenModalSing(true), resizeBox(0)}}
               >
                 <Text>Cerrar Sesión</Text>
                 <Ionicons
@@ -109,6 +85,7 @@ const PopUpMenu = () => {
           </SafeAreaView>
         </TouchableWithoutFeedback>
       </Modal>
+      <SingoutModal openModalSing={openModalSing} setOpenModalSing={setOpenModalSing} />
     </>
   );
 };
@@ -118,7 +95,7 @@ export default PopUpMenu;
 const styles = StyleSheet.create({
   popUp: {
     borderRadius: 8,
-    borderColor: "#333",
+    borderColor: colors.violetaOscuro,
     borderWidth: 1,
     backgroundColor: "#fff",
     paddingHorizontal: 10,

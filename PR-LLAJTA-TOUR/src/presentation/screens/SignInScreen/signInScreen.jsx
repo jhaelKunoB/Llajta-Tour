@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   View,
@@ -8,100 +8,154 @@ import {
   SafeAreaView,
   Dimensions,
   ScrollView,
-  Alert,
-  ActivityIndicator,
-  Modal
-  
+  Modal,
+  Linking,
 } from "react-native";
 
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
+import {colors, colorText, borderColor} from "../../styles/GlobalStyle"
 import { useNavigation } from "@react-navigation/native";
 import BlurLogin from "../../components/BlurLogin";
 
-import * as WebBrowser from "expo-web-browser";
-import * as Google from "expo-auth-session/providers/google";
-import { GoogleAuthProvider, signInWithCredential } from "firebase/auth";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+  GoogleAuthProvider,
+  signInWithCredential,
+  onAuthStateChanged,
+} from "firebase/auth";
+
 import { auth, db } from "../../../../database/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
+import IconImg from "../../components/singLoanding";
 
-//import {makeRedirectUri} from "expo-auth-session"
+const ImgFont = require("./assets/fondo2.jpg");
 
-const ImgFont = require("./assets/fondo2.jpg")
-const IconGloogle = require('./assets/IconGoogle.png')
+
+const IconGloogle = require("./assets/IconGoogle.png");
 const { height } = Dimensions.get("window");
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as Google from "expo-auth-session/providers/google";
+import * as WebBrowser from "expo-web-browser";
 WebBrowser.maybeCompleteAuthSession();
 
 const SignInScreen = () => {
   const navigation = useNavigation();
-  const [loguenado, setLoguenado] = useState(false)
-  const [userInfo, setUserInfo] = React.useState();
+  const [loguenado, setLoguenado] = useState(false);
+  const [userInfo, setUserInfo] = React.useState(null);
   const [request, response, promptAsync] = Google.useAuthRequest({
-     webClientId: "172913904569-ifaeffngu9h75cloetkrbqjndii09ejk.apps.googleusercontent.com",
+    iosClientId:
+      "427143347905-gtf0892k3uhqsdin9dtea7b9eoskfjmm.apps.googleusercontent.com",
+    androidClientId:
+      "427143347905-ro3ikerjrsj9iuhjaiunvkceinu3iit7.apps.googleusercontent.com",
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
+    try {
 
-    try{
-        if (response?.type === "success") {
-          const { accessToken } = response.authentication;
-          handleSignInWithGoogle(accessToken);
-        } else {
-          console.log("Response Error:xxx ", response);
-        }
-    }catch(e){
-      console.log(e)
+      if (response?.type === "success") {
+        setLoguenado(true);
+        const { accessToken } = response.authentication;
+        const credential = GoogleAuthProvider.credential(null, accessToken);
+        signInWithCredential(auth, credential)
+          .then(() => {
+            console.log("Successfully signed in with Google!");
+          })
+          .catch((error) => {
+            console.log("Error signing in with Google: ", error);
+          });
+      }else{
+        setLoguenado(false);
+      }
+
+    } catch (e) {
+      console.log(e);
     }
   }, [response]);
 
-
-
-  const handleSignInWithGoogle = async (accessToken) => {
+  const getLocalUser = async () => {
     try {
+      const userJSON = await AsyncStorage.getItem("@user");
 
-      setLoguenado(true)//Inicia el Loanding
-      // Inicia sesión con Firebase usando el access token de Google
-      const credential = GoogleAuthProvider.credential(null, accessToken);
-      const userCredential = await signInWithCredential(auth, credential);
-      const user = userCredential.user;
+      const userData = userJSON ? JSON.parse(userJSON) : null;
+      setUserInfo(userData);
 
-      // Verifica si el usuario ya existe en Firestore
-      const userDocRef = doc(db, "User", user.uid);
-      const userDoc = await getDoc(userDocRef);
-
-      if (!userDoc.exists()) {
-        // Si el usuario no existe, guárdalo en Firestore
-        await setDoc(userDocRef, {
-          userName: user.displayName,
-          email: user.email,
-          favorites: [], // Inicializar con un arreglo vacío de favoritos
-        });
-
+      if (userData) {
+        navigation.navigate("Home");
       } else {
-        console.log("Usuario ya existe en Firestore");
+        console.log("No se encontraron datos de usuario");
       }
+    } catch (e) {
+      console.log("Error al recuperar los datos del usuario:", e);
+    }
+  };
+  const saveUserDataToFirestore = async (user) => {
+    try {
+      const userDocRef = doc(db, "User", user.uid);
+      const userSnapshot = await getDoc(userDocRef);
 
-      // Guarda la información del usuario localmente
-      await AsyncStorage.setItem("@user", JSON.stringify(user));
-      setUserInfo(user);
-
-      navigation.navigate("Home");
-
-    } catch (error) {
-      console.error("Firebase login error: ", error);
-      Alert.alert('Error', 'No se pudo iniciar sesión con Google.');
-    }finally{
-      setLoguenado(false)
+      if (!userSnapshot.exists()) {
+        await setDoc(userDocRef, {
+          userName: user.displayName || "Usuario",
+          email: user.email,
+          favorites: [],
+        });
+        console.log("Nuevo usuario registrado en Firestore");
+      } else {
+        console.log("El usuario ya está registrado en Firestore");
+      }
+    } catch (e) {
+      console.log("Error al guardar o recuperar datos en Firestore:", e);
     }
   };
 
+  useState(() => {
+    getLocalUser();
+    const unsub = onAuthStateChanged(auth, async (user) => {
+      try {
+        if (user) {
+          await AsyncStorage.setItem("@user", JSON.stringify(user));
+          console.log("data", JSON.stringify(user, null, 2));
+          setUserInfo(user);
+          console.log(user);
+          await saveUserDataToFirestore(user);
+          navigation.navigate("Home");
+        } else {
+          console.log("User no Autentificado");
+        }
+      } catch (e) {
+        console.log(e);
+      } finally {
+        setLoguenado(false);
+      }
+    });
 
-
+    return () => unsub();
+  }, []);
+  const openPoliticasPrivacidad = () => {
+    // URL que quieres abrir
+    const url =
+      "https://cochaturistica.blogspot.com/2024/10/politica-de-privacidad-la-presente.html";
+    // Abrir la URL
+    Linking.openURL(url).catch((err) =>
+      console.error("Failed to open URL:", err)
+    );
+  };
 
   return (
-    <>
+    <View style={{flex:1}}>
+      <Modal
+        transparent={true}
+        animationType="fade"
+        visible={loguenado}
+        onRequestClose={() => {}}
+      >
+        <IconImg />
+      </Modal>
       <BlurLogin posi={1.55} />
-      <SafeAreaView style={styles.contenedor}>
+     
         <ScrollView contentContainerStyle={styles.contenedor}>
           <Image source={ImgFont} style={styles.ImgLogin} />
 
@@ -123,122 +177,112 @@ const SignInScreen = () => {
               </TouchableOpacity>
             </View>
 
-
             <View style={styles.butomContainer}>
-
               <TouchableOpacity
                 style={styles.butom3}
-                onPress={() => promptAsync()}>
-                  <Image source={IconGloogle} style={styles.IconGoogleIm}></Image>
-                  <Text>Continuar con Google</Text>
+                onPress={() => {
+                  promptAsync();
+                }}
+              >
+                <Image source={IconGloogle} style={styles.IconGoogleIm}></Image>
+                <Text style={styles.textGoogle}>Continuar con Google</Text>
               </TouchableOpacity>
+            </View>
 
+            <View style={styles.contText}>
+              <TouchableOpacity onPress={() => openPoliticasPrivacidad()}>
+                <Text style={styles.textPoliticas}>POLÍTICA DE PRIVACIDAD</Text>
+              </TouchableOpacity>
             </View>
           </View>
         </ScrollView>
-      </SafeAreaView>
-
-
-      <Modal
-        transparent={true}
-        animationType="fade"
-        visible={loguenado}
-        onRequestClose={() => {}}
-      >
-        <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color="#365486" />
-        </View>
-      </Modal>
-
-    </>
+    </View>
   );
 };
 export default SignInScreen;
 
 const styles = StyleSheet.create({
-  //para tempo de carga
-  loadingContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#DCF2F180",
+  //poloticas
+  contText: {
+    marginTop: hp("4%"),
+    marginBottom:hp("2%")
+  },
+  textPoliticas: {
+    textAlign: "center",
+    color: "#686D76",
+    textDecorationLine: "underline",
+    fontSize: hp("1.5%"),
   },
 
-  IconGoogleIm:{
-    width:'10%',
-    height:20
+  IconGoogleIm: {
+    width: "10%",
+    height: 20,
   },
 
   contenedor: {
-    flex: 1,
+    flexGrow: 1,
     alignItems: "center",
     backgroundColor: "transparent",
   },
+
   ImgLogin: {
-    width: "85%",
-    height: (height / 3) * 1.4,
-    borderRadius: 16,
-    marginBottom: 25,
-    marginTop: 25,
+    width: wp("85%"),
+    height: hp("45%"), 
+    borderRadius: wp("4%"), 
+    marginBottom: hp("3%"),
+    marginTop: hp("3%"),
   },
 
   ContContainer: {
-    paddingHorizontal: 30,
+    paddingHorizontal: wp("7%"),
   },
 
   title: {
-    fontSize: 32,
+    fontSize: hp("3.6%"),
     fontWeight: "700",
-    lineHeight: 35,
+    lineHeight: hp("4.5%"),
     textAlign: "center",
-    color: "#071952",
+    color: colorText.title,
   },
+
   body: {
-    paddingTop: 20,
-    fontSize: 16,
-    lineHeight: 23,
+    paddingTop: hp("2%"),
+    fontSize: hp("1.9%"),
+    lineHeight: hp("2.5%"),
     fontWeight: "400",
     textAlign: "center",
-    color: "#071952",
+    color: colorText.text,
   },
   butomText: {
-    color: "#071952",
+    color: colorText.text,
   },
-  butom1: {
-    flex: 1,
-    alignItems: "center",
-    backgroundColor: "#CDE8E5",
-    padding: 16,
-    borderRadius: 13,
+  textGoogle: {
+    color: colorText.text,
   },
-  butom2: {
-    flex: 1,
-    alignItems: "center",
-    padding: 16,
-  },
+
   butom3: {
     flex: 1,
-    flexDirection:'row',
+    flexDirection: "row",
     justifyContent: "center",
-    alignItems:'center',
-    padding: 16,
+    alignItems: "center",
+    padding: wp("4%"),
   },
 
   butomContinuo: {
     flexDirection: "row",
     width: "100%",
     borderWidth: 2,
-    borderColor: "#EEF7FF",
-    borderRadius: 16,
-    marginTop: "10%",
+    borderColor: borderColor.border,
+    borderRadius: wp("4%"),
+    marginTop: hp("4%"),
   },
 
   butomContainer: {
     flexDirection: "row",
     width: "100%",
     borderWidth: 2,
-    borderColor: "#EEF7FF",
-    borderRadius: 16,
-    marginTop: "5%",
+    borderColor: borderColor.border,
+    borderRadius: wp("4%"),
+    marginTop: hp("1.5%"),
   },
 });

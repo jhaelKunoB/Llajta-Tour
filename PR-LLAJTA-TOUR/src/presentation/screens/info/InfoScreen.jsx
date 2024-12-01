@@ -7,30 +7,28 @@ import {
   TouchableOpacity,
   Modal,
   Image,
-  TouchableWithoutFeedback,
   Platform,
-  Linking
+  Linking,
 } from "react-native";
 
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Ionicons, FontAwesome, Entypo } from "@expo/vector-icons";
-
-
+import ImageTransition from  './CoponentInfo/ImgesTransition'
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { LinearGradient } from "expo-linear-gradient";
-import Loandin from "./assets/loading.gif";
+import Loandin from "./assets/AnimLoanding.gif";
 import ImgLong from "./assets/loading copy.gif";
-
-
+const imgLo = require('./assets/cargaImg.jpg')
 //import * as Location from "expo-location";
-import ModalVideo from './CoponentInfo/ModalVideo'
+import ModalVideo from "./CoponentInfo/ModalVideo";
 import Calendar from "./CoponentInfo/Calendar";
 import InfoCon from "./CoponentInfo/InfoCon";
 import ImageNow from "./CoponentInfo/ImagesNow";
 import AudioInfo from "./CoponentInfo/AudioInfo";
+import SingInModal from "./CoponentInfo/SigInModal";
 import { getPlace } from "./Controler/firebaseService";
 
 //para poder recuperar al Usuario
@@ -39,27 +37,22 @@ import UserAuth from "../../../../database/userAuth";
 import UseFavorite from "./Controler/useFavorite";
 
 //para manejar los mapas
-
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-
+//para los estilos
+import { colors, colorText, iconColor } from "../../styles/GlobalStyle";
 const InfoScreen = () => {
-  const { error, setErrorMsg } = useState("");
 
-  const { favorites, toggleFavorite } = UseFavorite(); // Usa el hook
-  const [useFvoriteDisa, setFavoDisable] = useState(false)
-
+  const { favorites, toggleFavorite } = UseFavorite();
+  const [useFvoriteDisa, setFavoDisable] = useState(false);
   const { user, loading } = UserAuth();
-
-  const [modalVisible, setModalVisible] = useState(false);
   const [useVideoModal, setVideoModal] = useState(false);
-
   const navigation = useNavigation();
-
   const [placeData, setPlaceData] = useState(null); //definimos una variable para al macenar el Lugar
   const [isLoading, setIsLoading] = useState(true);
   const route = useRoute();
   const { Id } = route.params;
   const [cantFavorite, setCantLikes] = useState(0);
+  const [openModalSing, setOpenModalSing] = useState(false);
 
   //para reccuperar el Lugar
   useEffect(() => {
@@ -78,49 +71,27 @@ const InfoScreen = () => {
     fetchData();
   }, []);
 
-  //------------------------------------------------------------------------
-  //Para recuperar la Ubicacion
-  // const [currentLocation, setCurrentLocation] = useState(null);
-  // useEffect(() => {
-  //   (async () => {
-  //     let { status } = await Location.requestForegroundPermissionsAsync();
-  //     if (status !== "granted") {
-  //       setErrorMsg("Permission to access location was denied");
-  //       return;
-  //     }
-
-  //     let location = await Location.getCurrentPositionAsync({});
-  //     setCurrentLocation({
-  //       lat: location.coords.latitude,
-  //       lng: location.coords.longitude,
-  //     });
-
-  //     console.log(currentLocation)
-  //   })();
-  // }, []);
-  //------------------------------------------------------------------------------------------------
-
   // Mostrar indicador de carga mientras se obtienen los datos
   if (isLoading) {
     return (
       <View style={styles.loadingContainer}>
-        <Image source={Loandin}></Image>
+        <Image source={Loandin} style={{width:wp("13%"), height:hp('10%')}}></Image>
       </View>
     );
   }
+
   const SetCalendar = (data) => {
     console.log("estos son las hora", data);
   };
   const getChangeFavorite = async (Id) => {
     try {
-      setFavoDisable(true)
+      setFavoDisable(true);
       const isFavorite = favorites.includes(Id);
       console.log(isFavorite);
       await toggleFavorite(Id);
 
       // Update like count
       setCantLikes((prev) => prev + (isFavorite ? -1 : 1));
-      
     } catch (error) {
       console.error(error);
     } finally {
@@ -128,36 +99,46 @@ const InfoScreen = () => {
     }
   };
 
-  const openGoogleMaps = () => {
 
-    const latitude = placeData.Coordinates._lat ? placeData.Coordinates._lat : -17.3895000;
-    const longitude = placeData.Coordinates._long ? placeData.Coordinates._long : -66.1568000;
+
+  const openGoogleMaps = () => {
+    const latitude = placeData.Coordinates._lat
+      ? placeData.Coordinates._lat
+      : -17.3895;
+    const longitude = placeData.Coordinates._long
+      ? placeData.Coordinates._long
+      : -66.1568;
     const url = `https://www.google.com/maps?q=${latitude},${longitude}`;
-    
+
     Linking.canOpenURL(url)
       .then((supported) => {
         if (supported) {
           Linking.openURL(url);
         } else {
-          Alert.alert('Error', 'No se pudo abrir Google Maps');
+          Alert.alert("Error", "No se pudo abrir Google Maps");
         }
       })
-      .catch((err) => Alert.alert('Error', err.message));
+      .catch((err) => Alert.alert("Error", err.message));
   };
-
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ScrollView style={styles.Container} nestedScrollEnabled={true}>
         <View style={styles.ContVideo}>
-
           <View style={styles.VideoStyle}>
-            <Image
+            {placeData.ImagesID?.[0] && placeData.OldImagesID?.[0] ? (
+              <ImageTransition
+                image1={placeData.ImagesID[0]}
+                image2={placeData.OldImagesID[0]}
+                transitionTime={5000}
+              />
+            ) : (
+              <Image
               source={{ uri: placeData.ImagesID[0] }}
               resizeMode="cover"
               style={{ width: "100%", height: "100%" }}
-              defaultSource={ImgLong}
-            ></Image>
+              defaultSource={imgLo}/>
+            )}
           </View>
 
           {/* Para los Iconos  */}
@@ -186,7 +167,7 @@ const InfoScreen = () => {
               </TouchableOpacity>
 
               {/* toggleMute() */}
-              {placeData && placeData.Video ? (
+              {/* {placeData && placeData.Video ? (
                 <TouchableOpacity onPress={() => setVideoModal(true)}>
                   <Entypo
                     name="video"
@@ -197,15 +178,9 @@ const InfoScreen = () => {
                 </TouchableOpacity>
               ) : (
                 <></>
-              )}
-
-
+              )} */}
             </View>
-
-
           </LinearGradient>
-
-
 
           {/* Es para el titulo */}
           <View style={styles.contTittle}>
@@ -217,15 +192,15 @@ const InfoScreen = () => {
                   marginLeft: wp("5%"),
                 }}
               >
-
                 <Text style={styles.textTittle}>{placeData.Name}</Text>
               </View>
 
-
-
               <View style={{ flex: 1, alignItems: "center" }}>
                 {user ? (
-                  <TouchableOpacity onPress={() => getChangeFavorite(Id)} disabled={useFvoriteDisa} >
+                  <TouchableOpacity
+                    onPress={() => getChangeFavorite(Id)}
+                    disabled={useFvoriteDisa}
+                  >
                     <Ionicons
                       name={"heart"}
                       style={
@@ -236,90 +211,96 @@ const InfoScreen = () => {
                     />
                   </TouchableOpacity>
                 ) : (
-
-                  <TouchableOpacity onPress={() => setModalVisible(true)}>
+                  <TouchableOpacity onPress={() => setOpenModalSing(true)}>
                     <Ionicons name={"heart"} style={styles.HeardIcon} />
                   </TouchableOpacity>
-               )}
+                )}
               </View>
-
-
-              <Modal
-                animationType="slide"
-                transparent={true}
-                visible={modalVisible}
-                onRequestClose={() => setModalVisible(false)}
-              >
-                <TouchableWithoutFeedback
-                  onPress={() => setModalVisible(false)}
-                >
-                  <View
-                    style={{
-                      flex: 1,
-                      justifyContent: "flex-end",
-                      alignItems: "center",
-                      backgroundColor: "rgba(0,0,0,0)",
-                    }}
-                  >
-                    <View style={styles.containerMess}>
-                      <View style={styles.ContText}>
-                        <Text style={styles.textSignIn}>
-                          Por favor, inicia sesión para habilitar esta función.
-                        </Text>
-                      </View>
-
-                      <View style={styles.ContButom}>
-                        <TouchableOpacity
-                          onPress={() => navigation.navigate("SignInScreem")}
-                          style={styles.butonSignIn}
-                        >
-                          <Text style={styles.ButontextSignIn}>
-                            Iniciar sesión
-                          </Text>
-                        </TouchableOpacity>
-                      </View>
-                    </View>
-                  </View>
-                </TouchableWithoutFeedback>
-              </Modal>
-              
             </View>
           </View>
-
-
         </View>
 
-        <ModalVideo videoData={placeData.Video}  useVideoModal={useVideoModal} setVideoModal={setVideoModal}/>
+        {/* Modales */}
+        <SingInModal
+          openModalSing={openModalSing}
+          setOpenModalSing={setOpenModalSing}
+        />
+        <ModalVideo
+          videoData={placeData.Video}
+          useVideoModal={useVideoModal}
+          setVideoModal={setVideoModal}
+        />
+
+        {/* Modal para la carga de Fovoritos */}
+        <Modal visible={useFvoriteDisa} animationType="fade" transparent={true}>
+                <View style = {styles.ContLongFavorite}>
+                  <Image source={Loandin} style={styles.contImgLoand}></Image>
+                </View>
+        </Modal>
 
         {/* para las opciones de mapas audio horario */}
         <View style={styles.contOptions}>
-          <View style={{ flex: 1 }}>
+
+          <View style={{ alignItems:'center', display:'flex'}}>
             <TouchableOpacity onPress={() => openGoogleMaps()}>
               <Ionicons
                 name="location-sharp"
                 style={styles.LocationIcon}
-                color={"#006769"}
+                color={iconColor.colorV1}
                 size={wp("6%")}
               />
             </TouchableOpacity>
           </View>
 
-          <View style={{ flex: 1 }}>
-            <TouchableOpacity onPress={() => SetCalendar(placeData.Hours)}>
-              <Calendar data={placeData.Hours} />
-            </TouchableOpacity>
-          </View>
 
-          <View
-            style={{
-              flex: 3,
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <AudioInfo data={placeData.Audio} />
-          </View>
+
+
+          {/* ------------------------------------------------------------------------------- */}
+            {/* <View style={{ flex: 1 }}>
+              <TouchableOpacity onPress={() => SetCalendar(placeData.Hours)}>
+                <Calendar data={placeData.Hours} />
+              </TouchableOpacity>
+            </View>  */}
+          {/* ------------------------------------------------------------------------------- */}
+          
+
+
+          {placeData && placeData.Video ? (
+                <View style={{ alignItems:'center', display:'flex', paddingHorizontal:wp('3%') }}>
+                <TouchableOpacity onPress={() => setVideoModal(true)}>
+                  <Entypo
+                        name="video"
+                        style={styles.LocationIcon}
+                        color={iconColor.colorV1}
+                        size={wp("6%")}
+                  />
+                </TouchableOpacity>
+              </View> 
+            ) : (
+                <></>
+            )}
+
+
+
+
+          {placeData && placeData.Audio ? (
+              <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+                paddingHorizontal:wp('2%'),
+            
+              }}
+            >
+              <AudioInfo data={placeData.Audio} />
+            </View>
+          ):(
+            <></>
+          )}
+        
+
+
         </View>
 
         {/* para poder la direccion y el corazon    */}
@@ -335,25 +316,29 @@ const InfoScreen = () => {
           </View>
         </View>
 
-
-
         <View style={styles.separator} />
         {/* para las Imagens de Haora */}
         <ImageNow data={placeData} />
         {/* para mostar los datos */}
         <InfoCon data={placeData} />
       </ScrollView>
-
     </GestureHandlerRootView>
   );
 };
 
 export default InfoScreen;
 
-
-
 const styles = StyleSheet.create({
-
+  contImgLoand:{
+    width:70,
+    height:70
+  },
+  ContLongFavorite:{
+    flex:1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.3)", 
+  },
   //----------------------------------------------
   ContHeardAddress: {
     flexDirection: "row",
@@ -379,13 +364,13 @@ const styles = StyleSheet.create({
   textLikes: {
     paddingHorizontal: hp("1%"),
     fontSize: wp("3%"),
-    color: "#08445a",
+    color: colorText.text,
   },
 
   direccionTxt: {
     fontSize: wp("3%"),
     marginLeft: wp("2%"),
-    color: "#08445a",
+    color: colorText.text,
     marginRight: 20,
   },
 
@@ -429,24 +414,23 @@ const styles = StyleSheet.create({
   },
 
   Contback1: {
-    backgroundColor: "rgba(33, 53, 85,0.7)",
+    backgroundColor: iconColor.colorV,
     borderRadius: 10,
     alignItems: "center",
     justifyContent: "center",
     paddingRight: 2,
     marginLeft: wp("4%"),
   },
- 
 
   IconContVideo: {
     backgroundColor: "rgba(33, 53, 85,0.6)",
     borderRadius: wp("3%"),
     marginHorizontal: wp("7%"),
     marginVertical: wp("5%"),
-    padding:5
+    padding: 5,
   },
   separator: {
-    borderBottomColor: "#547775",
+    borderBottomColor: colors.violetaOscuro,
     borderBottomWidth: 2,
     marginHorizontal: hp("3%"),
     marginVertical: hp("1%"),
@@ -482,16 +466,16 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 30,
     paddingVertical: 10,
-    shadowColor: "#B4D4FF",
+    shadowColor: colors.viletaClaro,//----------------------------------------
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.44,
     shadowRadius: 10,
-    elevation: 10,
+    elevation: 3,
   },
 
   textTittle: {
     textAlign: "auto",
-    color: "#0F1035",
+    color: colorText.text,
     fontSize: wp("4.5%"),
     fontWeight: "400",
   },
@@ -504,18 +488,18 @@ const styles = StyleSheet.create({
 
   //para el Icono de Localisacion
   LocationIcon: {
-    backgroundColor: "#DCF2F130",
+    backgroundColor: colors.violetaClaro1,
     borderRadius: 10,
     paddingHorizontal: 11,
     paddingVertical: hp("2%"),
     width: wp("15%"),
     textAlign: "center",
     borderWidth: 2,
-    borderColor: "#DCF2F1",
+    borderColor: colors.violeta,
   },
 
   HeardIcon: {
-    backgroundColor: "rgba(154, 200, 205, 0.4)",
+    backgroundColor: colors.violetaclaro2,
     borderRadius: 50,
     paddingHorizontal: wp("3%"),
     paddingVertical: hp("1.3%"),
@@ -537,7 +521,7 @@ const styles = StyleSheet.create({
   //para la localisacion y la Hora
   contOptions: {
     flexDirection: "row",
-    //justifyContent:'space-between',
+    alignItems:'flex-start',
     marginHorizontal: wp("6%"),
     paddingVertical: hp("1%"),
     marginTop: hp("7%"),
@@ -545,7 +529,7 @@ const styles = StyleSheet.create({
 
   txtDireccion: {
     flexDirection: "row",
-    backgroundColor: "#e8f9f3",
+    backgroundColor: colorText.text,
     borderRadius: wp("4%"),
     padding: wp("2%"),
     alignItems: "center",
@@ -630,5 +614,4 @@ const styles = StyleSheet.create({
     fontWeight: "300",
     color: "white",
   },
-
 });

@@ -1,32 +1,80 @@
 import { StyleSheet } from 'react-native';
-
-const NavigationStyle = StyleSheet.create({
-    Tabs: {
-        height: 60,
-        position: 'absolute',
-        borderRadius: 21,
-        marginHorizontal: 15,
-        marginBottom: 10,
-        backgroundColor: '#DCF2F0'
-    },
-    Icon: {
-        borderRadius: 20,
-        padding: 10,
+import {colors} from '../../styles/GlobalStyle'
+import {
+    widthPercentageToDP as wp,
+    heightPercentageToDP as hp,
+  } from "react-native-responsive-screen";
+const styles = StyleSheet.create({
+    tabBar: {
         flexDirection: 'row',
+        height: 65,
+        backgroundColor: colors.violeta,
+        borderTopColor: '#ddd',
+        justifyContent: 'space-around',
+        paddingBottom: 10,
+        paddingHorizontal: 10,
+        position: 'absolute',
+        bottom: 10,
+        right: 10,
+        left: 10,
+        borderRadius: 29,
     },
-    activeBackground: {
+    tabButton: {
+        flex: 1,
         alignItems: 'center',
-        backgroundColor: '#6BBFB7'
     },
-    //para el Texto    
-    TextIcon: {
-        display: 'none'
+    button: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 10,
     },
-    FocusText: {
-        marginHorizontal: 2,
-        display: 'flex',
-        color: 'white'
-    }
+    selectedButton: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 10,
+        backgroundColor: 'white',
+        borderRadius: 90,
+        position: 'relative',
+        bottom: 16, // Aumenta la elevación
+        elevation: 20,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 5 },
+        shadowOpacity: 0.3,
+        shadowRadius: 5,
+        borderWidth:1,
+        borderColor:colors.viletaClaro
+    },
+    iconContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    selectedIconContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: 36,
+        height: 40,
+        borderRadius: 25,
+        backgroundColor: 'white',
+    },
+    label: {
+        fontSize: 12,
+        color: '#fff',     
+    },
+    selectedLabel: {
+        fontSize: 12,
+        color: '#366273',
+        display:'none'
+    },
+    tabBarStyle: {
+        position: 'absolute',
+        height: 60,
+        bottom: 24,
+        right: 16,
+        left: 16,
+        borderRadius: 16,
+        backgroundColor: '#366273',
+        borderTopWidth: 1,
+    },
 });
 
-export default NavigationStyle;
+export default styles;
