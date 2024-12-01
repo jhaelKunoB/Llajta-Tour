@@ -5,7 +5,7 @@
 
 ## Video de Presentación de la App Movil
 <a href="https://www.youtube.com/watch?v=4ckT_--Dp94">
-  <img src="PR-LLAJTA-TOUR/assets/icon.png" alt="Descripción de la miniatura" width="100">
+  <img src="PR-LLAJTA-TOUR/assets/ImgesDocuments/image (1).png" alt="Descripción de la miniatura" width="100">
 </a>
 
 Haga click en la miniatura.
