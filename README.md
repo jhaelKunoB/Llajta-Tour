@@ -17,10 +17,11 @@ Haga click en la miniatura.
 2. [Descripción del Proyecto](#descripción-del-proyecto)
 3. [Roles / Integrantes](#roles-e-integrantes)
 4. [Arquitectura del Software](#arquitectura-del-software)
-5. [Procedimiento para Actualización de la Aplicación en la Play Store](#Procedimiento-para-Actualización-de-la-Aplicación-en-la-Play-Store)
-6. [Procedimiento para Actualización de la Aplicación en la Web](#Procedimiento-para-Actualización-de-la-Aplicación-en-la-Web)
-7. [Referencias y Recursos Adicionales](#referencias-y-recursos-adicionales)
-8. [Bibliografía](#bibliografía)
+5. [Procedimiento para Actualización de la Aplicación en la Play Store](#procedimiento-para-la-actualización-de-la-aplicación-en-la-play-store)
+6. [Procedimiento para Actualización de la Aplicación en la Web](#procedimiento-para-la-actualización-de-la-aplicación-en-la-web)
+7. [Manual de la base de datos](#manual-de-la-base-de-datos)
+8. [Referencias y Recursos Adicionales](#referencias-y-recursos-adicionales)
+9. [Bibliografía](#bibliografía)
 
 ## **INTRODUCCIÓN**
 
@@ -94,6 +95,32 @@ La aplicación Cochabamba Turística sigue una arquitectura basada en el modelo 
 
 
   ## **PROCEDIMIENTO PARA LA ACTUALIZACIÓN DE LA APLICACIÓN EN LA WEB**
+  - **Paso 1: ** Asegúrate de que tu proyecto esté configurado correctamente en Firebase.
+
+        firebase init
+
+  - **Paso 2: ** Ejecuta el comando de compilación de React Native para crear una nueva versión optimizada para la web esto generar una carpeta dis.
+    
+          expo build:web
+
+       - <img src="PR-LLAJTA-TOUR/assets/ImgesDocuments/8.png" alt="Descripción de la imagen" width="300"/>
+
+   - **Paso 3: ** Una vez que la compilación esté lista, navega hasta el directorio de compilación (dist).
+               Utiliza el siguiente comando para desplegar la nueva versión de la aplicación a Firebase Hosting:
+
+          firebase deploy --only hosting
+
+     - **Paso 4: ** Después de desplegar, accede a la URL de tu aplicación web alojada en Firebase Hosting para asegurarte de que todo funcione como se 
+                    espera.
+
+
+  ## **MANUAL DE LA BASE DE DATOS**
+
+  <a href="https://www.youtube.com/watch?v=4ckT_--Dp94">
+  <img src="PR-LLAJTA-TOUR/assets/icon.png" alt="Descripción de la miniatura" width="100">
+  </a>
+
+  Haz clic en la miniatura para acceder al video
 
 
   ## **REFERENCIAS Y RECURSOS ADICIONALES**
