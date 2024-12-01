@@ -18,8 +18,8 @@ Haga click en la miniatura.
 3. [Roles / Integrantes](#roles-e-integrantes)
 4. [Arquitectura del Software](#arquitectura-del-software)
 5. [Procedimiento para Actualización de la Aplicación en la Play Store](#Procedimiento-para-Actualización-de-la-Aplicación-en-la-Play-Store)
-6. [Referencias y Recursos Adicionales](#referencias-y-recursos-adicionales)
-7. [Herramientas de Implementación](#herramientas-de-implementación)
+6. [Procedimiento para Actualización de la Aplicación en la Web](#Procedimiento-para-Actualización-de-la-Aplicación-en-la-Web)
+7. [Referencias y Recursos Adicionales](#referencias-y-recursos-adicionales)
 8. [Bibliografía](#bibliografía)
 
 ## **INTRODUCCIÓN**
@@ -93,11 +93,27 @@ La aplicación Cochabamba Turística sigue una arquitectura basada en el modelo 
            - <img src="PR-LLAJTA-TOUR/assets/ImgesDocuments/7.png" alt="Descripción de la imagen" width="300"/>
 
 
+  ## **PROCEDIMIENTO PARA LA ACTUALIZACIÓN DE LA APLICACIÓN EN LA WEB**
+
+
   ## **REFERENCIAS Y RECURSOS ADICIONALES**
 
   - [Expo dev](https://docs.expo.dev)
   - [Firebase](https://firebase.google.com/docs?hl=es-419)
   - [React Native](https://reactnative.dev/docs/environment-setup)
+
+
+
+
+
+
+  ## **BIBLIOGRAFÍA**
+  
+
+  - [Firebase](https://firebase.google.com/docs?hl=es-419)
+  - [React Native](https://reactnative.dev/docs/environment-setup)
+  - [stackoverflow](https://stackoverflow.com/)
+  - [Chatgpt](https://openai.com/index/chatgpt/)
 
 
      
