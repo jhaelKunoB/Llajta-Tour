@@ -18,13 +18,9 @@ Haga click en la miniatura.
 3. [Roles / Integrantes](#roles-e-integrantes)
 4. [Arquitectura del Software](#arquitectura-del-software)
 5. [Procedimiento para Actualización de la Aplicación en la Play Store](#Procedimiento-para-Actualización-de-la-Aplicación-en-la-Play-Store)
-6. [Personalización y Configuración](#personalización-y-configuración)
-7. [Seguridad](#seguridad)
-8. [Depuración y Solución de Problemas](#depuración-y-solución-de-problemas)
-9. [Glosario de Términos](#glosario-de-términos)
-10. [Referencias y Recursos Adicionales](#referencias-y-recursos-adicionales)
-11. [Herramientas de Implementación](#herramientas-de-implementación)
-12. [Bibliografía](#bibliografía)
+6. [Referencias y Recursos Adicionales](#referencias-y-recursos-adicionales)
+7. [Herramientas de Implementación](#herramientas-de-implementación)
+8. [Bibliografía](#bibliografía)
 
 ## **INTRODUCCIÓN**
 
@@ -68,6 +64,42 @@ La aplicación Cochabamba Turística sigue una arquitectura basada en el modelo 
      - Asegúrate de que el archivo app.json esté configurado correctamente:
          - versión de la aplicación (version).
          - número de versión de Android (android.versionCode).
+            1. <img src="PR-LLAJTA-TOUR/assets/ImgesDocuments/2.png" alt="Descripción de la imagen" width="300"/>
+            2. <img src="PR-LLAJTA-TOUR/assets/ImgesDocuments/3.png" alt="Descripción de la imagen" width="300"/>
+
+   - **Paso 3:** Generar el archivo Android App Bundle (AAB) utilizando EAS Build
+      - En la sección de producción bajo android, cambiamos "buildType": "apk" por "buildType": "app-bundle". Esto hará que EAS Build genere un Android App 
+             Bundle (.aab) en lugar de un archivo APK cuando se ejecute el comando de construcción para producción.
+         - <img src="PR-LLAJTA-TOUR/assets/ImgesDocuments/3.png" alt="Descripción de la imagen" width="300"/>
+
+      - Ejecuta el siguiente comando para iniciar la construcción del App Bundle en producción (ABB)
+    
+            eas build --platform android --profile production
+
+       - Luego tendras el archivo .abb, para luego subirlo a Google Pla
+    
+   - **Paso 4:** Subir la nueva version a Google Play
+        - Ubícate en el panel lateral y encontrarás la opción "Probar y Publicar". Al hacer clic en ella, se desplegarán las subopciones; selecciona 
+           "Producción" y luego haz clic en el botom azul "Nueva Versión".
+           - <img src="PR-LLAJTA-TOUR/assets/ImgesDocuments/4.png" alt="Descripción de la imagen" width="300"/>
+        
+        - Nos pedirá que subamos el archivo .abb.
+           - <img src="PR-LLAJTA-TOUR/assets/ImgesDocuments/5.png" alt="Descripción de la imagen" width="300"/>
+
+        - Le damos clic en "Siguiente", y luego nos pedirá confirmar antes de publicar la nueva versión. Simplemente hacemos clic en "Confirmar".
+           - <img src="PR-LLAJTA-TOUR/assets/ImgesDocuments/6.png" alt="Descripción de la imagen" width="300"/>
+        - Finalmente, nos dirigimos a "Resumen de versiones", donde aparecerá la nueva versión que subimos, pero estará en estado de revisión. Se publicará 
+          automáticamente una vez que sea aceptada por Google Play.
+           - <img src="PR-LLAJTA-TOUR/assets/ImgesDocuments/7.png" alt="Descripción de la imagen" width="300"/>
+
+
+  ## **REFERENCIAS Y RECURSOS ADICIONALES**
+
+  - [Expo dev](https://docs.expo.dev)
+  - [Firebase](https://firebase.google.com/docs?hl=es-419)
+  - [React Native](https://reactnative.dev/docs/environment-setup)
+
+
      
 
 
