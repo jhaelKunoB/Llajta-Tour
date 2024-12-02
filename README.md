@@ -4,7 +4,7 @@
 
 
 ## Video de Presentación de la App Movil
-<a href="https://www.youtube.com/watch?v=4ckT_--Dp94">
+<a href="https://drive.google.com/file/d/16YrBS7CA3U_uSzCAJMVCu7pP2kHiYwcY/view?usp=sharing">
   <img src="PR-LLAJTA-TOUR/assets/ImgesDocuments/image (1).png" alt="Descripción de la miniatura" width="100">
 </a>
 
@@ -116,8 +116,8 @@ La aplicación Cochabamba Turística sigue una arquitectura basada en el modelo 
 
   ## **MANUAL DE LA BASE DE DATOS**
 
-  <a href="https://www.youtube.com/watch?v=4ckT_--Dp94">
-  <img src="PR-LLAJTA-TOUR/assets/icon.png" alt="Descripción de la miniatura" width="100">
+  <a href="https://drive.google.com/file/d/1KiINCg8KPSMpfxUmpdcsgVLqm9QLUEAf/view?usp=sharing">
+  <img src="PR-LLAJTA-TOUR/assets/ImgesDocuments/database-4941301_640.webp" alt="Descripción de la miniatura" width="100">
   </a>
 
   Haz clic en la miniatura para acceder al video
